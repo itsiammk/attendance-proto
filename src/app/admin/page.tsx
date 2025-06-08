@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function HomePage() {
+export default function AdminPage() {
   const router = useRouter();
 
   useEffect(() => {
@@ -11,8 +11,8 @@ export default function HomePage() {
   }, [router]);
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <p>Loading AttendancePro...</p>
+    <div className="flex h-full items-center justify-center">
+      <p>Redirecting to dashboard...</p>
     </div>
   );
 }
