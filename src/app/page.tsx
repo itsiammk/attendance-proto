@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect } from 'react';
@@ -7,7 +8,8 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/admin/attendance/dashboard');
+    // Redirect to the login page by default
+    router.replace('/login');
   }, [router]);
 
   return (
