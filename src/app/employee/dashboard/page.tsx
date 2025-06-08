@@ -1,15 +1,35 @@
+
+"use client";
+
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, CalendarDays } from "lucide-react";
+import { CheckCircle, XCircle, CalendarDays, Clock } from "lucide-react";
 
 export default function EmployeeDashboardPage() {
-  // Placeholder data
-  const employeeName = "Jane Doe";
-  const todayStatus = {
-    status: "Checked In",
-    time: "09:05 AM",
-    location: "Main Office (GPS Verified)"
+  const employeeName = "Jane Doe"; // Placeholder
+
+  const [employeeActionStatus, setEmployeeActionStatus] = useState<"Checked In" | "Checked Out" | "Not Checked In">("Not Checked In");
+  const [lastActionDisplayTime, setLastActionDisplayTime] = useState<string | null>(null);
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
+
+  const handleCheckIn = () => {
+    setEmployeeActionStatus("Checked In");
+    setLastActionDisplayTime(formatTime(new Date()));
+  };
+
+  const handleCheckOut = () => {
+    setEmployeeActionStatus("Checked Out");
+    setLastActionDisplayTime(formatTime(new Date()));
+  };
+
+  const displayStatusText = employeeActionStatus;
+  const displayTimeText = lastActionDisplayTime;
+  const displayLocationText = employeeActionStatus === "Checked In" ? "Main Office (GPS Verified - Mock)" : "N/A";
+
   const upcomingLeave = null; // or { type: "Annual Leave", dates: "Jul 20 - Jul 25" }
 
   return (
@@ -30,18 +50,34 @@ export default function EmployeeDashboardPage() {
           <CardContent className="space-y-3">
             <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
               <div>
-                <p className="font-semibold text-lg">{todayStatus.status}</p>
-                <p className="text-sm text-muted-foreground">{todayStatus.time}</p>
+                <p className="font-semibold text-lg">{displayStatusText}</p>
+                <p className="text-sm text-muted-foreground">{displayTimeText || "N/A"}</p>
               </div>
-              {todayStatus.status === "Checked In" ? 
-                <CheckCircle className="h-8 w-8 text-green-500" /> : 
+              {employeeActionStatus === "Checked In" ? (
+                <CheckCircle className="h-8 w-8 text-green-500" />
+              ) : employeeActionStatus === "Checked Out" ? (
                 <XCircle className="h-8 w-8 text-red-500" />
-              }
+              ) : (
+                <Clock className="h-8 w-8 text-muted-foreground" />
+              )}
             </div>
-            <p className="text-xs text-muted-foreground">{todayStatus.location}</p>
+            <p className="text-xs text-muted-foreground">{displayLocationText}</p>
             <div className="flex gap-2 pt-2">
-              <Button className="w-full">Check In</Button>
-              <Button variant="outline" className="w-full">Check Out</Button>
+              <Button
+                className="w-full"
+                onClick={handleCheckIn}
+                disabled={employeeActionStatus === "Checked In"}
+              >
+                Check In
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={handleCheckOut}
+                disabled={employeeActionStatus !== "Checked In"}
+              >
+                Check Out
+              </Button>
             </div>
              <Button variant="link" className="w-full px-0 justify-start text-sm">View Full Day Log</Button>
           </CardContent>
