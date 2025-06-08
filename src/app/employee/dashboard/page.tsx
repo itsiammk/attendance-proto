@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, CalendarDays, Clock } from "lucide-react";
@@ -16,14 +16,44 @@ export default function EmployeeDashboardPage() {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  // Load status from localStorage on component mount
+  useEffect(() => {
+    const storedStatus = localStorage.getItem('employeeAttendanceStatus') as "Checked In" | "Checked Out" | "Not Checked In" | null;
+    const storedTimestamp = localStorage.getItem('employeeLastActionTimestamp');
+
+    if (storedStatus) {
+      setEmployeeActionStatus(storedStatus);
+    }
+    if (storedTimestamp) {
+      // Ensure storedTimestamp is valid before creating a Date object
+      try {
+        const dateObj = new Date(storedTimestamp);
+        if (!isNaN(dateObj.getTime())) {
+          setLastActionDisplayTime(formatTime(dateObj));
+        } else {
+          localStorage.removeItem('employeeLastActionTimestamp'); // Clear invalid timestamp
+        }
+      } catch (error) {
+        console.error("Error parsing stored timestamp:", error);
+        localStorage.removeItem('employeeLastActionTimestamp'); // Clear invalid timestamp
+      }
+    }
+  }, []);
+
   const handleCheckIn = () => {
+    const currentTime = new Date();
     setEmployeeActionStatus("Checked In");
-    setLastActionDisplayTime(formatTime(new Date()));
+    setLastActionDisplayTime(formatTime(currentTime));
+    localStorage.setItem('employeeAttendanceStatus', "Checked In");
+    localStorage.setItem('employeeLastActionTimestamp', currentTime.toISOString());
   };
 
   const handleCheckOut = () => {
+    const currentTime = new Date();
     setEmployeeActionStatus("Checked Out");
-    setLastActionDisplayTime(formatTime(new Date()));
+    setLastActionDisplayTime(formatTime(currentTime));
+    localStorage.setItem('employeeAttendanceStatus', "Checked Out");
+    localStorage.setItem('employeeLastActionTimestamp', currentTime.toISOString());
   };
 
   const displayStatusText = employeeActionStatus;
