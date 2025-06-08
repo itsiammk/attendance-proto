@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, UserCheck, UserX, UserClock, CalendarOff } from "lucide-react"
+import { Users, UserCheck, UserX, Clock, CalendarOff } from "lucide-react"
 
 const metrics = [
   { title: "Total Staff", value: "120", icon: Users, color: "text-primary" },
   { title: "Present Today", value: "100", icon: UserCheck, color: "text-green-500" },
   { title: "Absent Today", value: "10", icon: UserX, color: "text-red-500" },
-  { title: "Half-Day", value: "5", icon: UserClock, color: "text-yellow-500" },
+  { title: "Half-Day", value: "5", icon: Clock, color: "text-yellow-500" },
   { title: "On Leave", value: "5", icon: CalendarOff, color: "text-purple-500" },
 ];
 
