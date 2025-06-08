@@ -4,56 +4,88 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, CalendarDays, Clock } from "lucide-react";
+import { CheckCircle, XCircle, CalendarDays, Clock, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { recordCheckIn, recordCheckOut } from "@/app/employee/actions";
+
+type AttendanceStatus = "Checked In" | "Checked Out" | "Not Checked In";
 
 export default function EmployeeDashboardPage() {
   const employeeName = "Jane Doe"; // Placeholder
+  const { toast } = useToast();
 
-  const [employeeActionStatus, setEmployeeActionStatus] = useState<"Checked In" | "Checked Out" | "Not Checked In">("Not Checked In");
+  const [employeeActionStatus, setEmployeeActionStatus] = useState<AttendanceStatus>("Not Checked In");
   const [lastActionDisplayTime, setLastActionDisplayTime] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  // Load status from localStorage on component mount
   useEffect(() => {
-    const storedStatus = localStorage.getItem('employeeAttendanceStatus') as "Checked In" | "Checked Out" | "Not Checked In" | null;
+    const storedStatus = localStorage.getItem('employeeAttendanceStatus') as AttendanceStatus | null;
     const storedTimestamp = localStorage.getItem('employeeLastActionTimestamp');
 
     if (storedStatus) {
       setEmployeeActionStatus(storedStatus);
     }
     if (storedTimestamp) {
-      // Ensure storedTimestamp is valid before creating a Date object
       try {
         const dateObj = new Date(storedTimestamp);
         if (!isNaN(dateObj.getTime())) {
           setLastActionDisplayTime(formatTime(dateObj));
         } else {
-          localStorage.removeItem('employeeLastActionTimestamp'); // Clear invalid timestamp
+          localStorage.removeItem('employeeLastActionTimestamp');
         }
       } catch (error) {
         console.error("Error parsing stored timestamp:", error);
-        localStorage.removeItem('employeeLastActionTimestamp'); // Clear invalid timestamp
+        localStorage.removeItem('employeeLastActionTimestamp');
       }
     }
   }, []);
 
-  const handleCheckIn = () => {
-    const currentTime = new Date();
-    setEmployeeActionStatus("Checked In");
-    setLastActionDisplayTime(formatTime(currentTime));
-    localStorage.setItem('employeeAttendanceStatus', "Checked In");
-    localStorage.setItem('employeeLastActionTimestamp', currentTime.toISOString());
+  const handleCheckIn = async () => {
+    setIsSubmitting(true);
+    try {
+      const result = await recordCheckIn();
+      if (result.success && result.timestamp) {
+        const currentTime = new Date(result.timestamp);
+        setEmployeeActionStatus("Checked In");
+        setLastActionDisplayTime(formatTime(currentTime));
+        localStorage.setItem('employeeAttendanceStatus', "Checked In");
+        localStorage.setItem('employeeLastActionTimestamp', currentTime.toISOString());
+        toast({ title: "Success", description: "Successfully checked in." });
+      } else {
+        toast({ variant: "destructive", title: "Error", description: result.message || "Failed to check in." });
+      }
+    } catch (error) {
+      console.error("Check-in error:", error);
+      toast({ variant: "destructive", title: "Error", description: "An unexpected error occurred during check-in." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleCheckOut = () => {
-    const currentTime = new Date();
-    setEmployeeActionStatus("Checked Out");
-    setLastActionDisplayTime(formatTime(currentTime));
-    localStorage.setItem('employeeAttendanceStatus', "Checked Out");
-    localStorage.setItem('employeeLastActionTimestamp', currentTime.toISOString());
+  const handleCheckOut = async () => {
+    setIsSubmitting(true);
+    try {
+      const result = await recordCheckOut();
+      if (result.success && result.timestamp) {
+        const currentTime = new Date(result.timestamp);
+        setEmployeeActionStatus("Checked Out");
+        setLastActionDisplayTime(formatTime(currentTime));
+        localStorage.setItem('employeeAttendanceStatus', "Checked Out");
+        localStorage.setItem('employeeLastActionTimestamp', currentTime.toISOString());
+        toast({ title: "Success", description: "Successfully checked out." });
+      } else {
+        toast({ variant: "destructive", title: "Error", description: result.message || "Failed to check out." });
+      }
+    } catch (error) {
+      console.error("Check-out error:", error);
+      toast({ variant: "destructive", title: "Error", description: "An unexpected error occurred during check-out." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const displayStatusText = employeeActionStatus;
@@ -96,17 +128,17 @@ export default function EmployeeDashboardPage() {
               <Button
                 className="w-full"
                 onClick={handleCheckIn}
-                disabled={employeeActionStatus === "Checked In"}
+                disabled={employeeActionStatus === "Checked In" || isSubmitting}
               >
-                Check In
+                {isSubmitting && employeeActionStatus !== "Checked In" ? <Loader2 className="animate-spin" /> : "Check In"}
               </Button>
               <Button
                 variant="outline"
                 className="w-full"
                 onClick={handleCheckOut}
-                disabled={employeeActionStatus !== "Checked In"}
+                disabled={employeeActionStatus !== "Checked In" || isSubmitting}
               >
-                Check Out
+                {isSubmitting && employeeActionStatus === "Checked In" ? <Loader2 className="animate-spin" /> : "Check Out"}
               </Button>
             </div>
              <Button variant="link" className="w-full px-0 justify-start text-sm">View Full Day Log</Button>
