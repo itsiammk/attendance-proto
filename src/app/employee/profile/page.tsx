@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,8 +20,8 @@ export default function EmployeeProfilePage() {
   const employeeInitials = employee.name.split(" ").map(n => n[0]).join("");
 
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
+    <div className="space-y-8"> {/* Consistent spacing */}
+      <div className="mb-8"> {/* Consistent spacing */}
         <h1 className="text-3xl font-headline font-bold tracking-tight">My Profile</h1>
         <p className="text-muted-foreground">
           View and manage your personal information and account settings.
@@ -35,12 +36,12 @@ export default function EmployeeProfilePage() {
               <AvatarFallback className="text-3xl">{employeeInitials}</AvatarFallback>
             </Avatar>
             <div className="text-center sm:text-left">
-              <CardTitle className="text-2xl">{employee.name}</CardTitle>
+              <CardTitle className="text-2xl font-headline">{employee.name}</CardTitle>
               <CardDescription className="text-base">{employee.jobTitle} - {employee.department}</CardDescription>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="space-y-6 pt-4">
+        <CardContent className="space-y-6 pt-4"> {/* Added pt-4 for CardContent */}
           <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <h3 className="md:col-span-2 text-lg font-headline font-semibold mt-2 mb-0">Personal Information</h3>
             <div>
@@ -100,3 +101,5 @@ export default function EmployeeProfilePage() {
     </div>
   );
 }
+
+    

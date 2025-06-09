@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,8 +8,8 @@ import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets"
 
 export default function EmployeeLeavesPage() {
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
+    <div className="space-y-8"> {/* Consistent spacing */}
+      <div className="mb-8"> {/* Consistent spacing */}
         <h1 className="text-3xl font-headline font-bold tracking-tight">My Leaves</h1>
         <p className="text-muted-foreground">
           Manage your leave requests and view your leave balance.
@@ -17,7 +18,7 @@ export default function EmployeeLeavesPage() {
       
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Apply for Leave</CardTitle>
+          <CardTitle className="font-headline text-xl">Apply for Leave</CardTitle>
           <CardDescription>Submit a new leave request for approval.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -53,7 +54,7 @@ export default function EmployeeLeavesPage() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Leave History & Balance</CardTitle>
+          <CardTitle className="font-headline text-xl">Leave History & Balance</CardTitle>
           <CardDescription>Your past leave requests and available leave days.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -67,3 +68,5 @@ export default function EmployeeLeavesPage() {
     </div>
   );
 }
+
+    

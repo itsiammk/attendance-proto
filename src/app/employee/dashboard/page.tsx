@@ -96,8 +96,8 @@ export default function EmployeeDashboardPage() {
   const upcomingLeave = null; // or { type: "Annual Leave", dates: "Jul 20 - Jul 25" }
 
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
+    <div className="space-y-8"> {/* Increased overall spacing */}
+      <div className="mb-8"> {/* Increased bottom margin */}
         <h1 className="text-3xl font-headline font-bold tracking-tight">Welcome, {employeeName}!</h1>
         <p className="text-muted-foreground">
           Here's a quick overview of your attendance and upcoming events.
@@ -107,7 +107,7 @@ export default function EmployeeDashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl">Today's Status</CardTitle>
+            <CardTitle className="text-xl font-headline">Today's Status</CardTitle>
             <CardDescription>Your current check-in information.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -131,7 +131,7 @@ export default function EmployeeDashboardPage() {
                 onClick={handleCheckIn}
                 disabled={employeeActionStatus === "Checked In" || isSubmitting}
               >
-                {isSubmitting && employeeActionStatus !== "Checked In" ? <Loader2 className="animate-spin mr-2" /> : <CheckCircle className="mr-2 h-5 w-5"/>}
+                {isSubmitting && employeeActionStatus !== "Checked In" ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : <CheckCircle className="mr-2 h-5 w-5"/>}
                 Check In
               </Button>
               <Button
@@ -140,7 +140,7 @@ export default function EmployeeDashboardPage() {
                 onClick={handleCheckOut}
                 disabled={employeeActionStatus !== "Checked In" || isSubmitting}
               >
-                {isSubmitting && employeeActionStatus === "Checked In" ? <Loader2 className="animate-spin mr-2" /> : <XCircle className="mr-2 h-5 w-5"/>}
+                {isSubmitting && employeeActionStatus === "Checked In" ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : <XCircle className="mr-2 h-5 w-5"/>}
                  Check Out
               </Button>
             </div>
@@ -150,22 +150,22 @@ export default function EmployeeDashboardPage() {
 
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle  className="text-xl">Upcoming Leave</CardTitle>
+            <CardTitle  className="text-xl font-headline">Upcoming Leave</CardTitle>
              <CardDescription>Your approved time off.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col h-[calc(100%-76px)] justify-between"> {/* Adjust height based on header */}
+          <CardContent className="flex flex-col h-[calc(100%-88px)] justify-between"> {/* Adjusted height calculation based on header with description */}
             {upcomingLeave ? (
               <div className="p-4 bg-muted/60 rounded-lg">
                 <p className="font-semibold">{upcomingLeave.type}</p>
                 <p className="text-sm text-muted-foreground">{upcomingLeave.dates}</p>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center text-center grow">
+              <div className="flex flex-col items-center justify-center text-center grow py-4">
                 <CalendarDays className="h-12 w-12 text-muted-foreground mb-3" />
                 <p className="text-muted-foreground">No upcoming leaves scheduled.</p>
               </div>
             )}
-            <Button variant="outline" className="w-full mt-4 text-base py-2.5">
+            <Button variant="outline" className="w-full mt-auto text-base py-2.5"> {/* Ensure button is at the bottom */}
               <Briefcase className="mr-2 h-5 w-5"/> Apply for Leave
             </Button>
           </CardContent>
@@ -173,20 +173,20 @@ export default function EmployeeDashboardPage() {
         
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl">Quick Links</CardTitle>
+            <CardTitle className="text-xl font-headline">Quick Links</CardTitle>
             <CardDescription>Access common actions and information.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto" asChild>
-                <Link href="/employee/attendance"><ListChecks className="mr-2 h-5 w-5 text-primary"/> View My Attendance</Link>
+          <CardContent className="flex flex-col gap-3 pt-4"> {/* Added pt-4 for spacing below header */}
+            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto px-3">
+                <Link href="/employee/attendance" className="flex items-center w-full"><ListChecks className="mr-2 h-5 w-5 text-primary"/> View My Attendance</Link>
             </Button>
-            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto" asChild>
-                <Link href="/employee/leaves"><Briefcase className="mr-2 h-5 w-5 text-primary"/> View My Leaves</Link>
+            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto px-3">
+                <Link href="/employee/leaves" className="flex items-center w-full"><Briefcase className="mr-2 h-5 w-5 text-primary"/> View My Leaves</Link>
             </Button>
-            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto" asChild>
-                <Link href="/employee/profile"><User className="mr-2 h-5 w-5 text-primary"/> Update My Profile</Link>
+            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto px-3">
+                <Link href="/employee/profile" className="flex items-center w-full"><User className="mr-2 h-5 w-5 text-primary"/> Update My Profile</Link>
             </Button>
-            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto">
+            <Button variant="ghost" className="justify-start text-base py-2.5 h-auto px-3">
                 <CalendarDays className="mr-2 h-5 w-5 text-primary"/> Company Holiday Calendar
             </Button>
           </CardContent>
@@ -195,3 +195,5 @@ export default function EmployeeDashboardPage() {
     </div>
   );
 }
+
+    
