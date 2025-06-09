@@ -13,27 +13,49 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-
-// Placeholder data
-const attendanceData = [
-  { id: "EMP001", name: "Alice Johnson", phone: "555-0101", jobTitle: "Software Engineer", present: 20, absent: 1, halfDay: 1, weekOff: 8, holiday: 0, avatar: "https://placehold.co/40x40.png?text=AJ" },
-  { id: "EMP002", name: "Bob Williams", phone: "555-0102", jobTitle: "Product Manager", present: 22, absent: 0, halfDay: 0, weekOff: 8, holiday: 0, avatar: "https://placehold.co/40x40.png?text=BW" },
-  { id: "EMP003", name: "Carol Davis", phone: "555-0103", jobTitle: "UX Designer", present: 19, absent: 2, halfDay: 1, weekOff: 8, holiday: 0, avatar: "https://placehold.co/40x40.png?text=CD" },
-  { id: "EMP004", name: "David Brown", phone: "555-0104", jobTitle: "QA Tester", present: 21, absent: 0, halfDay: 1, weekOff: 8, holiday: 0, avatar: "https://placehold.co/40x40.png?text=DB" },
-];
+import { useEffect, useState } from "react";
+import type { EmployeeAttendanceSummary } from "./attendance-table-types"; 
+import { getMockAttendanceData } from "../actions";
+import { Loader2 } from "lucide-react";
 
 export function AttendanceTable() {
   const router = useRouter();
+  const [attendanceData, setAttendanceData] = useState<EmployeeAttendanceSummary[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const data = await getMockAttendanceData();
+      setAttendanceData(data);
+      setIsLoading(false);
+    }
+    fetchData();
+  }, []);
 
   const handleRowClick = (employeeId: string) => {
     router.push(`/admin/attendance/employee/${employeeId}`);
   };
 
+  if (isLoading) {
+    return (
+      <Card className="shadow-lg">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="font-headline text-xl sm:text-2xl">Monthly Attendance Summary</CardTitle>
+          <CardDescription className="text-sm sm:text-base mt-1">Loading attendance data...</CardDescription>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6 min-h-[200px] flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="shadow-lg"> 
       <CardHeader className="p-4 sm:p-6">
         <CardTitle className="font-headline text-xl sm:text-2xl">Monthly Attendance Summary</CardTitle>
-        <CardDescription className="text-sm sm:text-base">Overview of employee attendance. Click a row for details.</CardDescription>
+        <CardDescription className="text-sm sm:text-base mt-1">Overview of employee attendance. Click a row for details.</CardDescription>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
         <div className="rounded-md border overflow-x-auto">

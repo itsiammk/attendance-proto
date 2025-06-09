@@ -32,7 +32,7 @@ export function DailyAttendanceTable() {
     <Card className="shadow-lg">
        <CardHeader className="p-4 sm:p-6">
         <CardTitle className="text-xl sm:text-2xl">Daily Log</CardTitle>
-        <CardDescription>Detailed attendance log for the selected date.</CardDescription>
+        <CardDescription className="text-sm sm:text-base mt-1">Detailed attendance log for the selected date.</CardDescription>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
         <div className="rounded-md border overflow-x-auto">

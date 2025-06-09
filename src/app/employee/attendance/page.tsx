@@ -8,7 +8,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Calendar } from "@/components/ui/calendar";
 import { useState, useEffect } from "react";
 import { getEmployeeAttendanceHistory } from "@/app/employee/actions";
-import { Loader2, CheckCircle, XCircle, Clock, Plane, Briefcase, CalendarDays, BarChartHorizontalBig, TrendingUp, TrendingDown, UserCheck } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, Clock, Plane, Briefcase, CalendarDays, BarChartHorizontalBig, UserCheck } from "lucide-react";
 import { format, parse, isValid } from "date-fns";
 
 interface CareerSummary {
@@ -62,7 +62,6 @@ export default function EmployeeAttendancePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCalendarDate, setSelectedCalendarDate] = useState<Date | undefined>(new Date());
   
-  // For calendar disabling
   const [todayDate, setTodayDate] = useState<Date | undefined>(undefined);
    useEffect(() => {
     const now = new Date();
@@ -73,8 +72,6 @@ export default function EmployeeAttendancePage() {
     if (!todayDate) {
       return true; 
     }
-    // Allow selection up to the current date of the current year.
-    // And allow selection of past dates within the current year.
     const firstDayOfYear = new Date(todayDate.getFullYear(), 0, 1);
     return date < firstDayOfYear || date > todayDate;
   };
@@ -135,7 +132,7 @@ export default function EmployeeAttendancePage() {
           <CardDescription className="text-sm sm:text-base mt-1">Your overall attendance statistics.</CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             {summaryItems.map(item => (
               <StatCard key={item.title} title={item.title} value={item.value} icon={item.icon} colorClass={item.colorClass} unit={item.unit}/>
             ))}
@@ -169,7 +166,7 @@ export default function EmployeeAttendancePage() {
                       </AccordionTrigger>
                       <AccordionContent className="p-0">
                         <div className="border-t p-4 space-y-3">
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
                             <div className="flex items-center gap-2 p-2 bg-muted/30 rounded-md">
                               <CheckCircle className="h-4 w-4 text-green-500"/>
                               <span className="text-xs sm:text-sm">Present: <span className="font-semibold">{record.present}</span></span>

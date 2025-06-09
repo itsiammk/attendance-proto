@@ -42,7 +42,7 @@ export function ManageEmployeesModal() {
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
+        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto"> {/* This handles vertical scroll for the modal content */}
             <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30">
                 <h3 className="text-lg font-semibold">Add New Employee</h3>
                 <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -72,8 +72,9 @@ export function ManageEmployeesModal() {
             
             <div className="pt-2">
                 <h3 className="text-lg font-semibold mb-3">Current Employees</h3>
-                <div className="rounded-md border overflow-x-auto"> {/* Added overflow-x-auto here */}
-                    <ScrollArea className="h-[250px] sm:h-[300px] w-full">
+                {/* This div handles horizontal scrolling for the table */}
+                <div className="rounded-md border overflow-x-auto"> 
+                    <ScrollArea className="h-[250px] sm:h-[300px] w-full"> {/* ScrollArea handles vertical scrolling */}
                         <Table>
                         <TableHeader>
                             <TableRow>
