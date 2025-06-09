@@ -1,3 +1,6 @@
+
+"use client";
+
 import {
   Table,
   TableBody,
@@ -9,6 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 // Placeholder data
 const attendanceData = [
@@ -19,11 +23,17 @@ const attendanceData = [
 ];
 
 export function AttendanceTable() {
+  const router = useRouter();
+
+  const handleRowClick = (employeeId: string) => {
+    router.push(`/admin/attendance/employee/${employeeId}`);
+  };
+
   return (
     <Card className="mt-6 shadow-lg">
       <CardHeader>
         <CardTitle>Monthly Attendance Summary</CardTitle>
-        <CardDescription>Overview of employee attendance for the current month.</CardDescription>
+        <CardDescription>Overview of employee attendance for the current month. Click a row for details.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
@@ -43,7 +53,11 @@ export function AttendanceTable() {
             </TableHeader>
             <TableBody>
               {attendanceData.map((employee) => (
-                <TableRow key={employee.id}>
+                <TableRow 
+                  key={employee.id} 
+                  onClick={() => handleRowClick(employee.id)}
+                  className="cursor-pointer hover:bg-muted/80"
+                >
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar>
