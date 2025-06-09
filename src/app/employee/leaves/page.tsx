@@ -3,25 +3,25 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets"; // Assuming this can be adapted for single date or range
+import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets";
 
 export default function EmployeeLeavesPage() {
   return (
     <div className="space-y-6">
-      <div>
+      <div className="mb-6">
         <h1 className="text-3xl font-headline font-bold tracking-tight">My Leaves</h1>
         <p className="text-muted-foreground">
           Manage your leave requests and view your leave balance.
         </p>
       </div>
       
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Apply for Leave</CardTitle>
-          <CardDescription>Submit a new leave request.</CardDescription>
+          <CardTitle className="font-headline">Apply for Leave</CardTitle>
+          <CardDescription>Submit a new leave request for approval.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <div>
               <Label htmlFor="leaveType">Leave Type</Label>
               <Select>
@@ -38,30 +38,30 @@ export default function EmployeeLeavesPage() {
             </div>
             <div>
               <Label htmlFor="leaveDates">Select Dates</Label>
-              {/* This date picker might need adjustment for single day vs range */}
               <DatePickerWithPresets id="leaveDates" />
             </div>
             <div className="md:col-span-2">
               <Label htmlFor="reason">Reason</Label>
-              <Textarea id="reason" placeholder="Provide a reason for your leave (optional)" />
+              <Textarea id="reason" placeholder="Provide a brief reason for your leave (optional)" />
             </div>
-            <div className="md:col-span-2 flex justify-end">
+            <div className="md:col-span-2 flex justify-end pt-2">
               <Button type="submit">Submit Request</Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Leave History & Balance</CardTitle>
+          <CardTitle className="font-headline">Leave History & Balance</CardTitle>
           <CardDescription>Your past leave requests and available leave days.</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">
-            Your leave history and balance details will be displayed here.
-          </p>
-          {/* Placeholder for leave history table and balance summary */}
+          <div className="p-6 border rounded-lg text-center bg-muted/50">
+            <p className="text-muted-foreground">
+                Your leave history and balance details will be displayed here (future feature).
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

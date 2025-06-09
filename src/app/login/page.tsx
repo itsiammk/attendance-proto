@@ -9,6 +9,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,49 +29,52 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="space-y-1 text-center">
+        <CardHeader className="space-y-2 text-center">
           <div className="flex justify-center mb-4">
             <CompanyLogo className="h-12 w-12 text-primary" />
           </div>
           <CardTitle className="text-3xl font-headline">Welcome Back!</CardTitle>
           <CardDescription>
-            Enter your credentials to access your account.
+            Enter your credentials to access your AttendancePro account.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email Address</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="you@example.com"
                 required
+                className="text-base"
               />
             </div>
             <div className="space-y-2">
-              <div className="flex items-center">
+              <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
                 <Link
                   href="#"
-                  className="ml-auto inline-block text-sm underline text-primary hover:text-primary/80"
+                  className="text-sm font-medium text-primary hover:text-primary/80 hover:underline"
                 >
-                  Forgot your password?
+                  Forgot password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" type="password" required className="text-base" />
             </div>
-            <Button type="submit" className="w-full font-semibold">
+            <Button type="submit" className="w-full font-semibold text-base py-3">
               Login
             </Button>
           </form>
-          <div className="mt-6 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" className="underline text-primary hover:text-primary/80 font-medium">
-              Sign up
-            </Link>
-          </div>
         </CardContent>
+        <CardFooter className="mt-6 text-center text-sm justify-center">
+            <p className="text-muted-foreground">
+                Don&apos;t have an account?{" "}
+                <Link href="/signup" className="font-semibold text-primary hover:text-primary/80 hover:underline">
+                Sign up
+                </Link>
+            </p>
+        </CardFooter>
       </Card>
     </div>
   );

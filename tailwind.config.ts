@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['sans-serif'], // Changed to generic sans-serif
-        headline: ['sans-serif'], // Changed to generic sans-serif
+        body: ['Inter', 'system-ui', 'sans-serif'],
+        headline: ['Space Grotesk', 'system-ui', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

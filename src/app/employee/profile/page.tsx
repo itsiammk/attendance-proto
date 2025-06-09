@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 export default function EmployeeProfilePage() {
   // Placeholder data
@@ -19,36 +20,29 @@ export default function EmployeeProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="mb-6">
         <h1 className="text-3xl font-headline font-bold tracking-tight">My Profile</h1>
         <p className="text-muted-foreground">
-          View and manage your personal information.
+          View and manage your personal information and account settings.
         </p>
       </div>
       
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader>
-          <div className="flex items-center gap-4">
-            <Avatar className="h-20 w-20">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <Avatar className="h-24 w-24 border-2 border-primary/50">
               <AvatarImage src={employee.avatarUrl} alt={employee.name} data-ai-hint="profile avatar" />
-              <AvatarFallback className="text-2xl">{employeeInitials}</AvatarFallback>
+              <AvatarFallback className="text-3xl">{employeeInitials}</AvatarFallback>
             </Avatar>
-            <div>
-              <CardTitle className="text-2xl">{employee.name}</CardTitle>
-              <CardDescription>{employee.jobTitle} - {employee.department}</CardDescription>
+            <div className="text-center sm:text-left">
+              <CardTitle className="text-2xl font-headline">{employee.name}</CardTitle>
+              <CardDescription className="text-base">{employee.jobTitle} - {employee.department}</CardDescription>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label htmlFor="employeeId">Employee ID</Label>
-              <Input id="employeeId" defaultValue={employee.employeeId} readOnly className="bg-muted/50"/>
-            </div>
-             <div>
-              <Label htmlFor="jobTitle">Job Title</Label>
-              <Input id="jobTitle" defaultValue={employee.jobTitle} readOnly className="bg-muted/50"/>
-            </div>
+        <CardContent className="space-y-6 pt-4">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            <h3 className="md:col-span-2 text-lg font-headline font-semibold mt-2 mb-0">Personal Information</h3>
             <div>
               <Label htmlFor="fullName">Full Name</Label>
               <Input id="fullName" defaultValue={employee.name} />
@@ -61,14 +55,32 @@ export default function EmployeeProfilePage() {
               <Label htmlFor="phone">Phone Number</Label>
               <Input id="phone" type="tel" defaultValue={employee.phone} />
             </div>
-            <div>
-              <Label htmlFor="department">Department</Label>
-              <Input id="department" defaultValue={employee.department} readOnly className="bg-muted/50"/>
+            <div className="md:col-span-2"> {/* Empty div for spacing or future element */}
             </div>
             
-            <div className="md:col-span-2">
-              <Label htmlFor="currentPassword">Current Password (for changes)</Label>
+            <h3 className="md:col-span-2 text-lg font-headline font-semibold mt-4 mb-0">Work Details</h3>
+            <div>
+              <Label htmlFor="employeeId">Employee ID</Label>
+              <Input id="employeeId" defaultValue={employee.employeeId} readOnly className="bg-muted/50 cursor-not-allowed"/>
+            </div>
+             <div>
+              <Label htmlFor="jobTitle">Job Title</Label>
+              <Input id="jobTitle" defaultValue={employee.jobTitle} readOnly className="bg-muted/50 cursor-not-allowed"/>
+            </div>
+            <div>
+              <Label htmlFor="department">Department</Label>
+              <Input id="department" defaultValue={employee.department} readOnly className="bg-muted/50 cursor-not-allowed"/>
+            </div>
+             <div className="md:col-span-2"> {/* Empty div for spacing or future element */}
+            </div>
+
+            <h3 className="md:col-span-2 text-lg font-headline font-semibold mt-4 mb-0">Password Settings</h3>
+            <div>
+              <Label htmlFor="currentPassword">Current Password</Label>
               <Input id="currentPassword" type="password" placeholder="Enter current password to make changes"/>
+            </div>
+             <div>
+               {/* Empty div for spacing or future element */}
             </div>
              <div>
               <Label htmlFor="newPassword">New Password</Label>
@@ -79,7 +91,7 @@ export default function EmployeeProfilePage() {
               <Input id="confirmPassword" type="password" placeholder="Confirm new password"/>
             </div>
 
-            <div className="md:col-span-2 flex justify-end">
+            <div className="md:col-span-2 flex justify-end pt-4">
               <Button type="submit">Save Changes</Button>
             </div>
           </form>
