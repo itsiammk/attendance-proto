@@ -62,7 +62,7 @@ export function ManageLeavesModal() {
                     <TableRow>
                     <TableHead className="py-2.5 px-3 sm:px-4 min-w-[150px]">Employee</TableHead>
                     <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px]">Dates</TableHead>
-                    <TableHead className="py-2.5 px-3 sm:px-4 hidden md:table-cell min-w-[200px]">Reason</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[200px]">Reason</TableHead>
                     <TableHead className="py-2.5 px-3 sm:px-4 min-w-[100px]">Status</TableHead>
                     <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[120px]">Actions</TableHead>
                     </TableRow>
@@ -72,7 +72,7 @@ export function ManageLeavesModal() {
                     <TableRow key={request.id}>
                         <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm font-medium whitespace-nowrap">{request.employeeName || (request as any).name}</TableCell>
                         <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{request.startDate} to {request.endDate}</TableCell>
-                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm max-w-[150px] sm:max-w-[200px] truncate hidden md:table-cell">{request.reason}</TableCell>
+                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm max-w-[150px] sm:max-w-[200px] truncate">{request.reason}</TableCell>
                         <TableCell className="py-2 px-3 sm:px-4">{getStatusBadge(request.status)}</TableCell>
                         <TableCell className="text-right py-2 px-3 sm:px-4">
                         {request.status === "Pending" && (

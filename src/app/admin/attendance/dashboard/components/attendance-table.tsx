@@ -41,14 +41,14 @@ export function AttendanceTable() {
             <TableHeader>
               <TableRow>
                 <TableHead className="min-w-[180px] sm:min-w-[220px] px-3 py-3 sm:px-4 sm:py-4">Name</TableHead>
-                <TableHead className="hidden md:table-cell min-w-[140px] px-3 py-3 sm:px-4 sm:py-4">Phone Number</TableHead>
-                <TableHead className="hidden lg:table-cell min-w-[120px] px-3 py-3 sm:px-4 sm:py-4">Employee ID</TableHead>
-                <TableHead className="hidden sm:table-cell min-w-[150px] px-3 py-3 sm:px-4 sm:py-4">Job Title</TableHead>
+                <TableHead className="min-w-[140px] px-3 py-3 sm:px-4 sm:py-4">Phone Number</TableHead>
+                <TableHead className="min-w-[120px] px-3 py-3 sm:px-4 sm:py-4">Employee ID</TableHead>
+                <TableHead className="min-w-[150px] px-3 py-3 sm:px-4 sm:py-4">Job Title</TableHead>
                 <TableHead className="text-center min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Present</TableHead>
                 <TableHead className="text-center min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Absent</TableHead>
-                <TableHead className="text-center hidden md:table-cell min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Half-Day</TableHead>
-                <TableHead className="text-center hidden lg:table-cell min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Week Off</TableHead>
-                <TableHead className="text-center hidden lg:table-cell min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Holiday</TableHead>
+                <TableHead className="text-center min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Half-Day</TableHead>
+                <TableHead className="text-center min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Week Off</TableHead>
+                <TableHead className="text-center min-w-[70px] px-3 py-3 sm:px-4 sm:py-4">Holiday</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -67,22 +67,22 @@ export function AttendanceTable() {
                       <span className="font-medium text-sm sm:text-base whitespace-nowrap">{employee.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{employee.phone}</TableCell>
-                  <TableCell className="hidden lg:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{employee.id}</TableCell>
-                  <TableCell className="hidden sm:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{employee.jobTitle}</TableCell>
+                  <TableCell className="whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{employee.phone}</TableCell>
+                  <TableCell className="whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{employee.id}</TableCell>
+                  <TableCell className="whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{employee.jobTitle}</TableCell>
                   <TableCell className="text-center px-3 py-3 sm:px-4 sm:py-4">
                     <Badge variant="outline" className="border-green-500 text-green-600 text-xs sm:text-sm py-1 px-2.5">{employee.present}</Badge>
                   </TableCell>
                   <TableCell className="text-center px-3 py-3 sm:px-4 sm:py-4">
                      <Badge variant="outline" className="border-red-500 text-red-600 text-xs sm:text-sm py-1 px-2.5">{employee.absent}</Badge>
                   </TableCell>
-                  <TableCell className="text-center hidden md:table-cell px-3 py-3 sm:px-4 sm:py-4">
+                  <TableCell className="text-center px-3 py-3 sm:px-4 sm:py-4">
                      <Badge variant="outline" className="border-yellow-500 text-yellow-600 text-xs sm:text-sm py-1 px-2.5">{employee.halfDay}</Badge>
                   </TableCell>
-                  <TableCell className="text-center hidden lg:table-cell px-3 py-3 sm:px-4 sm:py-4">
+                  <TableCell className="text-center px-3 py-3 sm:px-4 sm:py-4">
                      <Badge variant="secondary" className="text-xs sm:text-sm py-1 px-2.5">{employee.weekOff}</Badge>
                   </TableCell>
-                  <TableCell className="text-center hidden lg:table-cell px-3 py-3 sm:px-4 sm:py-4">
+                  <TableCell className="text-center px-3 py-3 sm:px-4 sm:py-4">
                      <Badge variant="secondary" className="text-xs sm:text-sm py-1 px-2.5">{employee.holiday}</Badge>
                   </TableCell>
                 </TableRow>

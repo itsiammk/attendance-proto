@@ -40,9 +40,9 @@ export function DailyAttendanceTable() {
             <TableHeader>
               <TableRow>
                 <TableHead className="min-w-[180px] sm:min-w-[220px] px-3 py-3 sm:px-4 sm:py-4">Staff</TableHead>
-                <TableHead className="hidden sm:table-cell min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">First In</TableHead>
-                <TableHead className="hidden sm:table-cell min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">Last Out</TableHead>
-                <TableHead className="hidden md:table-cell min-w-[120px] px-3 py-3 sm:px-4 sm:py-4">Hours Worked</TableHead>
+                <TableHead className="min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">First In</TableHead>
+                <TableHead className="min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">Last Out</TableHead>
+                <TableHead className="min-w-[120px] px-3 py-3 sm:px-4 sm:py-4">Hours Worked</TableHead>
                 <TableHead className="min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">Status</TableHead>
                 <TableHead className="text-right min-w-[140px] px-3 py-3 sm:px-4 sm:py-4">Mark/Unmark</TableHead>
               </TableRow>
@@ -59,9 +59,9 @@ export function DailyAttendanceTable() {
                       <span className="font-medium text-sm sm:text-base whitespace-nowrap">{entry.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden sm:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.firstIn}</TableCell>
-                  <TableCell className="hidden sm:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.lastOut}</TableCell>
-                  <TableCell className="hidden md:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.hoursWorked}</TableCell>
+                  <TableCell className="whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.firstIn}</TableCell>
+                  <TableCell className="whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.lastOut}</TableCell>
+                  <TableCell className="whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.hoursWorked}</TableCell>
                   <TableCell className="px-3 py-3 sm:px-4 sm:py-4">
                     <Badge variant="outline" className={`${statusColors[entry.status] || "border-muted-foreground text-muted-foreground"} text-xs sm:text-sm whitespace-nowrap py-1 px-2.5`}>
                       {entry.status}

@@ -73,13 +73,13 @@ export function ManageEmployeesModal() {
             <div className="pt-2">
                 <h3 className="text-lg font-semibold mb-3">Current Employees</h3>
                 <div className="rounded-md border overflow-x-auto">
-                    <ScrollArea className="h-[250px] sm:h-[300px] w-full"> {/* Ensure ScrollArea takes full width */}
+                    <ScrollArea className="h-[250px] sm:h-[300px] w-full">
                         <Table>
                         <TableHeader>
                             <TableRow>
                             <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px]">Name</TableHead>
-                            <TableHead className="hidden sm:table-cell py-2.5 px-3 sm:px-4 min-w-[120px]">Role</TableHead>
-                            <TableHead className="hidden md:table-cell py-2.5 px-3 sm:px-4 min-w-[130px]">Phone</TableHead>
+                            <TableHead className="py-2.5 px-3 sm:px-4 min-w-[120px]">Role</TableHead>
+                            <TableHead className="py-2.5 px-3 sm:px-4 min-w-[130px]">Phone</TableHead>
                             <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[100px]">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -95,8 +95,8 @@ export function ManageEmployeesModal() {
                                     <span className="text-xs sm:text-sm font-medium whitespace-nowrap">{employee.name}</span>
                                 </div>
                                 </TableCell>
-                                <TableCell className="hidden sm:table-cell py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.role}</TableCell>
-                                <TableCell className="hidden md:table-cell py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.phone}</TableCell>
+                                <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.role}</TableCell>
+                                <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.phone}</TableCell>
                                 <TableCell className="text-right py-2 px-3 sm:px-4">
                                 <Button variant="ghost" size="icon" className="mr-1 h-7 w-7 sm:h-8 sm:w-8">
                                     <PenLine className="h-3.5 w-3.5 sm:h-4 sm:w-4" />

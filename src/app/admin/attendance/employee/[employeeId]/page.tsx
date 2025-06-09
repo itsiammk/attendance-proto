@@ -136,12 +136,12 @@ const historicalTableColumns = [
   { key: "weekOff", label: "WO", fullLabel: "Week Offs", minWidth: "50px" },
   { key: "holiday", label: "H", fullLabel: "Holidays", minWidth: "50px" },
   { key: "paidLeave", label: "PL", fullLabel: "Paid Leave", minWidth: "50px" },
-  { key: "unpaidLeave", label: "UL", fullLabel: "Unpaid Leave", minWidth: "50px", className: "hidden md:table-cell" },
-  { key: "otWorkDay", label: "OT Work", fullLabel: "Overtime (Working Day)", minWidth: "80px", className: "hidden md:table-cell" },
-  { key: "otWeekOff", label: "OT WO", fullLabel: "Overtime (Week Off)", minWidth: "80px", className: "hidden lg:table-cell" },
-  { key: "otHoliday", label: "OT H", fullLabel: "Overtime (Holiday)", minWidth: "80px", className: "hidden lg:table-cell" },
-  { key: "late", label: "Late", fullLabel: "Late Comings", minWidth: "60px", className: "hidden md:table-cell" },
-  { key: "early", label: "Early", fullLabel: "Early Leavings", minWidth: "60px", className: "hidden lg:table-cell" },
+  { key: "unpaidLeave", label: "UL", fullLabel: "Unpaid Leave", minWidth: "50px" },
+  { key: "otWorkDay", label: "OT Work", fullLabel: "Overtime (Working Day)", minWidth: "80px" },
+  { key: "otWeekOff", label: "OT WO", fullLabel: "Overtime (Week Off)", minWidth: "80px" },
+  { key: "otHoliday", label: "OT H", fullLabel: "Overtime (Holiday)", minWidth: "80px" },
+  { key: "late", label: "Late", fullLabel: "Late Comings", minWidth: "60px" },
+  { key: "early", label: "Early", fullLabel: "Early Leavings", minWidth: "60px" },
 ];
 
 
@@ -256,18 +256,13 @@ export default function EmployeeAttendanceDetailPage() {
                         key={col.key} 
                         className={cn(
                           "whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4 text-xs sm:text-sm", 
-                          col.key !== 'month' && "text-center",
-                          col.className
+                          col.key !== 'month' && "text-center"
                         )}
                         style={{ minWidth: col.minWidth }}
                       >
                         <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span>{col.label}</span>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{col.fullLabel}</p>
-                          </TooltipContent>
+                          <TooltipTrigger asChild><span>{col.label}</span></TooltipTrigger>
+                          <TooltipContent><p>{col.fullLabel}</p></TooltipContent>
                         </Tooltip>
                       </TableHead>
                     ))}
@@ -284,12 +279,12 @@ export default function EmployeeAttendanceDetailPage() {
                         <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant="secondary" className="text-xs sm:text-sm py-1 px-2">{record.weekOff}</Badge></TableCell>
                         <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant="secondary" className="text-xs sm:text-sm py-1 px-2">{record.holiday}</Badge></TableCell>
                         <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.paidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.paidLeave > 0 ? "border-purple-500 text-purple-600" : "")}>{record.paidLeave}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='unpaidLeave')?.className)}><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : "")}>{record.unpaidLeave}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='otWorkDay')?.className)}><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWorkDay}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='otWeekOff')?.className)}><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWeekOff}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='otHoliday')?.className)}><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otHoliday > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otHoliday}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='late')?.className)}><Badge variant={record.late > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.late > 0 ? "border-amber-500 text-amber-600" : "")}>{record.late}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='early')?.className)}><Badge variant={record.early > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.early > 0 ? "border-teal-500 text-teal-600" : "")}>{record.early}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : "")}>{record.unpaidLeave}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWorkDay}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWeekOff}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otHoliday > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otHoliday}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.late > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.late > 0 ? "border-amber-500 text-amber-600" : "")}>{record.late}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.early > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.early > 0 ? "border-teal-500 text-teal-600" : "")}>{record.early}</Badge></TableCell>
                       </TableRow>
                     ))
                   ) : (
