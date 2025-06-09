@@ -9,15 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-  DialogClose, // Added DialogClose
+  DialogClose,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { PenLine, Trash2, PlusCircle, Users } from "lucide-react" // Added Users icon
-import { ScrollArea } from "@/components/ui/scroll-area" // Added ScrollArea
+import { PenLine, Trash2, PlusCircle, Users } from "lucide-react"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 // Placeholder data
 const employees = [
@@ -32,91 +32,91 @@ export function ManageEmployeesModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button><Users className="mr-2 h-4 w-4" /> Manage Employees</Button>
+        <Button className="h-10"><Users className="mr-2 h-4 w-4" /> Manage Employees</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] max-h-[90vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Manage Employees</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] max-h-[90vh] flex flex-col p-0">
+        <DialogHeader className="p-6 pb-4 border-b">
+          <DialogTitle className="text-xl sm:text-2xl">Manage Employees</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base mt-1">
             Add, edit, or remove employees from your company.
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4 py-2 flex-grow overflow-y-auto pr-2"> {/* Added pr-2 for scrollbar */}
-            <div className="space-y-3 p-1 rounded-lg border shadow-sm">
-                <h3 className="text-lg font-semibold px-3 pt-2 sm:px-4 sm:pt-3">Add New Employee</h3>
-                <form className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4">
-                <div className="w-full">
+        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
+            <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30">
+                <h3 className="text-lg font-semibold">Add New Employee</h3>
+                <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="w-full space-y-1.5">
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Employee Name" />
+                    <Input id="name" placeholder="Employee Name" className="h-9"/>
                 </div>
-                <div className="w-full">
+                <div className="w-full space-y-1.5">
                     <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" type="tel" placeholder="Phone Number" />
+                    <Input id="phone" type="tel" placeholder="Phone Number" className="h-9"/>
                 </div>
-                <div className="w-full">
+                <div className="w-full space-y-1.5">
                     <Label htmlFor="role">Role</Label>
-                    <Input id="role" placeholder="Job Title / Role" />
+                    <Input id="role" placeholder="Job Title / Role" className="h-9"/>
                 </div>
-                <div className="w-full">
+                <div className="w-full space-y-1.5">
                     <Label htmlFor="pin">PIN</Label>
-                    <Input id="pin" type="password" placeholder="4-digit PIN" />
+                    <Input id="pin" type="password" placeholder="4-digit PIN" className="h-9"/>
                 </div>
-                <div className="sm:col-span-2 flex justify-end">
-                    <Button type="submit" className="w-full sm:w-auto">
+                <div className="sm:col-span-2 flex justify-end pt-2">
+                    <Button type="submit" className="w-full sm:w-auto h-9">
                     <PlusCircle className="mr-2 h-4 w-4" /> Add Employee
                     </Button>
                 </div>
                 </form>
             </div>
             
-            <div>
-                <h3 className="text-lg font-semibold mb-2 px-1">Current Employees</h3>
-                <div className="rounded-md border">
-                <ScrollArea className="h-[250px] sm:h-[300px]"> {/* Added ScrollArea for table */}
-                    <Table>
-                    <TableHeader>
-                        <TableRow>
-                        <TableHead className="py-2 px-2 sm:px-4">Name</TableHead>
-                        <TableHead className="hidden sm:table-cell py-2 px-2 sm:px-4">Role</TableHead>
-                        <TableHead className="hidden md:table-cell py-2 px-2 sm:px-4">Phone</TableHead>
-                        <TableHead className="text-right py-2 px-2 sm:px-4">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {employees.map((employee) => (
-                        <TableRow key={employee.id}>
-                            <TableCell className="py-2 px-2 sm:px-4">
-                            <div className="flex items-center gap-2 sm:gap-3">
-                                <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
-                                <AvatarImage src={employee.avatar} alt={employee.name} data-ai-hint="employee avatar" />
-                                <AvatarFallback>{employee.name.split(" ").map(n=>n[0]).join("")}</AvatarFallback>
-                                </Avatar>
-                                <span className="text-xs sm:text-sm">{employee.name}</span>
-                            </div>
-                            </TableCell>
-                            <TableCell className="hidden sm:table-cell py-2 px-2 sm:px-4 text-xs sm:text-sm">{employee.role}</TableCell>
-                            <TableCell className="hidden md:table-cell py-2 px-2 sm:px-4 text-xs sm:text-sm">{employee.phone}</TableCell>
-                            <TableCell className="text-right py-2 px-2 sm:px-4">
-                            <Button variant="ghost" size="icon" className="mr-1 h-7 w-7 sm:h-8 sm:w-8">
-                                <PenLine className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                            </Button>
-                            <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive h-7 w-7 sm:h-8 sm:w-8">
-                                <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                            </Button>
-                            </TableCell>
-                        </TableRow>
-                        ))}
-                    </TableBody>
-                    </Table>
-                </ScrollArea>
+            <div className="pt-2">
+                <h3 className="text-lg font-semibold mb-3">Current Employees</h3>
+                <div className="rounded-md border overflow-x-auto">
+                    <ScrollArea className="h-[250px] sm:h-[300px] w-full"> {/* Ensure ScrollArea takes full width */}
+                        <Table>
+                        <TableHeader>
+                            <TableRow>
+                            <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px]">Name</TableHead>
+                            <TableHead className="hidden sm:table-cell py-2.5 px-3 sm:px-4 min-w-[120px]">Role</TableHead>
+                            <TableHead className="hidden md:table-cell py-2.5 px-3 sm:px-4 min-w-[130px]">Phone</TableHead>
+                            <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[100px]">Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {employees.map((employee) => (
+                            <TableRow key={employee.id}>
+                                <TableCell className="py-2 px-3 sm:px-4">
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                    <Avatar className="h-8 w-8 sm:h-9 sm:w-9 shrink-0">
+                                    <AvatarImage src={employee.avatar} alt={employee.name} data-ai-hint="employee avatar" />
+                                    <AvatarFallback>{employee.name.split(" ").map(n=>n[0]).join("")}</AvatarFallback>
+                                    </Avatar>
+                                    <span className="text-xs sm:text-sm font-medium whitespace-nowrap">{employee.name}</span>
+                                </div>
+                                </TableCell>
+                                <TableCell className="hidden sm:table-cell py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.role}</TableCell>
+                                <TableCell className="hidden md:table-cell py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.phone}</TableCell>
+                                <TableCell className="text-right py-2 px-3 sm:px-4">
+                                <Button variant="ghost" size="icon" className="mr-1 h-7 w-7 sm:h-8 sm:w-8">
+                                    <PenLine className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                                </Button>
+                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive h-7 w-7 sm:h-8 sm:w-8">
+                                    <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                                </Button>
+                                </TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                        </Table>
+                    </ScrollArea>
                 </div>
             </div>
         </div>
 
-        <DialogFooter className="mt-auto pt-4 border-t"> {/* Ensure footer is at bottom */}
+        <DialogFooter className="mt-auto p-6 pt-4 border-t">
           <DialogClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button variant="outline" className="h-9">Close</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

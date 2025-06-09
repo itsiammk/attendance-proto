@@ -9,15 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-  DialogClose, // Added DialogClose
+  DialogClose,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { CheckCircle2, XCircle, MessageSquare, CalendarClock } from "lucide-react" // Added CalendarClock
-import { ScrollArea } from "@/components/ui/scroll-area" // Added ScrollArea
+import { CheckCircle2, XCircle, MessageSquare, CalendarClock } from "lucide-react"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 // Placeholder data
 const leaveRequests = [
@@ -32,49 +32,49 @@ export function ManageLeavesModal() {
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
       case "approved":
-        return <Badge variant="default" className="bg-green-500 hover:bg-green-600 text-white text-xs">Approved</Badge>;
+        return <Badge variant="default" className="bg-green-500 hover:bg-green-600 text-white text-xs py-0.5 px-2">Approved</Badge>;
       case "pending":
-        return <Badge variant="secondary" className="text-xs">Pending</Badge>;
+        return <Badge variant="secondary" className="text-xs py-0.5 px-2">Pending</Badge>;
       case "rejected":
-        return <Badge variant="destructive" className="text-xs">Rejected</Badge>;
+        return <Badge variant="destructive" className="text-xs py-0.5 px-2">Rejected</Badge>;
       default:
-        return <Badge className="text-xs">{status}</Badge>;
+        return <Badge className="text-xs py-0.5 px-2">{status}</Badge>;
     }
   };
   
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button><CalendarClock className="mr-2 h-4 w-4"/> Manage Leaves</Button>
+        <Button className="h-10"><CalendarClock className="mr-2 h-4 w-4"/> Manage Leaves</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] md:max-w-[750px] lg:max-w-[900px] max-h-[90vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Manage Leave Requests</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="sm:max-w-[600px] md:max-w-[750px] lg:max-w-[900px] max-h-[90vh] flex flex-col p-0">
+        <DialogHeader className="p-6 pb-4 border-b">
+          <DialogTitle className="text-xl sm:text-2xl">Manage Leave Requests</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base mt-1">
             Approve or reject employee leave requests.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 py-2 flex-grow overflow-y-auto pr-2"> {/* Added pr-2 for scrollbar */}
-          <div className="rounded-md border">
-            <ScrollArea className="h-[250px] sm:h-[300px]"> {/* Added ScrollArea for table */}
+        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
+          <div className="rounded-md border overflow-x-auto">
+            <ScrollArea className="h-[250px] sm:h-[300px] w-full">
                 <Table>
                 <TableHeader>
                     <TableRow>
-                    <TableHead className="py-2 px-2 sm:px-4">Employee</TableHead>
-                    <TableHead className="py-2 px-2 sm:px-4">Dates</TableHead>
-                    <TableHead className="py-2 px-2 sm:px-4 hidden md:table-cell">Reason</TableHead>
-                    <TableHead className="py-2 px-2 sm:px-4">Status</TableHead>
-                    <TableHead className="text-right py-2 px-2 sm:px-4">Actions</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[150px]">Employee</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px]">Dates</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 hidden md:table-cell min-w-[200px]">Reason</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[100px]">Status</TableHead>
+                    <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[120px]">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {leaveRequests.map((request) => (
                     <TableRow key={request.id}>
-                        <TableCell className="py-2 px-2 sm:px-4 text-xs sm:text-sm font-medium">{request.employeeName || (request as any).name}</TableCell>
-                        <TableCell className="py-2 px-2 sm:px-4 text-xs sm:text-sm">{request.startDate} to {request.endDate}</TableCell>
-                        <TableCell className="py-2 px-2 sm:px-4 text-xs sm:text-sm max-w-[150px] truncate hidden md:table-cell">{request.reason}</TableCell>
-                        <TableCell className="py-2 px-2 sm:px-4">{getStatusBadge(request.status)}</TableCell>
-                        <TableCell className="text-right py-2 px-2 sm:px-4">
+                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm font-medium whitespace-nowrap">{request.employeeName || (request as any).name}</TableCell>
+                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{request.startDate} to {request.endDate}</TableCell>
+                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm max-w-[150px] sm:max-w-[200px] truncate hidden md:table-cell">{request.reason}</TableCell>
+                        <TableCell className="py-2 px-3 sm:px-4">{getStatusBadge(request.status)}</TableCell>
+                        <TableCell className="text-right py-2 px-3 sm:px-4">
                         {request.status === "Pending" && (
                             <>
                             <Button variant="ghost" size="icon" className="mr-1 text-green-600 hover:text-green-700 h-7 w-7 sm:h-8 sm:w-8">
@@ -96,23 +96,23 @@ export function ManageLeavesModal() {
             </ScrollArea>
           </div>
           
-          <div className="space-y-3 p-1 rounded-lg border shadow-sm">
-            <h3 className="text-lg font-semibold px-3 pt-2 sm:px-4 sm:pt-3">Approve/Reject Comment</h3>
-            <form className="space-y-3 sm:space-y-4 p-3 sm:p-4">
-              <div>
+          <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30 mt-4">
+            <h3 className="text-lg font-semibold">Approve/Reject Comment</h3>
+            <form className="space-y-3">
+              <div className="space-y-1.5">
                 <Label htmlFor="comment">Comment (Optional)</Label>
-                <Textarea id="comment" placeholder="Add a comment for the employee..." className="min-h-[60px] sm:min-h-[80px]"/>
+                <Textarea id="comment" placeholder="Add a comment for the employee..." className="min-h-[70px] sm:min-h-[80px]"/>
               </div>
-              <div className="flex flex-col sm:flex-row justify-end gap-2">
-                <Button variant="outline" className="w-full sm:w-auto">Cancel</Button>
-                <Button type="submit" className="w-full sm:w-auto">Submit Comment</Button>
+              <div className="flex flex-col sm:flex-row justify-end gap-2 pt-1">
+                <Button variant="outline" className="w-full sm:w-auto h-9">Cancel</Button>
+                <Button type="submit" className="w-full sm:w-auto h-9">Submit Comment</Button>
               </div>
             </form>
           </div>
         </div>
-        <DialogFooter className="mt-auto pt-4 border-t"> {/* Ensure footer is at bottom */}
+        <DialogFooter className="mt-auto p-6 pt-4 border-t">
            <DialogClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button variant="outline" className="h-9">Close</Button>
            </DialogClose>
         </DialogFooter>
       </DialogContent>

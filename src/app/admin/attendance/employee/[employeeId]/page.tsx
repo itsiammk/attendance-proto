@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -159,7 +160,7 @@ export default function EmployeeAttendanceDetailPage() {
 
   if (!employee) {
     return (
-      <div className="flex h-screen items-center justify-center p-4 text-center">
+      <div className="flex h-[calc(100vh-10rem)] items-center justify-center p-4 text-center">
         <div>
           <Users className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <h2 className="text-xl font-semibold mb-2">Employee Not Found</h2>
@@ -187,13 +188,13 @@ export default function EmployeeAttendanceDetailPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
         <div>
             <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">Employee Attendance</h1>
-            <p className="text-muted-foreground">Detailed view of {name}'s attendance.</p>
+            <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">Detailed view of {name}'s attendance.</p>
         </div>
-        <Button variant="outline" asChild className="w-full sm:w-auto">
+        <Button variant="outline" asChild className="w-full sm:w-auto h-10">
             <Link href="/admin/attendance/dashboard"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard</Link>
         </Button>
       </div>
@@ -206,8 +207,8 @@ export default function EmployeeAttendanceDetailPage() {
             </Avatar>
             <div className="text-center sm:text-left">
               <CardTitle className="text-xl sm:text-2xl">{name}</CardTitle>
-              <CardDescription className="text-sm sm:text-base">{jobTitle} - {department}</CardDescription>
-              <div className="text-xs sm:text-sm text-muted-foreground mt-1 space-y-0.5">
+              <CardDescription className="text-sm sm:text-base mt-1">{jobTitle} - {department}</CardDescription>
+              <div className="text-xs sm:text-sm text-muted-foreground mt-2 space-y-0.5">
                 <p>ID: {employee.id}</p>
                 <p>Email: {email}</p>
                 <p>Phone: {phone}</p>
@@ -217,17 +218,17 @@ export default function EmployeeAttendanceDetailPage() {
       </Card>
 
       <Card className="shadow-lg">
-        <CardHeader>
+        <CardHeader className="p-4 sm:p-6">
           <CardTitle className="text-lg sm:text-xl">Monthly Summary - {format(displayMonth, "MMMM yyyy")}</CardTitle>
-          <CardDescription className="text-sm">Overview of {name}'s attendance for {format(displayMonth, "MMMM yyyy")}.</CardDescription>
+          <CardDescription className="text-sm sm:text-base mt-1">Overview of {name}'s attendance for {format(displayMonth, "MMMM yyyy")}.</CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {attendanceTypeDetails.map(item => (
               <div key={item.key} className={`p-3 sm:p-4 rounded-lg flex flex-col items-center justify-center text-center shadow-md ${item.colorClass} bg-opacity-10 dark:${item.colorClass} dark:bg-opacity-20`}>
-                <item.icon className={`h-6 w-6 sm:h-8 sm:w-8 mb-1 sm:mb-2 ${item.textClass}`} />
+                <item.icon className={`h-6 w-6 sm:h-7 sm:w-7 mb-1 sm:mb-1.5 ${item.textClass}`} />
                 <p className={`text-xl sm:text-2xl font-bold ${item.textClass}`}>{summaryValues[item.key]}</p>
-                <p className={`text-xs sm:text-sm font-medium ${item.textClass}`}>{item.label}</p>
+                <p className={`text-xs sm:text-sm font-medium ${item.textClass} mt-0.5`}>{item.label}</p>
               </div>
             ))}
           </div>
@@ -235,12 +236,12 @@ export default function EmployeeAttendanceDetailPage() {
       </Card>
 
       <Card className="shadow-lg">
-        <CardHeader>
+        <CardHeader className="p-4 sm:p-6">
           <div className="flex items-center gap-2">
             <History className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
             <CardTitle className="text-lg sm:text-xl">Historical Attendance Records</CardTitle>
           </div>
-          <CardDescription className="text-sm">
+          <CardDescription className="text-sm sm:text-base mt-1">
             Summary of {name}'s attendance for previous months.
           </CardDescription>
         </CardHeader>
@@ -254,7 +255,7 @@ export default function EmployeeAttendanceDetailPage() {
                      <TableHead 
                         key={col.key} 
                         className={cn(
-                          "whitespace-nowrap px-2 py-3 text-xs sm:px-3 sm:text-sm", 
+                          "whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4 text-xs sm:text-sm", 
                           col.key !== 'month' && "text-center",
                           col.className
                         )}
@@ -276,25 +277,25 @@ export default function EmployeeAttendanceDetailPage() {
                   {historicalAttendance && historicalAttendance.length > 0 ? (
                     historicalAttendance.map((record, index) => (
                       <TableRow key={index}>
-                        <TableCell className="font-medium whitespace-nowrap px-2 py-3 text-xs sm:px-3 sm:text-sm">{record.month}</TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.present > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.present > 0 ? "border-green-500 text-green-600" : "")}>{record.present}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.absent > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.absent > 0 ? "border-red-500 text-red-600" : "")}>{record.absent}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.halfDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.halfDay > 0 ? "border-yellow-500 text-yellow-600" : "")}>{record.halfDay}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant="secondary" className="text-xs sm:text-sm">{record.weekOff}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant="secondary" className="text-xs sm:text-sm">{record.holiday}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.paidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.paidLeave > 0 ? "border-purple-500 text-purple-600" : "")}>{record.paidLeave}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='unpaidLeave')?.className)}><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : "")}>{record.unpaidLeave}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='otWorkDay')?.className)}><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWorkDay}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='otWeekOff')?.className)}><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWeekOff}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='otHoliday')?.className)}><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otHoliday > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otHoliday}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='late')?.className)}><Badge variant={record.late > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.late > 0 ? "border-amber-500 text-amber-600" : "")}>{record.late}</Badge></TableCell>
-                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='early')?.className)}><Badge variant={record.early > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.early > 0 ? "border-teal-500 text-teal-600" : "")}>{record.early}</Badge></TableCell>
+                        <TableCell className="font-medium whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4 text-xs sm:text-sm">{record.month}</TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.present > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.present > 0 ? "border-green-500 text-green-600" : "")}>{record.present}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.absent > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.absent > 0 ? "border-red-500 text-red-600" : "")}>{record.absent}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.halfDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.halfDay > 0 ? "border-yellow-500 text-yellow-600" : "")}>{record.halfDay}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant="secondary" className="text-xs sm:text-sm py-1 px-2">{record.weekOff}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant="secondary" className="text-xs sm:text-sm py-1 px-2">{record.holiday}</Badge></TableCell>
+                        <TableCell className="text-center px-2 py-3 sm:px-3 sm:py-4"><Badge variant={record.paidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.paidLeave > 0 ? "border-purple-500 text-purple-600" : "")}>{record.paidLeave}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='unpaidLeave')?.className)}><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : "")}>{record.unpaidLeave}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='otWorkDay')?.className)}><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWorkDay}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='otWeekOff')?.className)}><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWeekOff}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='otHoliday')?.className)}><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.otHoliday > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otHoliday}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='late')?.className)}><Badge variant={record.late > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.late > 0 ? "border-amber-500 text-amber-600" : "")}>{record.late}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-2 py-3 sm:px-3 sm:py-4", historicalTableColumns.find(c=>c.key==='early')?.className)}><Badge variant={record.early > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm py-1 px-2", record.early > 0 ? "border-teal-500 text-teal-600" : "")}>{record.early}</Badge></TableCell>
                       </TableRow>
                     ))
                   ) : (
                     <TableRow>
                       <TableCell colSpan={historicalTableColumns.length} className="h-24 text-center text-muted-foreground">
-                        <div className="flex flex-col items-center justify-center">
+                        <div className="flex flex-col items-center justify-center py-6">
                           <AlertTriangle className="w-8 h-8 mb-2 text-yellow-500" />
                           No historical attendance data available.
                         </div>

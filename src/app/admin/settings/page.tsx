@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,33 +20,33 @@ export default function CompanySettingsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">Company Settings</h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
           Manage your company profile, branches, and general settings.
         </p>
       </div>
       
       <Card className="shadow-lg">
-        <CardHeader>
-          <CardTitle>Company Profile</CardTitle>
-          <CardDescription>Update your company's information.</CardDescription>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-xl sm:text-2xl">Company Profile</CardTitle>
+          <CardDescription className="text-sm sm:text-base mt-1">Update your company's information.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 p-4 sm:p-6">
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-4">
-            <div className="w-full">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="companyName">Company Name</Label>
-              <Input id="companyName" defaultValue={companyDetails.name} />
+              <Input id="companyName" defaultValue={companyDetails.name} className="h-10"/>
             </div>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="staffCount">Staff Count</Label>
-              <Input id="staffCount" type="number" defaultValue={companyDetails.staffCount} />
+              <Input id="staffCount" type="number" defaultValue={companyDetails.staffCount} className="h-10"/>
             </div>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="businessType">Business Type</Label>
               <Select defaultValue={companyDetails.businessType.toLowerCase()}>
-                <SelectTrigger id="businessType" className="w-full">
+                <SelectTrigger id="businessType" className="w-full h-10">
                   <SelectValue placeholder="Select Business Type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -57,45 +58,45 @@ export default function CompanySettingsPage() {
                 </SelectContent>
               </Select>
             </div>
-             <div className="w-full">
+             <div className="w-full space-y-1.5">
               <Label htmlFor="companyCode">Company Code</Label>
-              <Input id="companyCode" defaultValue={companyDetails.companyCode} readOnly className="bg-muted/50 cursor-not-allowed"/>
+              <Input id="companyCode" defaultValue={companyDetails.companyCode} readOnly className="bg-muted/50 cursor-not-allowed h-10"/>
             </div>
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 space-y-1.5">
               <Label htmlFor="address">Address</Label>
-              <Textarea id="address" defaultValue={companyDetails.address} placeholder="Enter company address"/>
-              <p className="text-xs text-muted-foreground mt-1">Google Maps integration for address validation will be here.</p>
+              <Textarea id="address" defaultValue={companyDetails.address} placeholder="Enter company address" className="min-h-[80px]"/>
+              <p className="text-xs text-muted-foreground pt-1">Google Maps integration for address validation will be here.</p>
             </div>
             
             <div className="md:col-span-2 pt-4">
                 <Separator className="mb-4 sm:mb-6"/>
                 <h3 className="text-lg font-headline font-semibold mb-3 sm:mb-4">Admin Details</h3>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-4">
-                    <div className="w-full">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                    <div className="w-full space-y-1.5">
                         <Label htmlFor="adminName">Admin Name</Label>
-                        <Input id="adminName" defaultValue={companyDetails.adminName} />
+                        <Input id="adminName" defaultValue={companyDetails.adminName} className="h-10"/>
                     </div>
-                    <div className="w-full">
+                    <div className="w-full space-y-1.5">
                         <Label htmlFor="adminEmail">Admin Email</Label>
-                        <Input id="adminEmail" type="email" defaultValue={companyDetails.adminEmail} />
+                        <Input id="adminEmail" type="email" defaultValue={companyDetails.adminEmail} className="h-10"/>
                     </div>
                  </div>
             </div>
 
             <div className="md:col-span-2 flex justify-end pt-4">
-              <Button type="submit" className="w-full sm:w-auto">Save Changes</Button>
+              <Button type="submit" className="w-full sm:w-auto h-10 px-6">Save Changes</Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
       <Card className="shadow-lg">
-        <CardHeader>
-          <CardTitle>Other Settings</CardTitle>
-          <CardDescription>Manage branches, departments, and notification preferences.</CardDescription>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-xl sm:text-2xl">Other Settings</CardTitle>
+          <CardDescription className="text-sm sm:text-base mt-1">Manage branches, departments, and notification preferences.</CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          <div className="p-4 sm:p-6 border rounded-lg text-center bg-muted/50">
+          <div className="p-6 border rounded-lg text-center bg-muted/50">
             <p className="text-muted-foreground text-sm sm:text-base">
                 Branch management, department setup, and notification settings will be available here in a future update.
             </p>

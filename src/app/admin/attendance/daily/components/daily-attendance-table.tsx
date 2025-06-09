@@ -30,27 +30,27 @@ const statusColors: { [key: string]: string } = {
 export function DailyAttendanceTable() {
   return (
     <Card className="shadow-lg">
-       <CardHeader>
-        <CardTitle>Daily Log</CardTitle>
+       <CardHeader className="p-4 sm:p-6">
+        <CardTitle className="text-xl sm:text-2xl">Daily Log</CardTitle>
         <CardDescription>Detailed attendance log for the selected date.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4 sm:p-6">
         <div className="rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="min-w-[150px] sm:min-w-[200px]">Staff</TableHead>
-                <TableHead className="hidden sm:table-cell min-w-[100px]">First In</TableHead>
-                <TableHead className="hidden sm:table-cell min-w-[100px]">Last Out</TableHead>
-                <TableHead className="hidden md:table-cell min-w-[120px]">Hours Worked</TableHead>
-                <TableHead className="min-w-[100px]">Status</TableHead>
-                <TableHead className="text-right min-w-[140px]">Mark/Unmark</TableHead>
+                <TableHead className="min-w-[180px] sm:min-w-[220px] px-3 py-3 sm:px-4 sm:py-4">Staff</TableHead>
+                <TableHead className="hidden sm:table-cell min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">First In</TableHead>
+                <TableHead className="hidden sm:table-cell min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">Last Out</TableHead>
+                <TableHead className="hidden md:table-cell min-w-[120px] px-3 py-3 sm:px-4 sm:py-4">Hours Worked</TableHead>
+                <TableHead className="min-w-[100px] px-3 py-3 sm:px-4 sm:py-4">Status</TableHead>
+                <TableHead className="text-right min-w-[140px] px-3 py-3 sm:px-4 sm:py-4">Mark/Unmark</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {dailyData.map((entry) => (
                 <TableRow key={entry.id}>
-                  <TableCell>
+                  <TableCell className="px-3 py-3 sm:px-4 sm:py-4">
                     <div className="flex items-center gap-2 sm:gap-3">
                       <Avatar className="h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                         <AvatarImage src={entry.avatar} alt={entry.name} data-ai-hint="staff photo" />
@@ -59,17 +59,17 @@ export function DailyAttendanceTable() {
                       <span className="font-medium text-sm sm:text-base whitespace-nowrap">{entry.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden sm:table-cell whitespace-nowrap">{entry.firstIn}</TableCell>
-                  <TableCell className="hidden sm:table-cell whitespace-nowrap">{entry.lastOut}</TableCell>
-                  <TableCell className="hidden md:table-cell whitespace-nowrap">{entry.hoursWorked}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={`${statusColors[entry.status] || "border-muted-foreground text-muted-foreground"} text-xs sm:text-sm whitespace-nowrap`}>
+                  <TableCell className="hidden sm:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.firstIn}</TableCell>
+                  <TableCell className="hidden sm:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.lastOut}</TableCell>
+                  <TableCell className="hidden md:table-cell whitespace-nowrap px-3 py-3 sm:px-4 sm:py-4">{entry.hoursWorked}</TableCell>
+                  <TableCell className="px-3 py-3 sm:px-4 sm:py-4">
+                    <Badge variant="outline" className={`${statusColors[entry.status] || "border-muted-foreground text-muted-foreground"} text-xs sm:text-sm whitespace-nowrap py-1 px-2.5`}>
                       {entry.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-right px-3 py-3 sm:px-4 sm:py-4">
                     <Select defaultValue={entry.status.toLowerCase().replace('-', '')}>
-                      <SelectTrigger className="w-full min-w-[100px] sm:w-[120px] h-8 text-xs">
+                      <SelectTrigger className="w-full min-w-[100px] sm:w-[120px] h-9 text-xs sm:text-sm">
                         <SelectValue placeholder="Update Status" />
                       </SelectTrigger>
                       <SelectContent>

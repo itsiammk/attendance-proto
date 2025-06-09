@@ -19,79 +19,79 @@ export default function EmployeeProfilePage() {
   const employeeInitials = employee.name.split(" ").map(n => n[0]).join("");
 
   return (
-    <div className="space-y-8"> 
-      <div className="mb-8"> 
+    <div className="space-y-6 sm:space-y-8"> 
+      <div className="mb-6 sm:mb-8"> 
         <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">My Profile</h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
           View and manage your personal information and account settings.
         </p>
       </div>
       
       <Card className="shadow-lg">
         <CardHeader className="p-4 sm:p-6">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-2 border-primary/50">
               <AvatarImage src={employee.avatarUrl} alt={employee.name} data-ai-hint="profile avatar" />
               <AvatarFallback className="text-2xl sm:text-3xl">{employeeInitials}</AvatarFallback>
             </Avatar>
             <div className="text-center sm:text-left">
               <CardTitle className="text-xl sm:text-2xl font-headline">{employee.name}</CardTitle>
-              <CardDescription className="text-base">{employee.jobTitle} - {employee.department}</CardDescription>
+              <CardDescription className="text-base mt-1">{employee.jobTitle} - {employee.department}</CardDescription>
             </div>
           </div>
         </CardHeader>
         <CardContent className="space-y-6 pt-4 p-4 sm:p-6"> 
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-4">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <h3 className="md:col-span-2 text-lg font-headline font-semibold mt-2 mb-0">Personal Information</h3>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" defaultValue={employee.name} />
+              <Input id="fullName" defaultValue={employee.name} className="h-10"/>
             </div>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" defaultValue={employee.email} />
+              <Input id="email" type="email" defaultValue={employee.email} className="h-10"/>
             </div>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" type="tel" defaultValue={employee.phone} />
+              <Input id="phone" type="tel" defaultValue={employee.phone} className="h-10"/>
             </div>
             <div className="md:col-span-2"> 
             </div>
             
             <h3 className="md:col-span-2 text-lg font-headline font-semibold mt-4 mb-0">Work Details</h3>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="employeeId">Employee ID</Label>
-              <Input id="employeeId" defaultValue={employee.employeeId} readOnly className="bg-muted/50 cursor-not-allowed"/>
+              <Input id="employeeId" defaultValue={employee.employeeId} readOnly className="bg-muted/50 cursor-not-allowed h-10"/>
             </div>
-             <div className="w-full">
+             <div className="w-full space-y-1.5">
               <Label htmlFor="jobTitle">Job Title</Label>
-              <Input id="jobTitle" defaultValue={employee.jobTitle} readOnly className="bg-muted/50 cursor-not-allowed"/>
+              <Input id="jobTitle" defaultValue={employee.jobTitle} readOnly className="bg-muted/50 cursor-not-allowed h-10"/>
             </div>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="department">Department</Label>
-              <Input id="department" defaultValue={employee.department} readOnly className="bg-muted/50 cursor-not-allowed"/>
+              <Input id="department" defaultValue={employee.department} readOnly className="bg-muted/50 cursor-not-allowed h-10"/>
             </div>
              <div className="md:col-span-2"> 
             </div>
 
             <h3 className="md:col-span-2 text-lg font-headline font-semibold mt-4 mb-0">Password Settings</h3>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="currentPassword">Current Password</Label>
-              <Input id="currentPassword" type="password" placeholder="Enter current password"/>
+              <Input id="currentPassword" type="password" placeholder="Enter current password" className="h-10"/>
             </div>
              <div className="w-full hidden md:block">
             </div>
-             <div className="w-full">
+             <div className="w-full space-y-1.5">
               <Label htmlFor="newPassword">New Password</Label>
-              <Input id="newPassword" type="password" placeholder="Enter new password"/>
+              <Input id="newPassword" type="password" placeholder="Enter new password" className="h-10"/>
             </div>
-             <div className="w-full">
+             <div className="w-full space-y-1.5">
               <Label htmlFor="confirmPassword">Confirm New Password</Label>
-              <Input id="confirmPassword" type="password" placeholder="Confirm new password"/>
+              <Input id="confirmPassword" type="password" placeholder="Confirm new password" className="h-10"/>
             </div>
 
             <div className="md:col-span-2 flex justify-end pt-4">
-              <Button type="submit" className="w-full sm:w-auto">Save Changes</Button>
+              <Button type="submit" className="w-full sm:w-auto h-10 px-6">Save Changes</Button>
             </div>
           </form>
         </CardContent>

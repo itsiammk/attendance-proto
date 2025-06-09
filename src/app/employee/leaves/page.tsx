@@ -8,25 +8,25 @@ import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets"
 
 export default function EmployeeLeavesPage() {
   return (
-    <div className="space-y-8"> 
-      <div className="mb-8"> 
+    <div className="space-y-6 sm:space-y-8"> 
+      <div className="mb-6 sm:mb-8"> 
         <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">My Leaves</h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
           Manage your leave requests and view your leave balance.
         </p>
       </div>
       
       <Card className="shadow-lg">
-        <CardHeader>
-          <CardTitle className="font-headline text-lg sm:text-xl">Apply for Leave</CardTitle>
-          <CardDescription className="text-sm">Submit a new leave request for approval.</CardDescription>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="font-headline text-xl sm:text-2xl">Apply for Leave</CardTitle>
+          <CardDescription className="text-sm sm:text-base mt-1">Submit a new leave request for approval.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 p-4 sm:p-6">
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-4">
-            <div className="w-full">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="leaveType">Leave Type</Label>
               <Select>
-                <SelectTrigger id="leaveType" className="w-full">
+                <SelectTrigger id="leaveType" className="w-full h-10">
                   <SelectValue placeholder="Select leave type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -37,28 +37,28 @@ export default function EmployeeLeavesPage() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="w-full">
+            <div className="w-full space-y-1.5">
               <Label htmlFor="leaveDates">Select Dates</Label>
               <DatePickerWithPresets id="leaveDates" />
             </div>
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 space-y-1.5">
               <Label htmlFor="reason">Reason</Label>
-              <Textarea id="reason" placeholder="Provide a brief reason for your leave (optional)" />
+              <Textarea id="reason" placeholder="Provide a brief reason for your leave (optional)" className="min-h-[80px]"/>
             </div>
             <div className="md:col-span-2 flex justify-end pt-2">
-              <Button type="submit" className="w-full sm:w-auto">Submit Request</Button>
+              <Button type="submit" className="w-full sm:w-auto h-10 px-6">Submit Request</Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
       <Card className="shadow-lg">
-        <CardHeader>
-          <CardTitle className="font-headline text-lg sm:text-xl">Leave History & Balance</CardTitle>
-          <CardDescription className="text-sm">Your past leave requests and available leave days.</CardDescription>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="font-headline text-xl sm:text-2xl">Leave History & Balance</CardTitle>
+          <CardDescription className="text-sm sm:text-base mt-1">Your past leave requests and available leave days.</CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          <div className="p-6 border rounded-lg text-center bg-muted/50">
+          <div className="p-6 border rounded-lg text-center bg-muted/30 min-h-[150px] flex items-center justify-center">
             <p className="text-muted-foreground text-sm sm:text-base">
                 Your leave history and balance details will be displayed here (future feature).
             </p>

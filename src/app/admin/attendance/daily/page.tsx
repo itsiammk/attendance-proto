@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,27 +11,27 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 
 export default function DailyAttendancePage() {
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">Daily Attendance</h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
           View and manage daily attendance records for your employees.
         </p>
       </div>
 
       {/* Filters Section */}
       <Card className="shadow-lg">
-        <CardHeader>
-            <CardTitle>Filters</CardTitle>
-            <CardDescription>Refine the daily log by date, branch, department, or shift.</CardDescription>
+        <CardHeader className="p-4 sm:p-6">
+            <CardTitle className="text-xl sm:text-2xl">Filters</CardTitle>
+            <CardDescription className="text-sm sm:text-base">Refine the daily log by date, branch, department, or shift.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 sm:p-6">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
-                <div className="w-full">
+                <div className="w-full space-y-1.5">
                 <Label htmlFor="date-picker">Select Date</Label>
                 <DatePickerWithPresets id="date-picker" />
                 </div>
-                <div className="w-full">
+                <div className="w-full space-y-1.5">
                 <Label htmlFor="branch-filter">Branch</Label>
                 <Select defaultValue="all">
                     <SelectTrigger id="branch-filter" className="w-full">
@@ -42,7 +43,7 @@ export default function DailyAttendancePage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <div className="w-full">
+                <div className="w-full space-y-1.5">
                 <Label htmlFor="department-filter">Department</Label>
                 <Select defaultValue="all">
                     <SelectTrigger id="department-filter" className="w-full">
@@ -55,7 +56,7 @@ export default function DailyAttendancePage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <div className="w-full">
+                <div className="w-full space-y-1.5">
                 <Label htmlFor="shift-filter">Shift</Label>
                 <Select defaultValue="all">
                     <SelectTrigger id="shift-filter" className="w-full">
@@ -68,19 +69,19 @@ export default function DailyAttendancePage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <Button variant="outline" className="w-full xl:w-auto xl:ml-auto mt-2 xl:mt-0">Apply Filters</Button>
+                <Button variant="outline" className="w-full xl:w-auto xl:ml-auto mt-4 xl:mt-0 h-10">Apply Filters</Button>
             </div>
         </CardContent>
       </Card>
       
 
       {/* Header Actions Section */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-2 sm:pt-4">
         <div className="relative w-full sm:max-w-xs">
-          <Input type="search" placeholder="Search staff..." className="pl-8 w-full" />
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input type="search" placeholder="Search staff..." className="pl-8 w-full h-10" />
         </div>
-        <Button variant="outline" className="w-full sm:w-auto">
+        <Button variant="outline" className="w-full sm:w-auto h-10">
           <Download className="mr-2 h-4 w-4" />
           Download Report
         </Button>
@@ -89,9 +90,9 @@ export default function DailyAttendancePage() {
       {/* Summary Tabs & Table */}
       <Tabs defaultValue="present" className="w-full">
         <TabsList className="grid w-full grid-cols-1 xs:grid-cols-3 md:w-auto md:inline-flex mb-4">
-          <TabsTrigger value="present">Present (100)</TabsTrigger>
-          <TabsTrigger value="absent">Absent (10)</TabsTrigger>
-          <TabsTrigger value="half-day">Half-Day (5)</TabsTrigger>
+          <TabsTrigger value="present" className="text-xs sm:text-sm">Present (100)</TabsTrigger>
+          <TabsTrigger value="absent" className="text-xs sm:text-sm">Absent (10)</TabsTrigger>
+          <TabsTrigger value="half-day" className="text-xs sm:text-sm">Half-Day (5)</TabsTrigger>
         </TabsList>
         <TabsContent value="present">
           <DailyAttendanceTable />
