@@ -1,3 +1,4 @@
+
 import {
   Table,
   TableBody,
@@ -34,16 +35,16 @@ export function DailyAttendanceTable() {
         <CardDescription>Detailed attendance log for the selected date.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border">
+        <div className="rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Staff</TableHead>
-                <TableHead className="hidden sm:table-cell">First In</TableHead>
-                <TableHead className="hidden sm:table-cell">Last Out</TableHead>
-                <TableHead className="hidden md:table-cell">Hours Worked</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Mark/Unmark</TableHead>
+                <TableHead className="min-w-[150px] sm:min-w-[200px]">Staff</TableHead>
+                <TableHead className="hidden sm:table-cell min-w-[100px]">First In</TableHead>
+                <TableHead className="hidden sm:table-cell min-w-[100px]">Last Out</TableHead>
+                <TableHead className="hidden md:table-cell min-w-[120px]">Hours Worked</TableHead>
+                <TableHead className="min-w-[100px]">Status</TableHead>
+                <TableHead className="text-right min-w-[140px]">Mark/Unmark</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -51,18 +52,18 @@ export function DailyAttendanceTable() {
                 <TableRow key={entry.id}>
                   <TableCell>
                     <div className="flex items-center gap-2 sm:gap-3">
-                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                         <AvatarImage src={entry.avatar} alt={entry.name} data-ai-hint="staff photo" />
                         <AvatarFallback>{entry.name.split(" ").map(n=>n[0]).join("")}</AvatarFallback>
                       </Avatar>
-                      <span className="font-medium text-sm sm:text-base">{entry.name}</span>
+                      <span className="font-medium text-sm sm:text-base whitespace-nowrap">{entry.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden sm:table-cell">{entry.firstIn}</TableCell>
-                  <TableCell className="hidden sm:table-cell">{entry.lastOut}</TableCell>
-                  <TableCell className="hidden md:table-cell">{entry.hoursWorked}</TableCell>
+                  <TableCell className="hidden sm:table-cell whitespace-nowrap">{entry.firstIn}</TableCell>
+                  <TableCell className="hidden sm:table-cell whitespace-nowrap">{entry.lastOut}</TableCell>
+                  <TableCell className="hidden md:table-cell whitespace-nowrap">{entry.hoursWorked}</TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={`${statusColors[entry.status] || "border-muted-foreground text-muted-foreground"} text-xs sm:text-sm`}>
+                    <Badge variant="outline" className={`${statusColors[entry.status] || "border-muted-foreground text-muted-foreground"} text-xs sm:text-sm whitespace-nowrap`}>
                       {entry.status}
                     </Badge>
                   </TableCell>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -45,7 +44,7 @@ const allEmployeesData = [
       weekOff: [7, 14, 21, 28].map(day => new Date(2024, 6, day)),
       holiday: [11].map(day => new Date(2024, 6, day)),
     },
-    historicalAttendance: [ // Added for EMP002
+    historicalAttendance: [ 
       { month: "June 2024", present: 21, absent: 0, halfDay: 1, weekOff: 8, holiday: 0, paidLeave: 1, unpaidLeave: 0, otWorkDay: 3, otWeekOff: 0, otHoliday: 0, late: 2, early: 0 },
     ]
   },
@@ -129,19 +128,19 @@ const attendanceTypeDetails = [
 ];
 
 const historicalTableColumns = [
-  { key: "month", label: "Month", fullLabel: "Month" },
-  { key: "present", label: "P", fullLabel: "Present Days" },
-  { key: "absent", label: "A", fullLabel: "Absent Days" },
-  { key: "halfDay", label: "HD", fullLabel: "Half Days" },
-  { key: "weekOff", label: "WO", fullLabel: "Week Offs" },
-  { key: "holiday", label: "H", fullLabel: "Holidays" },
-  { key: "paidLeave", label: "PL", fullLabel: "Paid Leave" },
-  { key: "unpaidLeave", label: "UL", fullLabel: "Unpaid Leave" },
-  { key: "otWorkDay", label: "OT Work", fullLabel: "Overtime (Working Day)" },
-  { key: "otWeekOff", label: "OT WO", fullLabel: "Overtime (Week Off)" },
-  { key: "otHoliday", label: "OT H", fullLabel: "Overtime (Holiday)" },
-  { key: "late", label: "Late", fullLabel: "Late Comings" },
-  { key: "early", label: "Early", fullLabel: "Early Leavings" },
+  { key: "month", label: "Month", fullLabel: "Month", minWidth: "120px" },
+  { key: "present", label: "P", fullLabel: "Present Days", minWidth: "50px" },
+  { key: "absent", label: "A", fullLabel: "Absent Days", minWidth: "50px" },
+  { key: "halfDay", label: "HD", fullLabel: "Half Days", minWidth: "50px" },
+  { key: "weekOff", label: "WO", fullLabel: "Week Offs", minWidth: "50px" },
+  { key: "holiday", label: "H", fullLabel: "Holidays", minWidth: "50px" },
+  { key: "paidLeave", label: "PL", fullLabel: "Paid Leave", minWidth: "50px" },
+  { key: "unpaidLeave", label: "UL", fullLabel: "Unpaid Leave", minWidth: "50px", className: "hidden md:table-cell" },
+  { key: "otWorkDay", label: "OT Work", fullLabel: "Overtime (Working Day)", minWidth: "80px", className: "hidden md:table-cell" },
+  { key: "otWeekOff", label: "OT WO", fullLabel: "Overtime (Week Off)", minWidth: "80px", className: "hidden lg:table-cell" },
+  { key: "otHoliday", label: "OT H", fullLabel: "Overtime (Holiday)", minWidth: "80px", className: "hidden lg:table-cell" },
+  { key: "late", label: "Late", fullLabel: "Late Comings", minWidth: "60px", className: "hidden md:table-cell" },
+  { key: "early", label: "Early", fullLabel: "Early Leavings", minWidth: "60px", className: "hidden lg:table-cell" },
 ];
 
 
@@ -201,7 +200,7 @@ export default function EmployeeAttendanceDetailPage() {
 
       <Card className="shadow-lg">
         <CardHeader className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6">
-            <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-2 border-primary/50">
+            <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-2 border-primary/50 shrink-0">
               <AvatarImage src={avatar} alt={name} data-ai-hint="employee avatar"/>
               <AvatarFallback className="text-2xl sm:text-3xl">{employeeInitials}</AvatarFallback>
             </Avatar>
@@ -246,7 +245,7 @@ export default function EmployeeAttendanceDetailPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          <div className="rounded-md border w-full">
+          <div className="rounded-md border w-full overflow-x-auto">
             <TooltipProvider>
               <Table>
                 <TableHeader>
@@ -257,10 +256,9 @@ export default function EmployeeAttendanceDetailPage() {
                         className={cn(
                           "whitespace-nowrap px-2 py-3 text-xs sm:px-3 sm:text-sm", 
                           col.key !== 'month' && "text-center",
-                          // Hide less critical columns on smaller screens
-                          (col.key === 'otWeekOff' || col.key === 'otHoliday' || col.key === 'early') && "hidden lg:table-cell",
-                          (col.key === 'unpaidLeave' || col.key === 'otWorkDay' || col.key === 'late') && "hidden md:table-cell"
+                          col.className
                         )}
+                        style={{ minWidth: col.minWidth }}
                       >
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -285,12 +283,12 @@ export default function EmployeeAttendanceDetailPage() {
                         <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant="secondary" className="text-xs sm:text-sm">{record.weekOff}</Badge></TableCell>
                         <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant="secondary" className="text-xs sm:text-sm">{record.holiday}</Badge></TableCell>
                         <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.paidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.paidLeave > 0 ? "border-purple-500 text-purple-600" : "")}>{record.paidLeave}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden md:table-cell"><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : "")}>{record.unpaidLeave}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden md:table-cell"><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWorkDay}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden lg:table-cell"><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWeekOff}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden lg:table-cell"><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otHoliday > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otHoliday}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden md:table-cell"><Badge variant={record.late > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.late > 0 ? "border-amber-500 text-amber-600" : "")}>{record.late}</Badge></TableCell>
-                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden lg:table-cell"><Badge variant={record.early > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.early > 0 ? "border-teal-500 text-teal-600" : "")}>{record.early}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='unpaidLeave')?.className)}><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : "")}>{record.unpaidLeave}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='otWorkDay')?.className)}><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWorkDay}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='otWeekOff')?.className)}><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWeekOff}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='otHoliday')?.className)}><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otHoliday > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otHoliday}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='late')?.className)}><Badge variant={record.late > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.late > 0 ? "border-amber-500 text-amber-600" : "")}>{record.late}</Badge></TableCell>
+                        <TableCell className={cn("text-center px-1 py-3 sm:px-2", historicalTableColumns.find(c=>c.key==='early')?.className)}><Badge variant={record.early > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.early > 0 ? "border-teal-500 text-teal-600" : "")}>{record.early}</Badge></TableCell>
                       </TableRow>
                     ))
                   ) : (

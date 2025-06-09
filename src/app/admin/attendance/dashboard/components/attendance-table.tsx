@@ -32,23 +32,23 @@ export function AttendanceTable() {
   return (
     <Card className="shadow-lg"> 
       <CardHeader>
-        <CardTitle>Monthly Attendance Summary</CardTitle>
+        <CardTitle className="font-headline">Monthly Attendance Summary</CardTitle>
         <CardDescription>Overview of employee attendance. Click a row for details.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border">
+        <div className="rounded-md border overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead className="hidden md:table-cell">Phone Number</TableHead>
-                <TableHead className="hidden lg:table-cell">Employee ID</TableHead>
-                <TableHead className="hidden sm:table-cell">Job Title</TableHead>
-                <TableHead className="text-center">Present</TableHead>
-                <TableHead className="text-center">Absent</TableHead>
-                <TableHead className="text-center hidden md:table-cell">Half-Day</TableHead>
-                <TableHead className="text-center hidden lg:table-cell">Week Off</TableHead>
-                <TableHead className="text-center hidden lg:table-cell">Holiday</TableHead>
+                <TableHead className="min-w-[150px] sm:min-w-[200px]">Name</TableHead>
+                <TableHead className="hidden md:table-cell min-w-[120px]">Phone Number</TableHead>
+                <TableHead className="hidden lg:table-cell min-w-[100px]">Employee ID</TableHead>
+                <TableHead className="hidden sm:table-cell min-w-[150px]">Job Title</TableHead>
+                <TableHead className="text-center min-w-[70px]">Present</TableHead>
+                <TableHead className="text-center min-w-[70px]">Absent</TableHead>
+                <TableHead className="text-center hidden md:table-cell min-w-[70px]">Half-Day</TableHead>
+                <TableHead className="text-center hidden lg:table-cell min-w-[70px]">Week Off</TableHead>
+                <TableHead className="text-center hidden lg:table-cell min-w-[70px]">Holiday</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -60,16 +60,16 @@ export function AttendanceTable() {
                 >
                   <TableCell>
                     <div className="flex items-center gap-2 sm:gap-3">
-                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                         <AvatarImage src={employee.avatar} alt={employee.name} data-ai-hint="employee photo" />
                         <AvatarFallback>{employee.name.split(" ").map(n=>n[0]).join("")}</AvatarFallback>
                       </Avatar>
-                      <span className="font-medium text-sm sm:text-base">{employee.name}</span>
+                      <span className="font-medium text-sm sm:text-base whitespace-nowrap">{employee.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell">{employee.phone}</TableCell>
-                  <TableCell className="hidden lg:table-cell">{employee.id}</TableCell>
-                  <TableCell className="hidden sm:table-cell">{employee.jobTitle}</TableCell>
+                  <TableCell className="hidden md:table-cell whitespace-nowrap">{employee.phone}</TableCell>
+                  <TableCell className="hidden lg:table-cell whitespace-nowrap">{employee.id}</TableCell>
+                  <TableCell className="hidden sm:table-cell whitespace-nowrap">{employee.jobTitle}</TableCell>
                   <TableCell className="text-center">
                     <Badge variant="outline" className="border-green-500 text-green-600 text-xs sm:text-sm">{employee.present}</Badge>
                   </TableCell>
