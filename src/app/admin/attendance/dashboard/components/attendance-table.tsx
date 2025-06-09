@@ -30,10 +30,10 @@ export function AttendanceTable() {
   };
 
   return (
-    <Card className="shadow-lg"> {/* Ensured shadow-lg */}
+    <Card className="shadow-lg"> 
       <CardHeader>
         <CardTitle>Monthly Attendance Summary</CardTitle>
-        <CardDescription>Overview of employee attendance for the current month. Click a row for details.</CardDescription>
+        <CardDescription>Overview of employee attendance. Click a row for details.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
@@ -41,14 +41,14 @@ export function AttendanceTable() {
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Phone Number</TableHead>
-                <TableHead>Employee ID</TableHead>
-                <TableHead>Job Title</TableHead>
+                <TableHead className="hidden md:table-cell">Phone Number</TableHead>
+                <TableHead className="hidden lg:table-cell">Employee ID</TableHead>
+                <TableHead className="hidden sm:table-cell">Job Title</TableHead>
                 <TableHead className="text-center">Present</TableHead>
                 <TableHead className="text-center">Absent</TableHead>
-                <TableHead className="text-center">Half-Day</TableHead>
-                <TableHead className="text-center">Week Off</TableHead>
-                <TableHead className="text-center">Holiday</TableHead>
+                <TableHead className="text-center hidden md:table-cell">Half-Day</TableHead>
+                <TableHead className="text-center hidden lg:table-cell">Week Off</TableHead>
+                <TableHead className="text-center hidden lg:table-cell">Holiday</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -59,31 +59,31 @@ export function AttendanceTable() {
                   className="cursor-pointer hover:bg-muted/80"
                 >
                   <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar>
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
                         <AvatarImage src={employee.avatar} alt={employee.name} data-ai-hint="employee photo" />
                         <AvatarFallback>{employee.name.split(" ").map(n=>n[0]).join("")}</AvatarFallback>
                       </Avatar>
-                      <span className="font-medium">{employee.name}</span>
+                      <span className="font-medium text-sm sm:text-base">{employee.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell>{employee.phone}</TableCell>
-                  <TableCell>{employee.id}</TableCell>
-                  <TableCell>{employee.jobTitle}</TableCell>
+                  <TableCell className="hidden md:table-cell">{employee.phone}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{employee.id}</TableCell>
+                  <TableCell className="hidden sm:table-cell">{employee.jobTitle}</TableCell>
                   <TableCell className="text-center">
-                    <Badge variant="outline" className="border-green-500 text-green-600">{employee.present}</Badge>
+                    <Badge variant="outline" className="border-green-500 text-green-600 text-xs sm:text-sm">{employee.present}</Badge>
                   </TableCell>
                   <TableCell className="text-center">
-                     <Badge variant="outline" className="border-red-500 text-red-600">{employee.absent}</Badge>
+                     <Badge variant="outline" className="border-red-500 text-red-600 text-xs sm:text-sm">{employee.absent}</Badge>
                   </TableCell>
-                  <TableCell className="text-center">
-                     <Badge variant="outline" className="border-yellow-500 text-yellow-600">{employee.halfDay}</Badge>
+                  <TableCell className="text-center hidden md:table-cell">
+                     <Badge variant="outline" className="border-yellow-500 text-yellow-600 text-xs sm:text-sm">{employee.halfDay}</Badge>
                   </TableCell>
-                  <TableCell className="text-center">
-                     <Badge variant="secondary">{employee.weekOff}</Badge>
+                  <TableCell className="text-center hidden lg:table-cell">
+                     <Badge variant="secondary" className="text-xs sm:text-sm">{employee.weekOff}</Badge>
                   </TableCell>
-                  <TableCell className="text-center">
-                     <Badge variant="secondary">{employee.holiday}</Badge>
+                  <TableCell className="text-center hidden lg:table-cell">
+                     <Badge variant="secondary" className="text-xs sm:text-sm">{employee.holiday}</Badge>
                   </TableCell>
                 </TableRow>
               ))}

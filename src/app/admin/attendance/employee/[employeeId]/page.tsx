@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ArrowLeft, Briefcase, CalendarCheck, CalendarDays, CalendarOff, CheckCircle, Clock, Users, XCircle, TrendingUp, TrendingDown, History, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Briefcase, CalendarCheck, CalendarDays, CalendarOff, CheckCircle, Clock, Users, XCircle, History, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
@@ -34,7 +34,6 @@ const allEmployeesData = [
       { month: "March 2024", present: 21, absent: 1, halfDay: 0, weekOff: 9, holiday: 1, paidLeave: 1, unpaidLeave: 0, otWorkDay: 3, otWeekOff: 0, otHoliday: 4, late: 2, early: 0 },
     ]
   },
-  // Other employees retain their existing structure for brevity, historical can be added later.
   {
     id: "EMP002", name: "Bob Williams", email: "bob.williams@example.com", phone: "555-0102", department:"Product", jobTitle: "Product Manager",
     present: 22, absent: 0, halfDay: 0, weekOff: 8, holiday: 1, avatar: "https://placehold.co/100x100.png?text=BW",
@@ -45,7 +44,10 @@ const allEmployeesData = [
       leave: [30].map(day => new Date(2024, 6, day)),
       weekOff: [7, 14, 21, 28].map(day => new Date(2024, 6, day)),
       holiday: [11].map(day => new Date(2024, 6, day)),
-    }
+    },
+    historicalAttendance: [ // Added for EMP002
+      { month: "June 2024", present: 21, absent: 0, halfDay: 1, weekOff: 8, holiday: 0, paidLeave: 1, unpaidLeave: 0, otWorkDay: 3, otWeekOff: 0, otHoliday: 0, late: 2, early: 0 },
+    ]
   },
   {
     id: "EMP003", name: "Carol Davis", email: "carol.davis@example.com", phone: "555-0103", department:"Design", jobTitle: "UX Designer",
@@ -57,7 +59,8 @@ const allEmployeesData = [
       leave: [30, 31].map(day => new Date(2024, 6, day)),
       weekOff: [7, 14, 21, 28].map(day => new Date(2024, 6, day)),
       holiday: [11].map(day => new Date(2024, 6, day)),
-    }
+    },
+    // No historical data for EMP003 for demo
   },
   {
     id: "EMP004", name: "David Brown", email: "david.brown@example.com", phone: "555-0104", department:"QA", jobTitle: "QA Tester",
@@ -69,7 +72,10 @@ const allEmployeesData = [
       leave: [30].map(day => new Date(2024, 6, day)),
       weekOff: [7, 14, 21, 28].map(day => new Date(2024, 6, day)),
       holiday: [11].map(day => new Date(2024, 6, day)),
-    }
+    },
+     historicalAttendance: [
+      { month: "June 2024", present: 22, absent: 0, halfDay: 0, weekOff: 8, holiday: 0, paidLeave: 0, unpaidLeave: 0, otWorkDay: 5, otWeekOff: 0, otHoliday: 0, late: 0, early: 0 },
+    ]
   },
 ];
 
@@ -96,17 +102,17 @@ interface EmployeeData {
   phone: string;
   department: string;
   jobTitle: string;
-  present: number; // current month total for top card consistency
-  absent: number;  // current month total
-  halfDay: number; // current month total
-  weekOff: number; // current month total
-  holiday: number; // current month total
+  present: number; 
+  absent: number;  
+  halfDay: number; 
+  weekOff: number; 
+  holiday: number; 
   avatar: string;
-  monthlyAttendance: { // Used for current month summary values
+  monthlyAttendance: { 
     present: Date[];
     absent: Date[];
     halfDay: Date[];
-    leave: Date[]; // This is typically paid leave for the summary
+    leave: Date[]; 
     weekOff: Date[];
     holiday: Date[];
   };
@@ -145,7 +151,7 @@ export default function EmployeeAttendanceDetailPage() {
   const employeeId = params.employeeId as string;
 
   const [employee, setEmployee] = useState<EmployeeData | null>(null);
-  const [displayMonth, setDisplayMonth] = useState(new Date(2024, 6, 1)); // Default to July 2024 for demo of current summary
+  const [displayMonth, setDisplayMonth] = useState(new Date(2024, 6, 1)); 
 
   useEffect(() => {
     const foundEmployee = allEmployeesData.find(emp => emp.id === employeeId) as EmployeeData | undefined;
@@ -154,8 +160,8 @@ export default function EmployeeAttendanceDetailPage() {
 
   if (!employee) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="text-center">
+      <div className="flex h-screen items-center justify-center p-4 text-center">
+        <div>
           <Users className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <h2 className="text-xl font-semibold mb-2">Employee Not Found</h2>
           <p className="text-muted-foreground mb-4">
@@ -183,26 +189,26 @@ export default function EmployeeAttendanceDetailPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
-            <h1 className="text-3xl font-headline font-bold tracking-tight">Employee Attendance Details</h1>
+            <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">Employee Attendance</h1>
             <p className="text-muted-foreground">Detailed view of {name}'s attendance.</p>
         </div>
-        <Button variant="outline" asChild>
+        <Button variant="outline" asChild className="w-full sm:w-auto">
             <Link href="/admin/attendance/dashboard"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard</Link>
         </Button>
       </div>
 
       <Card className="shadow-lg">
-        <CardHeader className="flex flex-col sm:flex-row items-center gap-6">
-            <Avatar className="h-24 w-24 border-2 border-primary/50">
+        <CardHeader className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6">
+            <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-2 border-primary/50">
               <AvatarImage src={avatar} alt={name} data-ai-hint="employee avatar"/>
-              <AvatarFallback className="text-3xl">{employeeInitials}</AvatarFallback>
+              <AvatarFallback className="text-2xl sm:text-3xl">{employeeInitials}</AvatarFallback>
             </Avatar>
             <div className="text-center sm:text-left">
-              <CardTitle className="text-2xl">{name}</CardTitle>
-              <CardDescription className="text-base">{jobTitle} - {department}</CardDescription>
-              <div className="text-sm text-muted-foreground mt-1">
+              <CardTitle className="text-xl sm:text-2xl">{name}</CardTitle>
+              <CardDescription className="text-sm sm:text-base">{jobTitle} - {department}</CardDescription>
+              <div className="text-xs sm:text-sm text-muted-foreground mt-1 space-y-0.5">
                 <p>ID: {employee.id}</p>
                 <p>Email: {email}</p>
                 <p>Phone: {phone}</p>
@@ -213,16 +219,16 @@ export default function EmployeeAttendanceDetailPage() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Monthly Summary - {format(displayMonth, "MMMM yyyy")}</CardTitle>
-          <CardDescription>Overview of {name}'s attendance stats for the current month (July 2024 for demo).</CardDescription>
+          <CardTitle className="text-lg sm:text-xl">Monthly Summary - {format(displayMonth, "MMMM yyyy")}</CardTitle>
+          <CardDescription className="text-sm">Overview of {name}'s attendance for {format(displayMonth, "MMMM yyyy")}.</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <CardContent className="p-4 sm:p-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {attendanceTypeDetails.map(item => (
-              <div key={item.key} className={`p-4 rounded-lg flex flex-col items-center justify-center text-center shadow-md ${item.colorClass} bg-opacity-10 dark:${item.colorClass} dark:bg-opacity-20`}>
-                <item.icon className={`h-8 w-8 mb-2 ${item.textClass}`} />
-                <p className={`text-2xl font-bold ${item.textClass}`}>{summaryValues[item.key]}</p>
-                <p className={`text-sm font-medium ${item.textClass}`}>{item.label}</p>
+              <div key={item.key} className={`p-3 sm:p-4 rounded-lg flex flex-col items-center justify-center text-center shadow-md ${item.colorClass} bg-opacity-10 dark:${item.colorClass} dark:bg-opacity-20`}>
+                <item.icon className={`h-6 w-6 sm:h-8 sm:w-8 mb-1 sm:mb-2 ${item.textClass}`} />
+                <p className={`text-xl sm:text-2xl font-bold ${item.textClass}`}>{summaryValues[item.key]}</p>
+                <p className={`text-xs sm:text-sm font-medium ${item.textClass}`}>{item.label}</p>
               </div>
             ))}
           </div>
@@ -232,11 +238,11 @@ export default function EmployeeAttendanceDetailPage() {
       <Card className="shadow-lg">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <History className="h-6 w-6 text-primary" />
-            <CardTitle>Historical Attendance Records</CardTitle>
+            <History className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+            <CardTitle className="text-lg sm:text-xl">Historical Attendance Records</CardTitle>
           </div>
-          <CardDescription>
-            Summary of {name}'s attendance for previous months. Scroll table horizontally if needed.
+          <CardDescription className="text-sm">
+            Summary of {name}'s attendance for previous months.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
@@ -246,9 +252,15 @@ export default function EmployeeAttendanceDetailPage() {
                 <TableHeader>
                   <TableRow>
                     {historicalTableColumns.map(col => (
-                      <TableHead 
+                     <TableHead 
                         key={col.key} 
-                        className={cn("whitespace-nowrap", col.key !== 'month' && "text-center")}
+                        className={cn(
+                          "whitespace-nowrap px-2 py-3 text-xs sm:px-3 sm:text-sm", 
+                          col.key !== 'month' && "text-center",
+                          // Hide less critical columns on smaller screens
+                          (col.key === 'otWeekOff' || col.key === 'otHoliday' || col.key === 'early') && "hidden lg:table-cell",
+                          (col.key === 'unpaidLeave' || col.key === 'otWorkDay' || col.key === 'late') && "hidden md:table-cell"
+                        )}
                       >
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -266,19 +278,19 @@ export default function EmployeeAttendanceDetailPage() {
                   {historicalAttendance && historicalAttendance.length > 0 ? (
                     historicalAttendance.map((record, index) => (
                       <TableRow key={index}>
-                        <TableCell className="font-medium whitespace-nowrap">{record.month}</TableCell>
-                        <TableCell className="text-center"><Badge variant={record.present > 0 ? "outline" : "secondary"} className={record.present > 0 ? "border-green-500 text-green-600" : ""}>{record.present}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.absent > 0 ? "outline" : "secondary"} className={record.absent > 0 ? "border-red-500 text-red-600" : ""}>{record.absent}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.halfDay > 0 ? "outline" : "secondary"} className={record.halfDay > 0 ? "border-yellow-500 text-yellow-600" : ""}>{record.halfDay}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant="secondary">{record.weekOff}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant="secondary">{record.holiday}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.paidLeave > 0 ? "outline" : "secondary"} className={record.paidLeave > 0 ? "border-purple-500 text-purple-600" : ""}>{record.paidLeave}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : ""}>{record.unpaidLeave}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : ""}>{record.otWorkDay}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : ""}>{record.otWeekOff}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={record.otHoliday > 0 ? "border-sky-500 text-sky-600" : ""}>{record.otHoliday}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.late > 0 ? "outline" : "secondary"} className={record.late > 0 ? "border-amber-500 text-amber-600" : ""}>{record.late}</Badge></TableCell>
-                        <TableCell className="text-center"><Badge variant={record.early > 0 ? "outline" : "secondary"} className={record.early > 0 ? "border-teal-500 text-teal-600" : ""}>{record.early}</Badge></TableCell>
+                        <TableCell className="font-medium whitespace-nowrap px-2 py-3 text-xs sm:px-3 sm:text-sm">{record.month}</TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.present > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.present > 0 ? "border-green-500 text-green-600" : "")}>{record.present}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.absent > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.absent > 0 ? "border-red-500 text-red-600" : "")}>{record.absent}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.halfDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.halfDay > 0 ? "border-yellow-500 text-yellow-600" : "")}>{record.halfDay}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant="secondary" className="text-xs sm:text-sm">{record.weekOff}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant="secondary" className="text-xs sm:text-sm">{record.holiday}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2"><Badge variant={record.paidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.paidLeave > 0 ? "border-purple-500 text-purple-600" : "")}>{record.paidLeave}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden md:table-cell"><Badge variant={record.unpaidLeave > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.unpaidLeave > 0 ? "border-orange-500 text-orange-600" : "")}>{record.unpaidLeave}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden md:table-cell"><Badge variant={record.otWorkDay > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWorkDay > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWorkDay}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden lg:table-cell"><Badge variant={record.otWeekOff > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otWeekOff > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otWeekOff}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden lg:table-cell"><Badge variant={record.otHoliday > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.otHoliday > 0 ? "border-sky-500 text-sky-600" : "")}>{record.otHoliday}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden md:table-cell"><Badge variant={record.late > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.late > 0 ? "border-amber-500 text-amber-600" : "")}>{record.late}</Badge></TableCell>
+                        <TableCell className="text-center px-1 py-3 sm:px-2 hidden lg:table-cell"><Badge variant={record.early > 0 ? "outline" : "secondary"} className={cn("text-xs sm:text-sm", record.early > 0 ? "border-teal-500 text-teal-600" : "")}>{record.early}</Badge></TableCell>
                       </TableRow>
                     ))
                   ) : (
@@ -286,7 +298,7 @@ export default function EmployeeAttendanceDetailPage() {
                       <TableCell colSpan={historicalTableColumns.length} className="h-24 text-center text-muted-foreground">
                         <div className="flex flex-col items-center justify-center">
                           <AlertTriangle className="w-8 h-8 mb-2 text-yellow-500" />
-                          No historical attendance data available for this employee.
+                          No historical attendance data available.
                         </div>
                       </TableCell>
                     </TableRow>
@@ -300,4 +312,3 @@ export default function EmployeeAttendanceDetailPage() {
     </div>
   );
 }
-

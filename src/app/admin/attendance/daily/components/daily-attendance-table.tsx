@@ -39,9 +39,9 @@ export function DailyAttendanceTable() {
             <TableHeader>
               <TableRow>
                 <TableHead>Staff</TableHead>
-                <TableHead>First In</TableHead>
-                <TableHead>Last Out</TableHead>
-                <TableHead>Hours Worked</TableHead>
+                <TableHead className="hidden sm:table-cell">First In</TableHead>
+                <TableHead className="hidden sm:table-cell">Last Out</TableHead>
+                <TableHead className="hidden md:table-cell">Hours Worked</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Mark/Unmark</TableHead>
               </TableRow>
@@ -50,25 +50,25 @@ export function DailyAttendanceTable() {
               {dailyData.map((entry) => (
                 <TableRow key={entry.id}>
                   <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar>
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
                         <AvatarImage src={entry.avatar} alt={entry.name} data-ai-hint="staff photo" />
                         <AvatarFallback>{entry.name.split(" ").map(n=>n[0]).join("")}</AvatarFallback>
                       </Avatar>
-                      <span className="font-medium">{entry.name}</span>
+                      <span className="font-medium text-sm sm:text-base">{entry.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell>{entry.firstIn}</TableCell>
-                  <TableCell>{entry.lastOut}</TableCell>
-                  <TableCell>{entry.hoursWorked}</TableCell>
+                  <TableCell className="hidden sm:table-cell">{entry.firstIn}</TableCell>
+                  <TableCell className="hidden sm:table-cell">{entry.lastOut}</TableCell>
+                  <TableCell className="hidden md:table-cell">{entry.hoursWorked}</TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={`${statusColors[entry.status] || "border-muted-foreground text-muted-foreground"}`}>
+                    <Badge variant="outline" className={`${statusColors[entry.status] || "border-muted-foreground text-muted-foreground"} text-xs sm:text-sm`}>
                       {entry.status}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <Select defaultValue={entry.status.toLowerCase().replace('-', '')}>
-                      <SelectTrigger className="w-[120px] h-8 text-xs">
+                      <SelectTrigger className="w-full min-w-[100px] sm:w-[120px] h-8 text-xs">
                         <SelectValue placeholder="Update Status" />
                       </SelectTrigger>
                       <SelectContent>

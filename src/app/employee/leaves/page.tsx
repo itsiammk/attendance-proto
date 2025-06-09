@@ -8,9 +8,9 @@ import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets"
 
 export default function EmployeeLeavesPage() {
   return (
-    <div className="space-y-8"> {/* Consistent spacing */}
-      <div className="mb-8"> {/* Consistent spacing */}
-        <h1 className="text-3xl font-headline font-bold tracking-tight">My Leaves</h1>
+    <div className="space-y-8"> 
+      <div className="mb-8"> 
+        <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">My Leaves</h1>
         <p className="text-muted-foreground">
           Manage your leave requests and view your leave balance.
         </p>
@@ -18,15 +18,15 @@ export default function EmployeeLeavesPage() {
       
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline text-xl">Apply for Leave</CardTitle>
-          <CardDescription>Submit a new leave request for approval.</CardDescription>
+          <CardTitle className="font-headline text-lg sm:text-xl">Apply for Leave</CardTitle>
+          <CardDescription className="text-sm">Submit a new leave request for approval.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-            <div>
+        <CardContent className="space-y-4 p-4 sm:p-6">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-4">
+            <div className="w-full">
               <Label htmlFor="leaveType">Leave Type</Label>
               <Select>
-                <SelectTrigger id="leaveType">
+                <SelectTrigger id="leaveType" className="w-full">
                   <SelectValue placeholder="Select leave type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -37,7 +37,7 @@ export default function EmployeeLeavesPage() {
                 </SelectContent>
               </Select>
             </div>
-            <div>
+            <div className="w-full">
               <Label htmlFor="leaveDates">Select Dates</Label>
               <DatePickerWithPresets id="leaveDates" />
             </div>
@@ -46,7 +46,7 @@ export default function EmployeeLeavesPage() {
               <Textarea id="reason" placeholder="Provide a brief reason for your leave (optional)" />
             </div>
             <div className="md:col-span-2 flex justify-end pt-2">
-              <Button type="submit">Submit Request</Button>
+              <Button type="submit" className="w-full sm:w-auto">Submit Request</Button>
             </div>
           </form>
         </CardContent>
@@ -54,12 +54,12 @@ export default function EmployeeLeavesPage() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline text-xl">Leave History & Balance</CardTitle>
-          <CardDescription>Your past leave requests and available leave days.</CardDescription>
+          <CardTitle className="font-headline text-lg sm:text-xl">Leave History & Balance</CardTitle>
+          <CardDescription className="text-sm">Your past leave requests and available leave days.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 sm:p-6">
           <div className="p-6 border rounded-lg text-center bg-muted/50">
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-sm sm:text-base">
                 Your leave history and balance details will be displayed here (future feature).
             </p>
           </div>
@@ -68,5 +68,3 @@ export default function EmployeeLeavesPage() {
     </div>
   );
 }
-
-    

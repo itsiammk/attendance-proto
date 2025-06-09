@@ -17,9 +17,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 
 export default function AttendanceDashboardPage() {
   return (
-    <div className="space-y-8"> {/* Increased overall spacing */}
-      <div className="mb-8"> {/* Increased bottom margin */}
-        <h1 className="text-3xl font-headline font-bold tracking-tight">Attendance Dashboard</h1>
+    <div className="space-y-8"> 
+      <div className="mb-8"> 
+        <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">Attendance Dashboard</h1>
         <p className="text-muted-foreground">
           Overview of your company's attendance records and insights.
         </p>
@@ -32,15 +32,15 @@ export default function AttendanceDashboardPage() {
             <CardDescription>Refine the attendance data shown below.</CardDescription>
         </CardHeader>
         <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
-                <div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
+                <div className="w-full">
                 <Label htmlFor="month-picker">Select Month</Label>
                 <DatePickerWithPresets id="month-picker" />
                 </div>
-                <div>
+                <div className="w-full">
                 <Label htmlFor="branch-filter">Branch</Label>
                 <Select defaultValue="all">
-                    <SelectTrigger id="branch-filter">
+                    <SelectTrigger id="branch-filter" className="w-full">
                     <SelectValue placeholder="Select Branch" />
                     </SelectTrigger>
                     <SelectContent>
@@ -50,10 +50,10 @@ export default function AttendanceDashboardPage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <div>
+                <div className="w-full">
                 <Label htmlFor="department-filter">Department</Label>
                 <Select defaultValue="all">
-                    <SelectTrigger id="department-filter">
+                    <SelectTrigger id="department-filter" className="w-full">
                     <SelectValue placeholder="Select Department" />
                     </SelectTrigger>
                     <SelectContent>
@@ -64,27 +64,27 @@ export default function AttendanceDashboardPage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <div className="flex items-center space-x-2 pt-5 xl:pt-0 self-end">
+                <div className="flex items-center space-x-2 pt-5 sm:pt-0 self-end w-full sm:w-auto">
                 <Checkbox id="show-inactive" />
                 <Label htmlFor="show-inactive" className="text-sm font-medium whitespace-nowrap">
                     Show Inactive Staff
                 </Label>
                 </div>
-                <Button variant="outline" className="xl:ml-auto">Apply Filters</Button>
+                <Button variant="outline" className="w-full xl:w-auto xl:ml-auto mt-2 xl:mt-0">Apply Filters</Button>
             </div>
         </CardContent>
       </Card>
 
       {/* Action Bar Section */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-4">
-        <div className="relative w-full sm:max-w-sm"> {/* Consistent width for search */}
+        <div className="relative w-full sm:max-w-xs md:max-w-sm">
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input type="search" placeholder="Search employees..." className="pl-8" />
+          <Input type="search" placeholder="Search employees..." className="pl-8 w-full" />
         </div>
-        <div className="flex gap-2 flex-wrap sm:flex-nowrap justify-start sm:justify-end">
+        <div className="flex flex-col sm:flex-row gap-2 sm:flex-nowrap justify-start sm:justify-end w-full sm:w-auto">
           <ManageEmployeesModal />
           <ManageLeavesModal />
-          <Button variant="outline">
+          <Button variant="outline" className="w-full sm:w-auto">
             <Download className="mr-2 h-4 w-4" />
             Download Report
           </Button>
@@ -92,13 +92,13 @@ export default function AttendanceDashboardPage() {
       </div>
 
       {/* Metrics Cards */}
-      <MetricsCards /> {/* This component itself handles the grid of cards */}
+      <MetricsCards /> 
 
       {/* Attendance Table */}
-      <AttendanceTable /> {/* This component is a Card */}
+      <AttendanceTable /> 
 
       {/* Attendance Chart */}
-      <AttendanceChart /> {/* This component is a Card */}
+      <AttendanceChart /> 
 
     </div>
   );

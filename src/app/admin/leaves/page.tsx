@@ -5,7 +5,7 @@ export default function ManageLeavesPage() {
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-headline font-bold tracking-tight">Manage Leaves</h1>
+        <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">Manage Leaves</h1>
         <p className="text-muted-foreground">
           Review and process employee leave requests.
         </p>
@@ -15,12 +15,12 @@ export default function ManageLeavesPage() {
           <CardTitle>Leave Requests</CardTitle>
           <CardDescription>Approve or reject pending leave applications using the modal below.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4 sm:p-6">
            <div className="flex justify-start mb-6">
             <ManageLeavesModal />
           </div>
-          <div className="p-6 border rounded-lg text-center bg-muted/50">
-            <p className="text-muted-foreground">
+          <div className="p-4 sm:p-6 border rounded-lg text-center bg-muted/50">
+            <p className="text-muted-foreground text-sm sm:text-base">
                 Click "Manage Leaves" to view and process leave requests. 
                 A full, filterable table of requests will be displayed here in a future update.
             </p>

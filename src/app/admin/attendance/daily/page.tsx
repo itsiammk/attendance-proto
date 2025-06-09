@@ -12,7 +12,7 @@ export default function DailyAttendancePage() {
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-headline font-bold tracking-tight">Daily Attendance</h1>
+        <h1 className="text-2xl sm:text-3xl font-headline font-bold tracking-tight">Daily Attendance</h1>
         <p className="text-muted-foreground">
           View and manage daily attendance records for your employees.
         </p>
@@ -25,15 +25,15 @@ export default function DailyAttendancePage() {
             <CardDescription>Refine the daily log by date, branch, department, or shift.</CardDescription>
         </CardHeader>
         <CardContent>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
-                <div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
+                <div className="w-full">
                 <Label htmlFor="date-picker">Select Date</Label>
                 <DatePickerWithPresets id="date-picker" />
                 </div>
-                <div>
+                <div className="w-full">
                 <Label htmlFor="branch-filter">Branch</Label>
                 <Select defaultValue="all">
-                    <SelectTrigger id="branch-filter">
+                    <SelectTrigger id="branch-filter" className="w-full">
                     <SelectValue placeholder="Select Branch" />
                     </SelectTrigger>
                     <SelectContent>
@@ -42,10 +42,10 @@ export default function DailyAttendancePage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <div>
+                <div className="w-full">
                 <Label htmlFor="department-filter">Department</Label>
                 <Select defaultValue="all">
-                    <SelectTrigger id="department-filter">
+                    <SelectTrigger id="department-filter" className="w-full">
                     <SelectValue placeholder="Select Department" />
                     </SelectTrigger>
                     <SelectContent>
@@ -55,10 +55,10 @@ export default function DailyAttendancePage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <div>
+                <div className="w-full">
                 <Label htmlFor="shift-filter">Shift</Label>
                 <Select defaultValue="all">
-                    <SelectTrigger id="shift-filter">
+                    <SelectTrigger id="shift-filter" className="w-full">
                     <SelectValue placeholder="Select Shift" />
                     </SelectTrigger>
                     <SelectContent>
@@ -68,7 +68,7 @@ export default function DailyAttendancePage() {
                     </SelectContent>
                 </Select>
                 </div>
-                <Button variant="outline" className="xl:ml-auto">Apply Filters</Button>
+                <Button variant="outline" className="w-full xl:w-auto xl:ml-auto mt-2 xl:mt-0">Apply Filters</Button>
             </div>
         </CardContent>
       </Card>
@@ -77,10 +77,10 @@ export default function DailyAttendancePage() {
       {/* Header Actions Section */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-4">
         <div className="relative w-full sm:max-w-xs">
-          <Input type="search" placeholder="Search staff..." className="pl-8" />
+          <Input type="search" placeholder="Search staff..." className="pl-8 w-full" />
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         </div>
-        <Button variant="outline">
+        <Button variant="outline" className="w-full sm:w-auto">
           <Download className="mr-2 h-4 w-4" />
           Download Report
         </Button>
@@ -88,7 +88,7 @@ export default function DailyAttendancePage() {
 
       {/* Summary Tabs & Table */}
       <Tabs defaultValue="present" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 md:w-auto md:inline-flex mb-4">
+        <TabsList className="grid w-full grid-cols-1 xs:grid-cols-3 md:w-auto md:inline-flex mb-4">
           <TabsTrigger value="present">Present (100)</TabsTrigger>
           <TabsTrigger value="absent">Absent (10)</TabsTrigger>
           <TabsTrigger value="half-day">Half-Day (5)</TabsTrigger>
