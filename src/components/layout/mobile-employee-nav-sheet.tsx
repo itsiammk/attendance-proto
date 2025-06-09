@@ -56,7 +56,7 @@ export function MobileEmployeeNavSheet({ isOpen, onOpenChange }: MobileEmployeeN
           <nav className="flex flex-col gap-1 p-4">
             {navItems.map((item) => (
               <SheetClose asChild key={item.href}>
-                <Link href={item.href} legacyBehavior passHref>
+                <Link href={item.href}>
                   <Button
                     variant={pathname === item.href || (item.href !== "/employee" && pathname.startsWith(item.href)) ? "secondary" : "ghost"}
                     className="w-full justify-start gap-2 text-base"

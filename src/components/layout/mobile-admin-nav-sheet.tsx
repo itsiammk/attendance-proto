@@ -57,7 +57,7 @@ export function MobileAdminNavSheet({ isOpen, onOpenChange }: MobileAdminNavShee
           <nav className="flex flex-col gap-1 p-4">
             {navItems.map((item) => (
               <SheetClose asChild key={item.href}>
-                <Link href={item.href} legacyBehavior passHref>
+                <Link href={item.href}>
                   <Button
                     variant={pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href)) ? "secondary" : "ghost"}
                     className="w-full justify-start gap-2 text-base"
