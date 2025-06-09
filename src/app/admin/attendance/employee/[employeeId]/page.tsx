@@ -240,22 +240,25 @@ export default function EmployeeAttendanceDetailPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          <div className="rounded-md border w-full"> {/* Ensures table container respects card width */}
+          <div className="rounded-md border w-full">
             <TooltipProvider>
               <Table>
                 <TableHeader>
                   <TableRow>
                     {historicalTableColumns.map(col => (
-                      <Tooltip key={col.key}>
-                        <TooltipTrigger asChild>
-                          <TableHead className={cn("whitespace-nowrap", col.key !== 'month' && "text-center")}>
-                            {col.label}
-                          </TableHead>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{col.fullLabel}</p>
-                        </TooltipContent>
-                      </Tooltip>
+                      <TableHead 
+                        key={col.key} 
+                        className={cn("whitespace-nowrap", col.key !== 'month' && "text-center")}
+                      >
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>{col.label}</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{col.fullLabel}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableHead>
                     ))}
                   </TableRow>
                 </TableHeader>
@@ -297,3 +300,4 @@ export default function EmployeeAttendanceDetailPage() {
     </div>
   );
 }
+
