@@ -30,7 +30,7 @@ export function AttendanceTable() {
   };
 
   return (
-    <Card className="mt-6 shadow-lg">
+    <Card className="shadow-lg"> {/* Ensured shadow-lg */}
       <CardHeader>
         <CardTitle>Monthly Attendance Summary</CardTitle>
         <CardDescription>Overview of employee attendance for the current month. Click a row for details.</CardDescription>

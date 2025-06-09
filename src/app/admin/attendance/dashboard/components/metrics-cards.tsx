@@ -11,9 +11,9 @@ const metrics = [
 
 export function MetricsCards() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-6">
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"> {/* Increased gap */}
       {metrics.map((metric) => (
-        <Card key={metric.title}>
+        <Card key={metric.title} className="shadow-lg"> {/* Added shadow-lg here */}
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">{metric.title}</CardTitle>
             <metric.icon className={`h-5 w-5 ${metric.color}`} />

@@ -17,8 +17,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 
 export default function AttendanceDashboardPage() {
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
+    <div className="space-y-8"> {/* Increased overall spacing */}
+      <div className="mb-8"> {/* Increased bottom margin */}
         <h1 className="text-3xl font-headline font-bold tracking-tight">Attendance Dashboard</h1>
         <p className="text-muted-foreground">
           Overview of your company's attendance records and insights.
@@ -75,14 +75,13 @@ export default function AttendanceDashboardPage() {
         </CardContent>
       </Card>
 
-
-      {/* Header Actions Section */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-4">
-        <div className="relative w-full sm:max-w-xs">
-          <Input type="search" placeholder="Search employees..." className="pl-8" />
+      {/* Action Bar Section */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-4">
+        <div className="relative w-full sm:max-w-sm"> {/* Consistent width for search */}
           <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input type="search" placeholder="Search employees..." className="pl-8" />
         </div>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap sm:flex-nowrap justify-start sm:justify-end">
           <ManageEmployeesModal />
           <ManageLeavesModal />
           <Button variant="outline">
@@ -93,13 +92,13 @@ export default function AttendanceDashboardPage() {
       </div>
 
       {/* Metrics Cards */}
-      <MetricsCards />
+      <MetricsCards /> {/* This component itself handles the grid of cards */}
 
       {/* Attendance Table */}
-      <AttendanceTable />
+      <AttendanceTable /> {/* This component is a Card */}
 
       {/* Attendance Chart */}
-      <AttendanceChart />
+      <AttendanceChart /> {/* This component is a Card */}
 
     </div>
   );
