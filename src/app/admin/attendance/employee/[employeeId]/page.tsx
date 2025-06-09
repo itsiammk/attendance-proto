@@ -3,7 +3,7 @@
 
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useParams, useRouter }_next_jsx_import_1 from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -11,11 +11,12 @@ import { ArrowLeft, Briefcase, CalendarCheck, CalendarDays, CalendarOff, CheckCi
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 // Extended placeholder data for all employees including monthly breakdown for July 2024
 const allEmployeesData = [
-  { 
-    id: "EMP001", name: "Alice Johnson", email: "alice.johnson@example.com", phone: "555-0101", department:"Engineering", jobTitle: "Software Engineer", 
+  {
+    id: "EMP001", name: "Alice Johnson", email: "alice.johnson@example.com", phone: "555-0101", department:"Engineering", jobTitle: "Software Engineer",
     present: 20, absent: 1, halfDay: 1, weekOff: 8, holiday: 1, avatar: "https://placehold.co/100x100.png?text=AJ",
     monthlyAttendance: { // July 2024
       present: [1, 2, 3, 5, 6, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 22, 23, 24, 26, 29].map(day => new Date(2024, 6, day)),
@@ -26,8 +27,8 @@ const allEmployeesData = [
       holiday: [11].map(day => new Date(2024, 6, day)),
     }
   },
-  { 
-    id: "EMP002", name: "Bob Williams", email: "bob.williams@example.com", phone: "555-0102", department:"Product", jobTitle: "Product Manager", 
+  {
+    id: "EMP002", name: "Bob Williams", email: "bob.williams@example.com", phone: "555-0102", department:"Product", jobTitle: "Product Manager",
     present: 22, absent: 0, halfDay: 0, weekOff: 8, holiday: 1, avatar: "https://placehold.co/100x100.png?text=BW",
     monthlyAttendance: { // July 2024
       present: [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 22, 23, 24, 25, 26, 29].map(day => new Date(2024, 6, day)),
@@ -38,8 +39,8 @@ const allEmployeesData = [
       holiday: [11].map(day => new Date(2024, 6, day)),
     }
   },
-  { 
-    id: "EMP003", name: "Carol Davis", email: "carol.davis@example.com", phone: "555-0103", department:"Design", jobTitle: "UX Designer", 
+  {
+    id: "EMP003", name: "Carol Davis", email: "carol.davis@example.com", phone: "555-0103", department:"Design", jobTitle: "UX Designer",
     present: 19, absent: 2, halfDay: 1, weekOff: 8, holiday: 1, avatar: "https://placehold.co/100x100.png?text=CD",
     monthlyAttendance: { // July 2024
       present: [1, 2, 3, 5, 6, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 22, 23, 24, 26].map(day => new Date(2024, 6, day)),
@@ -50,8 +51,8 @@ const allEmployeesData = [
       holiday: [11].map(day => new Date(2024, 6, day)),
     }
   },
-  { 
-    id: "EMP004", name: "David Brown", email: "david.brown@example.com", phone: "555-0104", department:"QA", jobTitle: "QA Tester", 
+  {
+    id: "EMP004", name: "David Brown", email: "david.brown@example.com", phone: "555-0104", department:"QA", jobTitle: "QA Tester",
     present: 21, absent: 0, halfDay: 1, weekOff: 8, holiday: 1, avatar: "https://placehold.co/100x100.png?text=DB",
     monthlyAttendance: { // July 2024
       present: [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 22, 23, 24, 25, 26].map(day => new Date(2024, 6, day)),
@@ -148,7 +149,7 @@ export default function EmployeeAttendanceDetailPage() {
     holiday: 'bg-blue-400 text-primary-foreground rounded-md hover:bg-blue-500',
     outside: "text-muted-foreground opacity-50", // For days outside the current month
   };
-  
+
   const summaryValues: { [key: string]: number } = {
     present: monthlyAttendance.present.length,
     absent: monthlyAttendance.absent.length,
@@ -177,7 +178,7 @@ export default function EmployeeAttendanceDetailPage() {
             <Link href="/admin/attendance/dashboard"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard</Link>
         </Button>
       </div>
-      
+
 
       <Card className="shadow-lg">
         <CardHeader className="flex flex-col sm:flex-row items-center gap-6">
@@ -229,11 +230,11 @@ export default function EmployeeAttendanceDetailPage() {
             onMonthChange={setDisplayMonth} // Allows navigation, but data is static for July
             modifiers={modifiers}
             modifiersClassNames={modifiersClassNames}
-            className="rounded-md border shadow-sm w-full max-w-2xl p-4" 
+            className="rounded-md border shadow-sm w-full max-w-2xl p-4"
             showOutsideDays
             fixedWeeks
             components={{
-                DayContent: ({ date, displayMonth }) => {
+                DayContent: ({ date, displayMonth: currentDisplayMonth }) => {
                     const dayOfMonth = date.getDate();
                     // Check if the day has any modifier
                     let dayHasModifier = false;
@@ -243,10 +244,10 @@ export default function EmployeeAttendanceDetailPage() {
                             break;
                         }
                     }
-                    
+
                     // Only add default styling if no other modifier applies to prevent text color issues
-                    const defaultDayClass = !dayHasModifier && date.getMonth() === displayMonth.getMonth() ? "text-foreground" : "";
-                    const outsideDayClass = date.getMonth() !== displayMonth.getMonth() ? modifiersClassNames.outside : "";
+                    const defaultDayClass = !dayHasModifier && date.getMonth() === currentDisplayMonth.getMonth() ? "text-foreground" : "";
+                    const outsideDayClass = date.getMonth() !== currentDisplayMonth.getMonth() ? modifiersClassNames.outside : "";
 
                     return (
                         <div className={cn(defaultDayClass, outsideDayClass, "relative w-full h-full flex items-center justify-center")}>
@@ -261,7 +262,7 @@ export default function EmployeeAttendanceDetailPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2 text-xs">
               {legendItems.map(item => (
                 <div key={item.label} className="flex items-center gap-2">
-                  <span className={`h-3.5 w-3.5 rounded-sm ${item.actualColorClass} border-2 border-muted-foreground/30`}></span> 
+                  <span className={`h-3.5 w-3.5 rounded-sm ${item.actualColorClass} border-2 border-muted-foreground/30`}></span>
                   <span>{item.label}</span>
                 </div>
               ))}
