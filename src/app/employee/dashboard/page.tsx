@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from 'next/image';
-import { Label } from "@/components/ui/label"; // Added import
+import { Label } from "@/components/ui/label";
 
 type AttendanceStatus = "Checked In" | "Checked Out" | "Not Checked In";
 type ActionType = "check-in" | "check-out";
@@ -233,7 +233,7 @@ export default function EmployeeDashboardPage() {
 
   const displayStatusText = employeeActionStatus;
   const displayTimeText = lastActionDisplayTime;
-  const displayLocationText = employeeActionStatus === "Checked In" ? "Main Office (GPS Mock)" : "N/A"; // This would be dynamic later
+  const displayLocationText = employeeActionStatus === "Checked In" ? "Main Office (Mock Address)" : "N/A"; // This would be dynamic later
 
   const upcomingLeave = null; // or { type: "Annual Leave", dates: "Jul 20 - Jul 25" }
 
@@ -246,13 +246,13 @@ export default function EmployeeDashboardPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <Card className="shadow-lg lg:col-span-1">
           <CardHeader className="p-4 sm:p-6">
             <CardTitle className="text-lg sm:text-xl font-headline">Today's Status</CardTitle>
             <CardDescription className="text-sm sm:text-base mt-1">Your current check-in information.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 p-4 sm:p-6">
+          <CardContent className="space-y-3 p-4 sm:p-6">
             <div className="flex items-center justify-between p-3 sm:p-4 bg-muted/60 rounded-lg">
               <div>
                 <p className="font-semibold text-base sm:text-lg">{displayStatusText}</p>
@@ -270,7 +270,7 @@ export default function EmployeeDashboardPage() {
                 <MapPin className="h-3.5 w-3.5"/> 
                 <span>{displayLocationText}</span>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-1">
               <Button
                 className="w-full text-sm sm:text-base py-2.5 h-10"
                 onClick={() => handleOpenCaptureModal("check-in")}
@@ -321,7 +321,7 @@ export default function EmployeeDashboardPage() {
             <CardTitle className="text-lg sm:text-xl font-headline">Quick Links</CardTitle>
             <CardDescription className="text-sm sm:text-base mt-1">Access common actions and information.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-2 sm:gap-3 pt-4 p-4 sm:p-6"> 
+          <CardContent className="flex flex-col gap-2 sm:gap-3 p-4 sm:p-6"> 
             <Button asChild variant="ghost" className="justify-start text-sm sm:text-base py-2.5 h-auto px-3">
                 <Link href="/employee/attendance" className="flex items-center w-full"><ListChecks className="mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary"/> View My Attendance</Link>
             </Button>
@@ -390,7 +390,7 @@ export default function EmployeeDashboardPage() {
               <div className="space-y-2">
                 <Label>Selfie Captured</Label>
                 <div className="w-full aspect-video bg-muted rounded-md overflow-hidden relative border">
-                  <Image src={capturedSelfie} alt="Captured selfie" layout="fill" objectFit="contain" />
+                  <Image src={capturedSelfie} alt="Captured selfie" layout="fill" objectFit="contain" data-ai-hint="employee selfie" />
                 </div>
                 {!capturedLocation && (
                    <Button 
@@ -418,6 +418,7 @@ export default function EmployeeDashboardPage() {
                 <p className="font-medium">Location Captured:</p>
                 <p className="text-xs">Latitude: {capturedLocation.latitude.toFixed(5)}</p>
                 <p className="text-xs">Longitude: {capturedLocation.longitude.toFixed(5)}</p>
+                <p className="text-xs">Address: Mock Address, 123 Main St (Geocoding needed)</p>
               </div>
             )}
           </div>
@@ -443,5 +444,3 @@ export default function EmployeeDashboardPage() {
     </div>
   );
 }
-
-    

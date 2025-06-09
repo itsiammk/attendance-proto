@@ -33,14 +33,18 @@ export async function recordCheckIn(data: PunchData) {
   console.log(`Server Action: Employee ${employee.name} (ID: ${employee.id}) checked IN at ${timestamp.toISOString()}`);
   console.log(`Selfie captured: ${data.selfieDataUri ? 'Yes' : 'No'}`);
   console.log(`Location: Lat ${data.location.latitude}, Lon ${data.location.longitude}`);
+  // In a real application, you would perform reverse geocoding here:
+  // const address = await reverseGeocode(data.location.latitude, data.location.longitude);
+  // console.log(`Address: ${address}`);
   
-  // In a real application, you would save this to a database:
+  // Then, save this to a database:
   // await db.collection('attendances').add({
   //   employeeId: employee.id,
   //   type: 'check-in',
   //   timestamp: timestamp,
   //   selfieDataUri: data.selfieDataUri,
   //   location: data.location,
+  //   address: address, // Store the resolved address
   // });
   return { success: true, message: `Checked in at ${timestamp.toLocaleTimeString()}`, timestamp: timestamp.toISOString() };
 }
@@ -56,16 +60,18 @@ export async function recordCheckOut(data: PunchData) {
   console.log(`Server Action: Employee ${employee.name} (ID: ${employee.id}) checked OUT at ${timestamp.toISOString()}`);
   console.log(`Selfie captured: ${data.selfieDataUri ? 'Yes' : 'No'}`);
   console.log(`Location: Lat ${data.location.latitude}, Lon ${data.location.longitude}`);
+  // In a real application, you would perform reverse geocoding here:
+  // const address = await reverseGeocode(data.location.latitude, data.location.longitude);
+  // console.log(`Address: ${address}`);
 
-  // In a real application, you would save this to a database:
+  // Then, save this to a database:
   // await db.collection('attendances').add({
   //   employeeId: employee.id,
   //   type: 'check-out',
   //   timestamp: timestamp,
   //   selfieDataUri: data.selfieDataUri,
   //   location: data.location,
+  //   address: address, // Store the resolved address
   // });
   return { success: true, message: `Checked out at ${timestamp.toLocaleTimeString()}`, timestamp: timestamp.toISOString() };
 }
-
-    
