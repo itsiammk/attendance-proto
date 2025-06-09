@@ -1,4 +1,3 @@
-
 "use client"
 
 import {
@@ -17,7 +16,6 @@ import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, XCircle, MessageSquare, CalendarClock } from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 // Placeholder data
 const leaveRequests = [
@@ -47,7 +45,7 @@ export function ManageLeavesModal() {
       <DialogTrigger asChild>
         <Button className="h-10"><CalendarClock className="mr-2 h-4 w-4"/> Manage Leaves</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] md:max-w-[750px] lg:max-w-[900px] max-h-[90vh] flex flex-col p-0">
+      <DialogContent className="sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] max-h-[90vh] flex flex-col p-0">
         <DialogHeader className="p-6 pb-4 border-b">
           <DialogTitle className="text-xl sm:text-2xl">Manage Leave Requests</DialogTitle>
           <DialogDescription className="text-sm sm:text-base mt-1">
@@ -55,46 +53,45 @@ export function ManageLeavesModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
-          {/* The Table component itself handles horizontal scroll via its internal div with "overflow-auto" */}
-          <div className="rounded-md border"> 
-            <ScrollArea className="h-[250px] sm:h-[300px] w-full"> 
-                <Table>
+          <div className="rounded-md border overflow-x-auto">
+            <div className="min-w-[700px] sm:min-w-[750px] lg:min-w-[800px]">
+              <Table>
                 <TableHeader>
-                    <TableRow>
-                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[150px]">Employee</TableHead>
-                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px]">Dates</TableHead>
-                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[200px]">Reason</TableHead>
-                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[100px]">Status</TableHead>
-                    <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[120px]">Actions</TableHead>
-                    </TableRow>
+                  <TableRow>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[150px] sticky top-0 bg-background z-10">Employee</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px] sticky top-0 bg-background z-10">Dates</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[200px] sticky top-0 bg-background z-10">Reason</TableHead>
+                    <TableHead className="py-2.5 px-3 sm:px-4 min-w-[100px] sticky top-0 bg-background z-10">Status</TableHead>
+                    <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[120px] sticky top-0 bg-background z-10">Actions</TableHead>
+                  </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {leaveRequests.map((request) => (
+                  {leaveRequests.map((request) => (
                     <TableRow key={request.id}>
-                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm font-medium whitespace-nowrap">{request.employeeName || (request as any).name}</TableCell>
-                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{request.startDate} to {request.endDate}</TableCell>
-                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm max-w-[150px] sm:max-w-[200px] truncate">{request.reason}</TableCell>
-                        <TableCell className="py-2 px-3 sm:px-4">{getStatusBadge(request.status)}</TableCell>
-                        <TableCell className="text-right py-2 px-3 sm:px-4">
+                      <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm font-medium whitespace-nowrap">{request.employeeName || (request as any).name}</TableCell>
+                      <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{request.startDate} to {request.endDate}</TableCell>
+                      <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm max-w-[150px] sm:max-w-[200px] truncate">{request.reason}</TableCell>
+                      <TableCell className="py-2 px-3 sm:px-4">{getStatusBadge(request.status)}</TableCell>
+                      <TableCell className="text-right py-2 px-3 sm:px-4">
                         {request.status === "Pending" && (
-                            <>
+                          <>
                             <Button variant="ghost" size="icon" className="mr-1 text-green-600 hover:text-green-700 h-7 w-7 sm:h-8 sm:w-8">
-                                <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                              <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                             </Button>
                             <Button variant="ghost" size="icon" className="mr-1 text-red-600 hover:text-red-700 h-7 w-7 sm:h-8 sm:w-8">
-                                <XCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                              <XCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                             </Button>
-                            </>
+                          </>
                         )}
                         <Button variant="ghost" size="icon" className="h-7 w-7 sm:h-8 sm:w-8">
-                            <MessageSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                          <MessageSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         </Button>
-                        </TableCell>
+                      </TableCell>
                     </TableRow>
-                    ))}
+                  ))}
                 </TableBody>
-                </Table>
-            </ScrollArea>
+              </Table>
+            </div>
           </div>
           
           <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30 mt-4">
@@ -112,9 +109,9 @@ export function ManageLeavesModal() {
           </div>
         </div>
         <DialogFooter className="mt-auto p-6 pt-4 border-t">
-           <DialogClose asChild>
+          <DialogClose asChild>
             <Button variant="outline" className="h-9">Close</Button>
-           </DialogClose>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

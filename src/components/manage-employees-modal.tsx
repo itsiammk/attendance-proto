@@ -1,4 +1,3 @@
-
 "use client"
 
 import {
@@ -17,7 +16,6 @@ import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { PenLine, Trash2, PlusCircle, Users } from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 // Placeholder data
 const employees = [
@@ -43,76 +41,76 @@ export function ManageEmployeesModal() {
         </DialogHeader>
         
         <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
-            <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30">
-                <h3 className="text-lg font-semibold">Add New Employee</h3>
-                <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="w-full space-y-1.5">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Employee Name" className="h-9"/>
-                </div>
-                <div className="w-full space-y-1.5">
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" type="tel" placeholder="Phone Number" className="h-9"/>
-                </div>
-                <div className="w-full space-y-1.5">
-                    <Label htmlFor="role">Role</Label>
-                    <Input id="role" placeholder="Job Title / Role" className="h-9"/>
-                </div>
-                <div className="w-full space-y-1.5">
-                    <Label htmlFor="pin">PIN</Label>
-                    <Input id="pin" type="password" placeholder="4-digit PIN" className="h-9"/>
-                </div>
-                <div className="sm:col-span-2 flex justify-end pt-2">
-                    <Button type="submit" className="w-full sm:w-auto h-9">
-                    <PlusCircle className="mr-2 h-4 w-4" /> Add Employee
-                    </Button>
-                </div>
-                </form>
+          <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30">
+            <h3 className="text-lg font-semibold">Add New Employee</h3>
+            <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="w-full space-y-1.5">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" placeholder="Employee Name" className="h-9"/>
+              </div>
+              <div className="w-full space-y-1.5">
+                <Label htmlFor="phone">Phone</Label>
+                <Input id="phone" type="tel" placeholder="Phone Number" className="h-9"/>
+              </div>
+              <div className="w-full space-y-1.5">
+                <Label htmlFor="role">Role</Label>
+                <Input id="role" placeholder="Job Title / Role" className="h-9"/>
+              </div>
+              <div className="w-full space-y-1.5">
+                <Label htmlFor="pin">PIN</Label>
+                <Input id="pin" type="password" placeholder="4-digit PIN" className="h-9"/>
+              </div>
+              <div className="sm:col-span-2 flex justify-end pt-2">
+                <Button type="submit" className="w-full sm:w-auto h-9">
+                  <PlusCircle className="mr-2 h-4 w-4" /> Add Employee
+                </Button>
+              </div>
+            </form>
+          </div>
+          
+          <div className="pt-2">
+            <h3 className="text-lg font-semibold mb-3">Current Employees</h3>
+            {/* Simplified approach: Use a div with overflow-x-auto for horizontal scrolling */}
+            <div className="rounded-md border overflow-x-auto">
+              <div className="min-w-[700px] sm:min-w-[750px] lg:min-w-[800px]">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px] sticky top-0 bg-background z-10">Name</TableHead>
+                      <TableHead className="py-2.5 px-3 sm:px-4 min-w-[120px] sticky top-0 bg-background z-10">Role</TableHead>
+                      <TableHead className="py-2.5 px-3 sm:px-4 min-w-[130px] sticky top-0 bg-background z-10">Phone</TableHead>
+                      <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[100px] sticky top-0 bg-background z-10">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {employees.map((employee) => (
+                      <TableRow key={employee.id}>
+                        <TableCell className="py-2 px-3 sm:px-4">
+                          <div className="flex items-center gap-2 sm:gap-3">
+                            <Avatar className="h-8 w-8 sm:h-9 sm:w-9 shrink-0">
+                              <AvatarImage src={employee.avatar} alt={employee.name} data-ai-hint="employee avatar" />
+                              <AvatarFallback>{employee.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+                            </Avatar>
+                            <span className="text-xs sm:text-sm font-medium whitespace-nowrap">{employee.name}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.role}</TableCell>
+                        <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.phone}</TableCell>
+                        <TableCell className="text-right py-2 px-3 sm:px-4">
+                          <Button variant="ghost" size="icon" className="mr-1 h-7 w-7 sm:h-8 sm:w-8">
+                            <PenLine className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                          </Button>
+                          <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive h-7 w-7 sm:h-8 sm:w-8">
+                            <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
-            
-            <div className="pt-2">
-                <h3 className="text-lg font-semibold mb-3">Current Employees</h3>
-                {/* The Table component itself handles horizontal scroll via its internal div with "overflow-auto" */}
-                <div className="rounded-md border"> 
-                    <ScrollArea className="h-[250px] sm:h-[300px] w-full">
-                        <Table>
-                        <TableHeader>
-                            <TableRow>
-                            <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px]">Name</TableHead>
-                            <TableHead className="py-2.5 px-3 sm:px-4 min-w-[120px]">Role</TableHead>
-                            <TableHead className="py-2.5 px-3 sm:px-4 min-w-[130px]">Phone</TableHead>
-                            <TableHead className="text-right py-2.5 px-3 sm:px-4 min-w-[100px]">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {employees.map((employee) => (
-                            <TableRow key={employee.id}>
-                                <TableCell className="py-2 px-3 sm:px-4">
-                                <div className="flex items-center gap-2 sm:gap-3">
-                                    <Avatar className="h-8 w-8 sm:h-9 sm:w-9 shrink-0">
-                                    <AvatarImage src={employee.avatar} alt={employee.name} data-ai-hint="employee avatar" />
-                                    <AvatarFallback>{employee.name.split(" ").map(n=>n[0]).join("")}</AvatarFallback>
-                                    </Avatar>
-                                    <span className="text-xs sm:text-sm font-medium whitespace-nowrap">{employee.name}</span>
-                                </div>
-                                </TableCell>
-                                <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.role}</TableCell>
-                                <TableCell className="py-2 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">{employee.phone}</TableCell>
-                                <TableCell className="text-right py-2 px-3 sm:px-4">
-                                <Button variant="ghost" size="icon" className="mr-1 h-7 w-7 sm:h-8 sm:w-8">
-                                    <PenLine className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                                </Button>
-                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive h-7 w-7 sm:h-8 sm:w-8">
-                                    <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                                </Button>
-                                </TableCell>
-                            </TableRow>
-                            ))}
-                        </TableBody>
-                        </Table>
-                    </ScrollArea>
-                </div>
-            </div>
+          </div>
         </div>
 
         <DialogFooter className="mt-auto p-6 pt-4 border-t">
