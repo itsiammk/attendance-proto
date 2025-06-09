@@ -1,4 +1,3 @@
-
 "use client"
 
 import {
@@ -55,7 +54,7 @@ export function ManageLeavesModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
-          <div className="rounded-md border overflow-x-auto">
+          <div className="rounded-md border overflow-x-auto"> {/* Added overflow-x-auto here */}
             <ScrollArea className="h-[250px] sm:h-[300px] w-full">
                 <Table>
                 <TableHeader>

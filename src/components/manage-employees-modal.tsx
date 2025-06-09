@@ -72,7 +72,7 @@ export function ManageEmployeesModal() {
             
             <div className="pt-2">
                 <h3 className="text-lg font-semibold mb-3">Current Employees</h3>
-                <div className="rounded-md border overflow-x-auto">
+                <div className="rounded-md border overflow-x-auto"> {/* Added overflow-x-auto here */}
                     <ScrollArea className="h-[250px] sm:h-[300px] w-full">
                         <Table>
                         <TableHeader>
