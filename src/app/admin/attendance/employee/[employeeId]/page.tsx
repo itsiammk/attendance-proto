@@ -183,7 +183,7 @@ export default function EmployeeAttendanceDetailPage() {
       <Card className="shadow-lg">
         <CardHeader className="flex flex-col sm:flex-row items-center gap-6">
             <Avatar className="h-24 w-24 border-2 border-primary/50">
-              <AvatarImage src={avatar} alt={name} data-ai-hint="employee avatar" />
+              <AvatarImage src={avatar} alt={name} data-ai-hint="employee avatar"/>
               <AvatarFallback className="text-3xl">{employeeInitials}</AvatarFallback>
             </Avatar>
             <div className="text-center sm:text-left">
@@ -223,14 +223,14 @@ export default function EmployeeAttendanceDetailPage() {
             Visual log of {name}'s attendance. Days are color-coded as per the legend below.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col items-center">
+        <CardContent className="flex flex-col items-center p-4 sm:p-6">
           <Calendar
             mode="single"
             month={displayMonth}
             onMonthChange={setDisplayMonth} // Allows navigation, but data is static for July
             modifiers={modifiers}
             modifiersClassNames={modifiersClassNames}
-            className="rounded-md border shadow-sm w-full p-4"
+            className="rounded-md border shadow-sm w-full"
             showOutsideDays
             fixedWeeks
             components={{
@@ -259,10 +259,10 @@ export default function EmployeeAttendanceDetailPage() {
           />
           <div className="mt-6 w-full p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-semibold mb-3 text-center">Legend</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2 text-sm">
               {legendItems.map(item => (
                 <div key={item.label} className="flex items-center gap-2">
-                  <span className={`h-4 w-4 rounded-sm ${item.actualColorClass} border-2 border-muted-foreground/30`}></span>
+                  <span className={`h-4 w-4 rounded-full ${item.actualColorClass} border-2 border-muted-foreground/30`}></span>
                   <span>{item.label}</span>
                 </div>
               ))}
