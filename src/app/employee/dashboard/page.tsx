@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from 'next/image';
+import { Label } from "@/components/ui/label"; // Added import
 
 type AttendanceStatus = "Checked In" | "Checked Out" | "Not Checked In";
 type ActionType = "check-in" | "check-out";
