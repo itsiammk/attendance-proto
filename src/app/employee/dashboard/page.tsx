@@ -20,6 +20,8 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from 'next/image';
 import { Label } from "@/components/ui/label";
+import { getAddressFromCoordinates } from "@/lib/locationService";
+
 
 type AttendanceStatus = "Checked In" | "Checked Out" | "Not Checked In";
 type ActionType = "check-in" | "check-out";
@@ -42,10 +44,12 @@ export default function EmployeeDashboardPage() {
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [capturedSelfie, setCapturedSelfie] = useState<string | null>(null);
   const [capturedLocation, setCapturedLocation] = useState<CapturedLocation | null>(null);
+  const [capturedAddress, setCapturedAddress] = useState<string | null>(null);
+  const [isGeocoding, setIsGeocoding] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
-  const [isCapturing, setIsCapturing] = useState(false); // For selfie capture spinner
-  const [isLocating, setIsLocating] = useState(false); // For location spinner
+  const [isCapturing, setIsCapturing] = useState(false); 
+  const [isLocating, setIsLocating] = useState(false); 
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -81,6 +85,8 @@ export default function EmployeeDashboardPage() {
   const resetCaptureState = () => {
     setCapturedSelfie(null);
     setCapturedLocation(null);
+    setCapturedAddress(null);
+    setIsGeocoding(false);
     setHasCameraPermission(null);
     setCameraError(null);
     setLocationError(null);
@@ -94,8 +100,8 @@ export default function EmployeeDashboardPage() {
   };
 
   const requestCameraPermission = async () => {
-    resetCaptureState(); // Ensure clean state before requesting
-    setHasCameraPermission(null); // Indicate loading state for permission
+    // resetCaptureState(); // Already called in handleOpenCaptureModal or if retrying for camera specifically
+    setHasCameraPermission(null); 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
       streamRef.current = stream;
@@ -117,10 +123,10 @@ export default function EmployeeDashboardPage() {
   };
 
   useEffect(() => {
-    if (showCaptureModal && !capturedSelfie && hasCameraPermission === null) {
+    if (showCaptureModal && !capturedSelfie && hasCameraPermission === null && !cameraError) {
       requestCameraPermission();
     }
-    // Cleanup camera stream when modal is closed or selfie is taken
+    
     return () => {
       if (streamRef.current && (!showCaptureModal || capturedSelfie)) {
         streamRef.current.getTracks().forEach(track => track.stop());
@@ -130,13 +136,14 @@ export default function EmployeeDashboardPage() {
          }
       }
     };
-  }, [showCaptureModal, capturedSelfie, hasCameraPermission]);
+  }, [showCaptureModal, capturedSelfie, hasCameraPermission, cameraError]);
 
 
   const handleOpenCaptureModal = (actionType: ActionType) => {
     setCurrentActionType(actionType);
     resetCaptureState();
     setShowCaptureModal(true);
+    // requestCameraPermission will be called by useEffect if needed
   };
   
   const handleCaptureSelfie = () => {
@@ -151,7 +158,7 @@ export default function EmployeeDashboardPage() {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const dataUri = canvas.toDataURL('image/jpeg');
         setCapturedSelfie(dataUri);
-        // Stop camera stream after capture
+        
         if (streamRef.current) {
           streamRef.current.getTracks().forEach(track => track.stop());
           streamRef.current = null;
@@ -159,7 +166,7 @@ export default function EmployeeDashboardPage() {
          if (videoRef.current) {
             videoRef.current.srcObject = null;
          }
-         setHasCameraPermission(null); // So it doesn't show video feed anymore
+         setHasCameraPermission(null); 
       }
       setIsCapturing(false);
     } else {
@@ -167,23 +174,31 @@ export default function EmployeeDashboardPage() {
     }
   };
 
-  const handleGetLocation = () => {
+  const handleGetLocationAndAddress = () => {
     setIsLocating(true);
     setLocationError(null);
+    setCapturedAddress(null); // Reset address
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setCapturedLocation({
+        async (position) => {
+          const loc = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-          });
-          setIsLocating(false);
+          };
+          setCapturedLocation(loc);
+          setIsLocating(false); // Location found, now geocode
+
+          setIsGeocoding(true);
+          const address = await getAddressFromCoordinates(loc.latitude, loc.longitude);
+          setCapturedAddress(address);
+          setIsGeocoding(false);
         },
         (error) => {
           console.error('Error getting location:', error);
           setLocationError('Could not get location. Please ensure location services are enabled and permissions are granted.');
           toast({ variant: "destructive", title: "Location Error", description: "Could not retrieve location." });
           setIsLocating(false);
+          setIsGeocoding(false);
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
@@ -191,6 +206,7 @@ export default function EmployeeDashboardPage() {
       setLocationError('Geolocation is not supported by this browser.');
       toast({ variant: "destructive", title: "Location Error", description: "Geolocation not supported." });
       setIsLocating(false);
+      setIsGeocoding(false);
     }
   };
   
@@ -204,6 +220,7 @@ export default function EmployeeDashboardPage() {
     const actionData = {
       selfieDataUri: capturedSelfie,
       location: capturedLocation,
+      address: capturedAddress || "Address not available", // Send address or fallback
     };
 
     try {
@@ -233,9 +250,9 @@ export default function EmployeeDashboardPage() {
 
   const displayStatusText = employeeActionStatus;
   const displayTimeText = lastActionDisplayTime;
-  const displayLocationText = employeeActionStatus === "Checked In" ? "Main Office (Mock Address)" : "N/A"; // This would be dynamic later
+  const displayLocationText = employeeActionStatus === "Checked In" ? (capturedAddress || "Location captured") : "N/A"; 
 
-  const upcomingLeave = null; // or { type: "Annual Leave", dates: "Jul 20 - Jul 25" }
+  const upcomingLeave = null; 
 
   return (
     <div className="space-y-6 sm:space-y-8"> 
@@ -301,8 +318,8 @@ export default function EmployeeDashboardPage() {
           <CardContent className="flex flex-col h-[calc(100%-98px)] justify-between p-4 sm:p-6"> 
             {upcomingLeave ? (
               <div className="p-3 sm:p-4 bg-muted/60 rounded-lg">
-                <p className="font-semibold text-sm sm:text-base">{upcomingLeave.type}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">{upcomingLeave.dates}</p>
+                <p className="font-semibold text-sm sm:text-base">{(upcomingLeave as any).type}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{(upcomingLeave as any).dates}</p>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center text-center grow py-4">
@@ -338,13 +355,11 @@ export default function EmployeeDashboardPage() {
         </Card>
       </div>
       
-      {/* Hidden canvas for selfie capture */}
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
 
-      {/* Capture Modal */}
       <Dialog open={showCaptureModal} onOpenChange={(isOpen) => {
           if (!isOpen) {
-              resetCaptureState(); // Clean up when dialog is closed
+              resetCaptureState(); 
           }
           setShowCaptureModal(isOpen);
       }}>
@@ -359,7 +374,6 @@ export default function EmployeeDashboardPage() {
           </DialogHeader>
 
           <div className="space-y-4 py-4">
-            {/* Camera View / Selfie Display */}
             {!capturedSelfie && (
               <div className="space-y-2">
                 <Label>Camera Preview</Label>
@@ -385,7 +399,6 @@ export default function EmployeeDashboardPage() {
               </div>
             )}
 
-            {/* Selfie Preview */}
             {capturedSelfie && (
               <div className="space-y-2">
                 <Label>Selfie Captured</Label>
@@ -394,31 +407,31 @@ export default function EmployeeDashboardPage() {
                 </div>
                 {!capturedLocation && (
                    <Button 
-                    onClick={handleGetLocation} 
+                    onClick={handleGetLocationAndAddress} 
                     disabled={isLocating} 
                     className="w-full h-10 mt-2"
                   >
-                    {isLocating ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : <MapPin className="mr-2 h-5 w-5" />}
-                    Get Location
+                    {isLocating || isGeocoding ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : <MapPin className="mr-2 h-5 w-5" />}
+                    {isLocating ? "Getting Location..." : (isGeocoding ? "Fetching Address..." : "Get Location & Address")}
                   </Button>
                 )}
                 {locationError && (
                   <Alert variant="destructive" className="mt-2">
                     <MapPin className="h-4 w-4" />
                     <AlertTitle>Location Error</AlertTitle>
-                    <AlertDescription>{locationError} <Button variant="link" size="sm" className="p-0 h-auto" onClick={handleGetLocation}><RefreshCw className="mr-1 h-3 w-3" />Retry</Button></AlertDescription>
+                    <AlertDescription>{locationError} <Button variant="link" size="sm" className="p-0 h-auto" onClick={handleGetLocationAndAddress}><RefreshCw className="mr-1 h-3 w-3" />Retry</Button></AlertDescription>
                   </Alert>
                 )}
               </div>
             )}
             
-            {/* Location Display */}
             {capturedSelfie && capturedLocation && (
               <div className="space-y-1 text-sm p-3 bg-muted/50 rounded-md">
-                <p className="font-medium">Location Captured:</p>
-                <p className="text-xs">Latitude: {capturedLocation.latitude.toFixed(5)}</p>
-                <p className="text-xs">Longitude: {capturedLocation.longitude.toFixed(5)}</p>
-                <p className="text-xs">Address: Mock Address, 123 Main St (Geocoding needed)</p>
+                <p className="font-medium">Location Details:</p>
+                <p className="text-xs">Lat: {capturedLocation.latitude.toFixed(5)}, Lon: {capturedLocation.longitude.toFixed(5)}</p>
+                {isGeocoding && <p className="text-xs">Address: Fetching address... <Loader2 className="inline-block ml-1 h-3 w-3 animate-spin" /></p>}
+                {!isGeocoding && capturedAddress && <p className="text-xs">Address: {capturedAddress}</p>}
+                {!isGeocoding && !capturedAddress && locationError && <p className="text-xs text-destructive">Address: Could not fetch.</p>}
               </div>
             )}
           </div>
@@ -432,7 +445,7 @@ export default function EmployeeDashboardPage() {
             <Button 
               type="button" 
               onClick={handleConfirmPunch} 
-              disabled={!capturedSelfie || !capturedLocation || isSubmitting}
+              disabled={!capturedSelfie || !capturedLocation || isSubmitting || isGeocoding}
               className="w-full sm:w-auto h-10"
             >
               {isSubmitting ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : (currentActionType === "check-in" ? <CheckCircle className="mr-2 h-5 w-5" /> : <XCircle className="mr-2 h-5 w-5" />)}
