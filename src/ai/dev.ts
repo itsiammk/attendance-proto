@@ -1,4 +1,4 @@
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/attendance-insights.ts';
+// Removed import for: '@/ai/flows/attendance-insights.ts';

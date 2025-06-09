@@ -1,15 +1,16 @@
+
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets" 
+import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets"
 import { ManageEmployeesModal } from "@/components/manage-employees-modal"
 import { ManageLeavesModal } from "@/components/manage-leaves-modal"
 import { MetricsCards } from "./components/metrics-cards"
 import { AttendanceTable } from "./components/attendance-table"
 import { AttendanceChart } from "./components/attendance-chart"
-import { AttendanceInsightsCard } from "@/components/attendance-insights-card"
+
 import { Download, Search } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
@@ -73,7 +74,7 @@ export default function AttendanceDashboardPage() {
             </div>
         </CardContent>
       </Card>
-      
+
 
       {/* Header Actions Section */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-4">
@@ -93,9 +94,6 @@ export default function AttendanceDashboardPage() {
 
       {/* Metrics Cards */}
       <MetricsCards />
-      
-      {/* AI Insights Card */}
-      <AttendanceInsightsCard />
 
       {/* Attendance Table */}
       <AttendanceTable />
