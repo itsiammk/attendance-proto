@@ -230,7 +230,7 @@ export default function EmployeeAttendanceDetailPage() {
             onMonthChange={setDisplayMonth} // Allows navigation, but data is static for July
             modifiers={modifiers}
             modifiersClassNames={modifiersClassNames}
-            className="rounded-md border shadow-sm w-full max-w-2xl p-4"
+            className="rounded-md border shadow-sm w-full p-4"
             showOutsideDays
             fixedWeeks
             components={{
@@ -257,12 +257,12 @@ export default function EmployeeAttendanceDetailPage() {
                 }
             }}
           />
-          <div className="mt-6 w-full max-w-2xl p-4 border rounded-lg bg-muted/30">
+          <div className="mt-6 w-full p-4 border rounded-lg bg-muted/30">
             <h4 className="text-sm font-semibold mb-3 text-center">Legend</h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2 text-xs">
               {legendItems.map(item => (
                 <div key={item.label} className="flex items-center gap-2">
-                  <span className={`h-3.5 w-3.5 rounded-sm ${item.actualColorClass} border-2 border-muted-foreground/30`}></span>
+                  <span className={`h-4 w-4 rounded-sm ${item.actualColorClass} border-2 border-muted-foreground/30`}></span>
                   <span>{item.label}</span>
                 </div>
               ))}
