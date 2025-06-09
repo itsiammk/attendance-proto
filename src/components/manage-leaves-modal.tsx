@@ -54,10 +54,10 @@ export function ManageLeavesModal() {
             Approve or reject employee leave requests.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto"> {/* This handles vertical scroll for the modal content */}
-          {/* This div handles horizontal scrolling for the table */}
-          <div className="rounded-md border overflow-x-auto"> 
-            <ScrollArea className="h-[250px] sm:h-[300px] w-full"> {/* ScrollArea handles vertical scrolling */}
+        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
+          {/* The Table component itself handles horizontal scroll via its internal div with "overflow-auto" */}
+          <div className="rounded-md border"> 
+            <ScrollArea className="h-[250px] sm:h-[300px] w-full"> 
                 <Table>
                 <TableHeader>
                     <TableRow>
