@@ -162,7 +162,7 @@ export default function EmployeeAttendanceDetailPage() {
 
   const legendItems = attendanceTypeDetails.map(item => ({
     label: item.label,
-    colorClass: item.colorClass.replace("bg-", "border-2 ").concat(" bg-opacity-30"), // Use border and lighter bg for legend
+    colorClass: item.colorClass.replace("bg-", "border-2 ").concat(" bg-opacity-30"), 
     actualColorClass: item.colorClass
   }));
 
@@ -223,11 +223,11 @@ export default function EmployeeAttendanceDetailPage() {
             Visual log of {name}'s attendance. Days are color-coded as per the legend below.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col items-center p-4 sm:p-6">
+        <CardContent className="flex flex-col items-stretch p-4 sm:p-6">
           <Calendar
             mode="single"
             month={displayMonth}
-            onMonthChange={setDisplayMonth} // Allows navigation, but data is static for July
+            onMonthChange={setDisplayMonth} 
             modifiers={modifiers}
             modifiersClassNames={modifiersClassNames}
             className="rounded-md border shadow-sm w-full"
@@ -236,7 +236,6 @@ export default function EmployeeAttendanceDetailPage() {
             components={{
                 DayContent: ({ date, displayMonth: currentDisplayMonth }) => {
                     const dayOfMonth = date.getDate();
-                    // Check if the day has any modifier
                     let dayHasModifier = false;
                     for (const key in modifiers) {
                         if (modifiers[key as keyof typeof modifiers].some(d => d.getDate() === date.getDate() && d.getMonth() === date.getMonth() && d.getFullYear() === date.getFullYear())) {
@@ -245,7 +244,6 @@ export default function EmployeeAttendanceDetailPage() {
                         }
                     }
 
-                    // Only add default styling if no other modifier applies to prevent text color issues
                     const defaultDayClass = !dayHasModifier && date.getMonth() === currentDisplayMonth.getMonth() ? "text-foreground" : "";
                     const outsideDayClass = date.getMonth() !== currentDisplayMonth.getMonth() ? modifiersClassNames.outside : "";
 
@@ -263,7 +261,7 @@ export default function EmployeeAttendanceDetailPage() {
               {legendItems.map(item => (
                 <div key={item.label} className="flex items-center gap-2">
                   <span className={`h-4 w-4 rounded-full ${item.actualColorClass} border-2 border-muted-foreground/30`}></span>
-                  <span>{item.label}</span>
+                  <span className="text-sm">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -273,3 +271,4 @@ export default function EmployeeAttendanceDetailPage() {
     </div>
   );
 }
+
