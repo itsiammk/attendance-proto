@@ -25,7 +25,7 @@ export default function AttendanceDashboardPage() {
       </div>
 
       {/* Filters Section */}
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader>
             <CardTitle>Filters</CardTitle>
             <CardDescription>Refine the attendance data shown below.</CardDescription>

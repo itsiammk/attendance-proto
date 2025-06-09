@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -66,11 +67,11 @@ export function AttendanceInsightsCard() {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full shadow-lg">
       <CardHeader>
         <div className="flex items-center gap-2">
           <Lightbulb className="h-6 w-6 text-primary" />
-          <CardTitle className="font-headline">AI Attendance Insights</CardTitle>
+          <CardTitle>AI Attendance Insights</CardTitle>
         </div>
         <CardDescription>
           Get AI-powered analysis of attendance data to identify trends and potential issues.

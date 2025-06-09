@@ -19,7 +19,7 @@ export default function DailyAttendancePage() {
       </div>
 
       {/* Filters Section */}
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader>
             <CardTitle>Filters</CardTitle>
             <CardDescription>Refine the daily log by date, branch, department, or shift.</CardDescription>
@@ -97,14 +97,14 @@ export default function DailyAttendancePage() {
           <DailyAttendanceTable />
         </TabsContent>
         <TabsContent value="absent">
-          <Card>
+          <Card className="shadow-lg">
             <CardContent className="p-6 text-center text-muted-foreground">
                 No absent staff for the selected criteria.
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="half-day">
-           <Card>
+           <Card className="shadow-lg">
             <CardContent className="p-6 text-center text-muted-foreground">
                 No staff on half-day for the selected criteria.
             </CardContent>

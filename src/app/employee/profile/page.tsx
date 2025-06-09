@@ -35,7 +35,7 @@ export default function EmployeeProfilePage() {
               <AvatarFallback className="text-3xl">{employeeInitials}</AvatarFallback>
             </Avatar>
             <div className="text-center sm:text-left">
-              <CardTitle className="text-2xl font-headline">{employee.name}</CardTitle>
+              <CardTitle className="text-2xl">{employee.name}</CardTitle>
               <CardDescription className="text-base">{employee.jobTitle} - {employee.department}</CardDescription>
             </div>
           </div>

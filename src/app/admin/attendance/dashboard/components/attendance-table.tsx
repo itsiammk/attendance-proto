@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Placeholder data
 const attendanceData = [
@@ -19,9 +20,9 @@ const attendanceData = [
 
 export function AttendanceTable() {
   return (
-    <Card className="mt-6">
+    <Card className="mt-6 shadow-lg">
       <CardHeader>
-        <CardTitle className="font-headline">Monthly Attendance Summary</CardTitle>
+        <CardTitle>Monthly Attendance Summary</CardTitle>
         <CardDescription>Overview of employee attendance for the current month.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -79,6 +80,3 @@ export function AttendanceTable() {
     </Card>
   );
 }
-
-// Need to add Card components if not already present
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

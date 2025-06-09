@@ -107,7 +107,7 @@ export default function EmployeeDashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl font-headline">Today's Status</CardTitle>
+            <CardTitle className="text-xl">Today's Status</CardTitle>
             <CardDescription>Your current check-in information.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -150,7 +150,7 @@ export default function EmployeeDashboardPage() {
 
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle  className="text-xl font-headline">Upcoming Leave</CardTitle>
+            <CardTitle  className="text-xl">Upcoming Leave</CardTitle>
              <CardDescription>Your approved time off.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col h-[calc(100%-76px)] justify-between"> {/* Adjust height based on header */}
@@ -173,7 +173,7 @@ export default function EmployeeDashboardPage() {
         
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl font-headline">Quick Links</CardTitle>
+            <CardTitle className="text-xl">Quick Links</CardTitle>
             <CardDescription>Access common actions and information.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">

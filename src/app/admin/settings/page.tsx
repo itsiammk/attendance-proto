@@ -29,7 +29,7 @@ export default function CompanySettingsPage() {
       
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Company Profile</CardTitle>
+          <CardTitle>Company Profile</CardTitle>
           <CardDescription>Update your company's information.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -91,7 +91,7 @@ export default function CompanySettingsPage() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Other Settings</CardTitle>
+          <CardTitle>Other Settings</CardTitle>
           <CardDescription>Manage branches, departments, and notification preferences.</CardDescription>
         </CardHeader>
         <CardContent>

@@ -31,9 +31,9 @@ const chartConfig = {
 
 export function AttendanceChart() {
   return (
-    <Card className="mt-6">
+    <Card className="mt-6 shadow-lg">
       <CardHeader>
-        <CardTitle className="font-headline">Monthly Attendance Trends</CardTitle>
+        <CardTitle>Monthly Attendance Trends</CardTitle>
         <CardDescription>Bar chart showing present, absent, and leave days per month.</CardDescription>
       </CardHeader>
       <CardContent>

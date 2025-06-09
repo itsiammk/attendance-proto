@@ -17,7 +17,7 @@ export default function EmployeeLeavesPage() {
       
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Apply for Leave</CardTitle>
+          <CardTitle>Apply for Leave</CardTitle>
           <CardDescription>Submit a new leave request for approval.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -53,7 +53,7 @@ export default function EmployeeLeavesPage() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Leave History & Balance</CardTitle>
+          <CardTitle>Leave History & Balance</CardTitle>
           <CardDescription>Your past leave requests and available leave days.</CardDescription>
         </CardHeader>
         <CardContent>

@@ -12,7 +12,7 @@ export default function ManageEmployeesPage() {
       </div>
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Employee Directory</CardTitle>
+          <CardTitle>Employee Directory</CardTitle>
           <CardDescription>View, add, or edit employee information using the modal below.</CardDescription>
         </CardHeader>
         <CardContent>

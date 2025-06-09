@@ -12,7 +12,7 @@ export default function ManageLeavesPage() {
       </div>
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Leave Requests</CardTitle>
+          <CardTitle>Leave Requests</CardTitle>
           <CardDescription>Approve or reject pending leave applications using the modal below.</CardDescription>
         </CardHeader>
         <CardContent>

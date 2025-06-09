@@ -12,7 +12,7 @@ export default function EmployeeAttendancePage() {
       </div>
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Attendance Calendar</CardTitle>
+          <CardTitle>Attendance Calendar</CardTitle>
           <CardDescription>Your attendance log for the month. Click a date to see details (future feature).</CardDescription>
         </CardHeader>
         <CardContent className="flex justify-center p-4 sm:p-6">
@@ -26,7 +26,7 @@ export default function EmployeeAttendancePage() {
       </Card>
        <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="font-headline">Detailed Log</CardTitle>
+          <CardTitle>Detailed Log</CardTitle>
           <CardDescription>Recent check-in and check-out times for selected dates.</CardDescription>
         </CardHeader>
         <CardContent>

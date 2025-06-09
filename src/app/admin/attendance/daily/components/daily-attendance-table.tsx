@@ -28,9 +28,9 @@ const statusColors: { [key: string]: string } = {
 
 export function DailyAttendanceTable() {
   return (
-    <Card>
+    <Card className="shadow-lg">
        <CardHeader>
-        <CardTitle className="font-headline">Daily Log</CardTitle>
+        <CardTitle>Daily Log</CardTitle>
         <CardDescription>Detailed attendance log for the selected date.</CardDescription>
       </CardHeader>
       <CardContent>
