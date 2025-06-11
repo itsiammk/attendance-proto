@@ -8,8 +8,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Calendar } from "@/components/ui/calendar";
 import { useState, useEffect } from "react";
 import { getEmployeeAttendanceHistory } from "@/app/employee/actions";
-import { Loader2, CheckCircle, XCircle, Clock, Plane, Briefcase, CalendarDays, BarChartHorizontalBig, UserCheck, ChevronDown } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, Clock, Plane, Briefcase, CalendarDays, BarChartHorizontalBig, UserCheck } from "lucide-react";
 import { format, parse, isValid } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface CareerSummary {
   totalPresent: number;
@@ -129,17 +130,19 @@ export default function EmployeeAttendancePage() {
       <Card className="shadow-lg">
         <Accordion type="single" collapsible className="w-full" defaultValue="lifetime-summary-section">
           <AccordionItem value="lifetime-summary-section" className="border-none">
-            <AccordionTrigger className="w-full p-0 hover:no-underline [&_svg.chevron]:data-[state=open]:rotate-180">
-              <CardHeader className="flex w-full flex-row items-center justify-between p-4 sm:p-6 rounded-t-lg data-[state=closed]:rounded-b-lg hover:bg-muted/30 transition-colors cursor-pointer">
-                <div>
-                  <CardTitle className="text-xl sm:text-2xl font-headline">Lifetime Summary</CardTitle>
-                  <CardDescription className="text-sm sm:text-base mt-1">Your overall attendance statistics.</CardDescription>
-                </div>
-                <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 chevron" />
-              </CardHeader>
+            <AccordionTrigger className={cn(
+              "flex w-full items-center justify-between p-4 sm:p-6 text-left",
+              "rounded-t-lg hover:bg-muted/30 transition-colors cursor-pointer hover:no-underline",
+              "[&[data-state=closed]]:rounded-b-lg",
+              "[&[data-state=open]>svg]:rotate-180"
+            )}>
+              <div>
+                <CardTitle className="text-xl sm:text-2xl font-headline">Lifetime Summary</CardTitle>
+                <CardDescription className="text-sm sm:text-base mt-1">Your overall attendance statistics.</CardDescription>
+              </div>
             </AccordionTrigger>
-            <AccordionContent className="p-0 data-[state=open]:border-t">
-              <div className="p-4 sm:p-6 pt-2 sm:pt-4">
+            <AccordionContent className="data-[state=open]:border-t">
+              <div className="p-4 sm:p-6 pt-4">
                 <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                   {summaryItems.map(item => (
                     <StatCard key={item.title} title={item.title} value={item.value} icon={item.icon} colorClass={item.colorClass} unit={item.unit}/>
@@ -167,14 +170,13 @@ export default function EmployeeAttendancePage() {
 
                   return (
                     <AccordionItem value={`month-${index}`} key={index} className="border bg-card rounded-lg shadow-md data-[state=open]:shadow-xl transition-shadow">
-                      <AccordionTrigger className="text-sm sm:text-base px-4 py-3 hover:no-underline hover:bg-muted/50 rounded-t-lg data-[state=closed]:rounded-b-lg transition-colors [&_svg]:data-[state=open]:rotate-180">
+                      <AccordionTrigger className="text-sm sm:text-base px-4 py-3 hover:no-underline hover:bg-muted/50 rounded-t-lg data-[state=closed]:rounded-b-lg transition-colors [&[data-state=open]>svg]:rotate-180">
                         <div className="flex items-center justify-between w-full">
                            <span className="font-medium">{monthLabel}</span>
                            <Badge variant={progressPercentage >= 80 ? "default" : "secondary"} className={progressPercentage >= 95 ? "bg-green-500 hover:bg-green-600" : (progressPercentage < 80 ? "bg-yellow-500 hover:bg-yellow-600" : "")}>
                             {record.actualWorkDays}/{record.totalWorkableDays} days
                            </Badge>
                         </div>
-                        {/* ChevronDown is implicitly added by AccordionTrigger if children are not a function. We rely on its default styling or use [&_svg] to target it. */}
                       </AccordionTrigger>
                       <AccordionContent className="p-0 data-[state=open]:border-t">
                         <div className="p-4 space-y-3">
@@ -231,18 +233,20 @@ export default function EmployeeAttendancePage() {
         <Card className="shadow-lg lg:col-span-1">
             <Accordion type="single" collapsible className="w-full" defaultValue="calendar-section">
                 <AccordionItem value="calendar-section" className="border-none">
-                    <AccordionTrigger className="w-full p-0 hover:no-underline [&_svg.chevron]:data-[state=open]:rotate-180">
-                        <CardHeader className="flex w-full flex-row items-center justify-between p-4 sm:p-6 rounded-t-lg data-[state=closed]:rounded-b-lg hover:bg-muted/30 transition-colors cursor-pointer">
-                            <div>
-                                <CardTitle className="text-xl sm:text-2xl font-headline">Attendance Calendar</CardTitle>
-                                <CardDescription className="text-sm sm:text-base mt-1">Visual overview of your attendance.</CardDescription>
-                            </div>
-                            <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 chevron" />
-                        </CardHeader>
+                    <AccordionTrigger className={cn(
+                        "flex w-full items-center justify-between p-4 sm:p-6 text-left",
+                        "rounded-t-lg hover:bg-muted/30 transition-colors cursor-pointer hover:no-underline",
+                        "[&[data-state=closed]]:rounded-b-lg",
+                        "[&[data-state=open]>svg]:rotate-180"
+                    )}>
+                        <div>
+                            <CardTitle className="text-xl sm:text-2xl font-headline">Attendance Calendar</CardTitle>
+                            <CardDescription className="text-sm sm:text-base mt-1">Visual overview of your attendance.</CardDescription>
+                        </div>
                     </AccordionTrigger>
-                    <AccordionContent className="p-0 data-[state=open]:border-t">
-                        <div className="pt-2 sm:pt-4">
-                            <div className="flex justify-center p-2 sm:p-0">
+                    <AccordionContent className="data-[state=open]:border-t">
+                        <div className="p-4 sm:p-6 pt-4">
+                            <div className="flex justify-center">
                                 <Calendar
                                 mode="single"
                                 selected={selectedCalendarDate}
@@ -252,10 +256,8 @@ export default function EmployeeAttendancePage() {
                                 disabled={disabledCalendarDays}
                                 />
                             </div>
-                            <div className="p-4 sm:p-6 pt-2 sm:pt-4">
-                                <div className="p-4 border rounded-lg text-center bg-muted/30 min-h-[80px] flex items-center justify-center">
-                                    <p className="text-muted-foreground text-xs sm:text-sm">Detailed daily logs for the selected date will appear here (future enhancement).</p>
-                                </div>
+                            <div className="mt-4 p-4 border rounded-lg text-center bg-muted/30 min-h-[80px] flex items-center justify-center">
+                                <p className="text-muted-foreground text-xs sm:text-sm">Detailed daily logs for the selected date will appear here (future enhancement).</p>
                             </div>
                         </div>
                     </AccordionContent>

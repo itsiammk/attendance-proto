@@ -15,9 +15,10 @@ import {
 } from "@/components/ui/accordion";
 import { DatePickerWithPresets } from "@/components/ui/date-picker-with-presets";
 import { DailyAttendanceTable } from "./components/daily-attendance-table";
-import { Download, Search, ChevronDown } from "lucide-react";
+import { Download, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 type ActiveView = "present" | "absent" | "half-day";
 
@@ -59,17 +60,20 @@ export default function DailyAttendancePage() {
       <Card className="shadow-lg">
         <Accordion type="single" collapsible className="w-full" defaultValue="filters-section">
           <AccordionItem value="filters-section" className="border-none">
-            <AccordionTrigger className="w-full p-0 hover:no-underline [&_svg.chevron]:data-[state=open]:rotate-180">
-              <CardHeader className="flex w-full flex-row items-center justify-between p-4 sm:p-6 rounded-t-lg data-[state=closed]:rounded-b-lg hover:bg-muted/30 transition-colors cursor-pointer">
-                <div>
-                  <CardTitle className="text-xl sm:text-2xl">Filters</CardTitle>
-                  <CardDescription className="text-sm sm:text-base mt-1">Refine the daily log by date, branch, department, or shift.</CardDescription>
-                </div>
-                <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 chevron" />
-              </CardHeader>
+            <AccordionTrigger className={cn(
+              "flex w-full items-center justify-between p-4 sm:p-6 text-left",
+              "rounded-t-lg hover:bg-muted/30 transition-colors cursor-pointer hover:no-underline",
+              "[&[data-state=closed]]:rounded-b-lg",
+              "[&[data-state=open]>svg]:rotate-180"
+            )}>
+              <div>
+                <CardTitle className="text-xl sm:text-2xl">Filters</CardTitle>
+                <CardDescription className="text-sm sm:text-base mt-1">Refine the daily log by date, branch, department, or shift.</CardDescription>
+              </div>
+              {/* AccordionTrigger adds its own ChevronDown icon */}
             </AccordionTrigger>
-            <AccordionContent className="p-0 data-[state=open]:border-t">
-              <div className="p-4 sm:p-6 pt-2 sm:pt-4">
+            <AccordionContent className="data-[state=open]:border-t">
+              <div className="p-4 sm:p-6 pt-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
                   <div className="w-full space-y-1.5">
                     <Label htmlFor="date-picker">Select Date</Label>
@@ -142,7 +146,7 @@ export default function DailyAttendancePage() {
         >
           {tabItems.map(item => (
             <AccordionItem value={item.value} key={item.value} className="border bg-card rounded-lg shadow-lg">
-              <AccordionTrigger className="text-sm sm:text-base px-4 py-3 hover:no-underline hover:bg-muted/50 rounded-t-lg data-[state=closed]:rounded-b-lg transition-colors">
+              <AccordionTrigger className="text-sm sm:text-base px-4 py-3 hover:no-underline hover:bg-muted/50 rounded-t-lg data-[state=closed]:rounded-b-lg transition-colors [&[data-state=open]>svg]:rotate-180">
                 {item.label} ({item.count})
               </AccordionTrigger>
               <AccordionContent className="p-0 pt-2 data-[state=open]:border-t">
