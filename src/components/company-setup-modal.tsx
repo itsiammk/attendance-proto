@@ -28,7 +28,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { getAddressFromCoordinates } from "@/lib/locationService";
-import { Loader2, MapPin, Edit3 } from "lucide-react";
+import { Loader2, MapPin, Save } from "lucide-react"; // Changed Edit3 to Save icon
 
 const companySetupSchema = z.object({
   companyName: z.string().min(2, { message: "Company name must be at least 2 characters." }),
@@ -68,19 +68,15 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
   const locationMethod = form.watch("locationMethod");
 
   React.useEffect(() => {
-    if (locationMethod === "gps" && isOpen && form.getValues("address") === "") {
+    if (locationMethod === "gps" && isOpen && form.getValues("address") === "" && !isFetchingLocation) {
       handleFetchGpsAddress();
-    } else if (locationMethod === "manual") {
-      // Don't clear address if user might have typed something before switching back and forth
-      // form.setValue("address", "");
     }
-  // Only run when locationMethod or isOpen changes, and ensure address is empty before auto-fetching
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationMethod, isOpen]);
+  }, [locationMethod, isOpen, form.getValues("address")]); // Added form.getValues("address") to dependencies to re-trigger if address becomes empty while GPS is selected
 
   const handleFetchGpsAddress = async () => {
     setIsFetchingLocation(true);
-    form.setValue("address", "Attempting to fetch address...");
+    form.setValue("address", "Fetching your current location...");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -100,18 +96,24 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
         },
         (error) => {
           console.error("Geolocation error:", error);
-          form.setValue("address", "GPS access denied. Please enter manually or enable permissions.");
+          let message = "Could not get location. Ensure permissions are enabled.";
+          if (error.code === error.PERMISSION_DENIED) {
+            message = "GPS access denied. Please enable permissions or enter manually.";
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            message = "Location information is unavailable. Please try again or enter manually.";
+          }
+          form.setValue("address", message.replace(" Ensure permissions are enabled.", "")); // Keep message shorter for input field
           toast({
             variant: "destructive",
             title: "GPS Error",
-            description: "Could not get location. Ensure permissions are enabled.",
+            description: message,
           });
           setIsFetchingLocation(false);
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     } else {
-      form.setValue("address", "GPS not supported. Please enter manually.");
+      form.setValue("address", "GPS not supported by your browser. Please enter manually.");
       toast({ variant: "destructive", title: "GPS Error", description: "Geolocation is not supported by your browser." });
       setIsFetchingLocation(false);
     }
@@ -124,46 +126,47 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] flex flex-col p-0">
-        <DialogHeader className="p-6 pb-4 border-b">
+      <DialogContent className="sm:max-w-xl max-h-[90vh] flex flex-col p-0">
+        <DialogHeader className="p-6 pb-4 border-b sticky top-0 bg-background z-10">
           <DialogTitle className="text-xl sm:text-2xl font-headline">Setup Your Company</DialogTitle>
           <DialogDescription className="text-sm sm:text-base mt-1">
             Tell us a bit about your company to get started.
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="flex-grow overflow-y-auto">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 p-6">
+        
+        <ScrollArea className="flex-1 overflow-y-auto">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-6">
             <div className="space-y-1.5">
               <Label htmlFor="companyName">Company Name</Label>
               <Input id="companyName" {...form.register("companyName")} placeholder="Your Company LLC" className="h-10"/>
               {form.formState.errors.companyName && (
-                <p className="text-xs text-destructive">{form.formState.errors.companyName.message}</p>
+                <p className="text-xs text-destructive pt-1">{form.formState.errors.companyName.message}</p>
               )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="yourName">Your Name</Label>
-                <Input id="yourName" {...form.register("yourName")} placeholder="e.g., John Doe" className="h-10"/>
+                <Input id="yourName" {...form.register("yourName")} placeholder="e.g., Jane Doe" className="h-10"/>
                 {form.formState.errors.yourName && (
-                  <p className="text-xs text-destructive">{form.formState.errors.yourName.message}</p>
+                  <p className="text-xs text-destructive pt-1">{form.formState.errors.yourName.message}</p>
                 )}
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="yourRole">Your Role</Label>
                 <Input id="yourRole" {...form.register("yourRole")} placeholder="e.g., Owner, HR Manager" className="h-10"/>
                  {form.formState.errors.yourRole && (
-                  <p className="text-xs text-destructive">{form.formState.errors.yourRole.message}</p>
+                  <p className="text-xs text-destructive pt-1">{form.formState.errors.yourRole.message}</p>
                 )}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                 <div className="space-y-1.5">
                     <Label htmlFor="staffCount">Number of Staff</Label>
-                    <Input id="staffCount" type="number" {...form.register("staffCount")} className="h-10"/>
+                    <Input id="staffCount" type="number" {...form.register("staffCount")} placeholder="e.g., 25" className="h-10"/>
                     {form.formState.errors.staffCount && (
-                    <p className="text-xs text-destructive">{form.formState.errors.staffCount.message}</p>
+                    <p className="text-xs text-destructive pt-1">{form.formState.errors.staffCount.message}</p>
                     )}
                 </div>
                 <div className="space-y-1.5">
@@ -181,67 +184,77 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
                         </SelectContent>
                     </Select>
                     {form.formState.errors.businessType && (
-                        <p className="text-xs text-destructive">{form.formState.errors.businessType.message}</p>
+                        <p className="text-xs text-destructive pt-1">{form.formState.errors.businessType.message}</p>
                     )}
                 </div>
             </div>
             
-            <div className="space-y-2">
-              <Label>Location Method</Label>
+            <div className="space-y-3">
+              <Label>Company Main Address</Label>
               <RadioGroup
-                defaultValue="gps"
-                onValueChange={(value: "gps" | "manual") => form.setValue("locationMethod", value)}
-                className="flex space-x-4"
+                value={locationMethod}
+                onValueChange={(value: "gps" | "manual") => {
+                    form.setValue("locationMethod", value);
+                    if (value === "gps") {
+                        handleFetchGpsAddress();
+                    } else {
+                         // Optionally clear or keep address when switching to manual
+                        // form.setValue("address", "");
+                    }
+                }}
+                className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4"
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="gps" id="gps" />
-                  <Label htmlFor="gps" className="font-normal">Auto-detect (GPS)</Label>
+                  <Label htmlFor="gps" className="font-normal cursor-pointer">Auto-detect (GPS)</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="manual" id="manual" />
-                  <Label htmlFor="manual" className="font-normal">Enter Manually</Label>
+                  <Label htmlFor="manual" className="font-normal cursor-pointer">Enter Manually</Label>
                 </div>
               </RadioGroup>
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="address">Company Address</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="address">Address Details</Label>
+                {locationMethod === "gps" && !isFetchingLocation && (
+                    <Button type="button" variant="outline" size="sm" onClick={handleFetchGpsAddress} className="text-xs h-7 px-2">
+                        <MapPin className="mr-1.5 h-3.5 w-3.5" /> Re-fetch
+                    </Button>
+                )}
+              </div>
               <Textarea
                 id="address"
                 {...form.register("address")}
-                placeholder={locationMethod === "gps" ? "Fetching address via GPS..." : "123 Main St, Anytown, USA"}
-                className="min-h-[80px]"
+                placeholder={locationMethod === "gps" && isFetchingLocation ? "Fetching address via GPS..." : "123 Main St, Anytown, USA"}
+                className="min-h-[100px] text-sm"
                 disabled={locationMethod === "gps" && isFetchingLocation}
-                readOnly={locationMethod === "gps" && !isFetchingLocation && form.getValues("address") !== "Could not fetch address. Please enter manually or try again." && form.getValues("address") !== "GPS access denied. Please enter manually or enable permissions." && form.getValues("address") !== "GPS not supported. Please enter manually."}
+                readOnly={locationMethod === "gps" && !isFetchingLocation && form.getValues("address") !== "" && !form.getValues("address").startsWith("Could not fetch") && !form.getValues("address").startsWith("GPS access denied") && !form.getValues("address").startsWith("GPS not supported")}
               />
-              {locationMethod === "gps" && !isFetchingLocation && (
-                <Button type="button" variant="outline" size="sm" onClick={handleFetchGpsAddress} className="text-xs h-7">
-                    <MapPin className="mr-1.5 h-3.5 w-3.5" /> Re-fetch GPS Address
-                </Button>
-              )}
                {locationMethod === "gps" && isFetchingLocation && (
-                <div className="flex items-center text-sm text-muted-foreground">
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Fetching address...
+                <div className="flex items-center text-xs text-muted-foreground pt-1">
+                    <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                    Fetching address... This may take a moment.
                 </div>
               )}
               {form.formState.errors.address && (
-                <p className="text-xs text-destructive">{form.formState.errors.address.message}</p>
+                <p className="text-xs text-destructive pt-1">{form.formState.errors.address.message}</p>
               )}
             </div>
           </form>
         </ScrollArea>
-        <DialogFooter className="p-6 pt-4 border-t">
+        <DialogFooter className="p-6 pt-4 border-t sticky bottom-0 bg-background z-10">
           <Button 
-            type="submit" 
+            type="button" // Changed to type="button" to prevent form submission if inside form tag, click handled by form.handleSubmit
             onClick={form.handleSubmit(onSubmit)} 
             disabled={form.formState.isSubmitting || isFetchingLocation}
-            className="w-full sm:w-auto h-10"
+            className="w-full sm:w-auto h-10 text-sm"
           >
             {form.formState.isSubmitting || isFetchingLocation ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-              <Edit3 className="mr-2 h-4 w-4" />
+              <Save className="mr-2 h-4 w-4" /> // Changed icon
             )}
             Save &amp; Continue
           </Button>
