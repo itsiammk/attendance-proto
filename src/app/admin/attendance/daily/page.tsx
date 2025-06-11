@@ -57,57 +57,67 @@ export default function DailyAttendancePage() {
       </div>
 
       <Card className="shadow-lg">
-        <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-xl sm:text-2xl">Filters</CardTitle>
-          <CardDescription className="text-sm sm:text-base">Refine the daily log by date, branch, department, or shift.</CardDescription>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
-            <div className="w-full space-y-1.5">
-              <Label htmlFor="date-picker">Select Date</Label>
-              <DatePickerWithPresets id="date-picker" />
-            </div>
-            <div className="w-full space-y-1.5">
-              <Label htmlFor="branch-filter">Branch</Label>
-              <Select defaultValue="all">
-                <SelectTrigger id="branch-filter" className="w-full h-10">
-                  <SelectValue placeholder="Select Branch" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Branches</SelectItem>
-                  <SelectItem value="main">Main Office</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="w-full space-y-1.5">
-              <Label htmlFor="department-filter">Department</Label>
-              <Select defaultValue="all">
-                <SelectTrigger id="department-filter" className="w-full h-10">
-                  <SelectValue placeholder="Select Department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Departments</SelectItem>
-                  <SelectItem value="it">IT</SelectItem>
-                  <SelectItem value="sales">Sales</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="w-full space-y-1.5">
-              <Label htmlFor="shift-filter">Shift</Label>
-              <Select defaultValue="all">
-                <SelectTrigger id="shift-filter" className="w-full h-10">
-                  <SelectValue placeholder="Select Shift" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Shifts</SelectItem>
-                  <SelectItem value="morning">Morning Shift</SelectItem>
-                  <SelectItem value="evening">Evening Shift</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <Button variant="outline" className="w-full xl:w-auto xl:ml-auto mt-4 xl:mt-0 h-10">Apply Filters</Button>
-          </div>
-        </CardContent>
+        <Accordion type="single" collapsible className="w-full" defaultValue="filters-section">
+          <AccordionItem value="filters-section" className="border-none">
+            <AccordionTrigger className="w-full hover:no-underline p-0 text-left">
+              <CardHeader className="flex flex-row justify-between items-center w-full p-4 sm:p-6">
+                <div>
+                  <CardTitle className="text-xl sm:text-2xl">Filters</CardTitle>
+                  <CardDescription className="text-sm sm:text-base mt-1">Refine the daily log by date, branch, department, or shift.</CardDescription>
+                </div>
+              </CardHeader>
+            </AccordionTrigger>
+            <AccordionContent className="p-0">
+              <div className="p-4 sm:p-6 pt-0 border-t">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:flex xl:flex-wrap xl:items-end xl:gap-3">
+                  <div className="w-full space-y-1.5">
+                    <Label htmlFor="date-picker">Select Date</Label>
+                    <DatePickerWithPresets id="date-picker" />
+                  </div>
+                  <div className="w-full space-y-1.5">
+                    <Label htmlFor="branch-filter">Branch</Label>
+                    <Select defaultValue="all">
+                      <SelectTrigger id="branch-filter" className="w-full h-10">
+                        <SelectValue placeholder="Select Branch" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Branches</SelectItem>
+                        <SelectItem value="main">Main Office</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="w-full space-y-1.5">
+                    <Label htmlFor="department-filter">Department</Label>
+                    <Select defaultValue="all">
+                      <SelectTrigger id="department-filter" className="w-full h-10">
+                        <SelectValue placeholder="Select Department" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Departments</SelectItem>
+                        <SelectItem value="it">IT</SelectItem>
+                        <SelectItem value="sales">Sales</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="w-full space-y-1.5">
+                    <Label htmlFor="shift-filter">Shift</Label>
+                    <Select defaultValue="all">
+                      <SelectTrigger id="shift-filter" className="w-full h-10">
+                        <SelectValue placeholder="Select Shift" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Shifts</SelectItem>
+                        <SelectItem value="morning">Morning Shift</SelectItem>
+                        <SelectItem value="evening">Evening Shift</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button variant="outline" className="w-full xl:w-auto xl:ml-auto mt-4 xl:mt-0 h-10">Apply Filters</Button>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </Card>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-2 sm:pt-4">
@@ -135,7 +145,6 @@ export default function DailyAttendancePage() {
                 {item.label} ({item.count})
               </AccordionTrigger>
               <AccordionContent className="p-0 pt-2">
-                {/* AccordionContent has default pb-4, remove outer padding for card content to handle it */}
                 <div className="px-4 pb-4"> 
                     {item.content}
                 </div>

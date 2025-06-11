@@ -127,17 +127,27 @@ export default function EmployeeAttendancePage() {
       </div>
 
       <Card className="shadow-lg">
-        <CardHeader className="p-4 sm:p-6">
-          <CardTitle className="text-xl sm:text-2xl font-headline">Lifetime Summary</CardTitle>
-          <CardDescription className="text-sm sm:text-base mt-1">Your overall attendance statistics.</CardDescription>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-6">
-          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-            {summaryItems.map(item => (
-              <StatCard key={item.title} title={item.title} value={item.value} icon={item.icon} colorClass={item.colorClass} unit={item.unit}/>
-            ))}
-          </div>
-        </CardContent>
+        <Accordion type="single" collapsible className="w-full" defaultValue="lifetime-summary-section">
+          <AccordionItem value="lifetime-summary-section" className="border-none">
+            <AccordionTrigger className="w-full hover:no-underline p-0 text-left">
+              <CardHeader className="flex flex-row justify-between items-center w-full p-4 sm:p-6">
+                <div>
+                  <CardTitle className="text-xl sm:text-2xl font-headline">Lifetime Summary</CardTitle>
+                  <CardDescription className="text-sm sm:text-base mt-1">Your overall attendance statistics.</CardDescription>
+                </div>
+              </CardHeader>
+            </AccordionTrigger>
+            <AccordionContent className="p-0">
+              <div className="p-4 sm:p-6 pt-0 border-t">
+                <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+                  {summaryItems.map(item => (
+                    <StatCard key={item.title} title={item.title} value={item.value} icon={item.icon} colorClass={item.colorClass} unit={item.unit}/>
+                  ))}
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -217,26 +227,37 @@ export default function EmployeeAttendancePage() {
         </Card>
 
         <Card className="shadow-lg lg:col-span-1">
-           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-xl sm:text-2xl font-headline">Attendance Calendar</CardTitle>
-            <CardDescription className="text-sm sm:text-base mt-1">Visual overview of your attendance (select a day for details - future feature).</CardDescription>
-          </CardHeader>
-          <CardContent className="flex justify-center p-2 sm:p-4">
-            <Calendar
-              mode="single"
-              selected={selectedCalendarDate}
-              onSelect={setSelectedCalendarDate}
-              className="rounded-md border shadow-sm w-full"
-              numberOfMonths={1}
-              disabled={disabledCalendarDays}
-              // Modifiers could be added here to style days based on detailedMonthlyLogs if fetched
-            />
-          </CardContent>
-           <CardContent className="p-4 sm:p-6 pt-0">
-             <div className="p-4 border rounded-lg text-center bg-muted/30 min-h-[80px] flex items-center justify-center">
-                <p className="text-muted-foreground text-xs sm:text-sm">Detailed daily logs for the selected date will appear here (future enhancement).</p>
-            </div>
-           </CardContent>
+            <Accordion type="single" collapsible className="w-full" defaultValue="calendar-section">
+                <AccordionItem value="calendar-section" className="border-none">
+                    <AccordionTrigger className="w-full hover:no-underline p-0 text-left">
+                        <CardHeader className="flex flex-row justify-between items-center w-full p-4 sm:p-6">
+                            <div>
+                                <CardTitle className="text-xl sm:text-2xl font-headline">Attendance Calendar</CardTitle>
+                                <CardDescription className="text-sm sm:text-base mt-1">Visual overview of your attendance (select a day for details - future feature).</CardDescription>
+                            </div>
+                        </CardHeader>
+                    </AccordionTrigger>
+                    <AccordionContent className="p-0">
+                        <div className="border-t">
+                            <div className="flex justify-center p-2 sm:p-4">
+                                <Calendar
+                                mode="single"
+                                selected={selectedCalendarDate}
+                                onSelect={setSelectedCalendarDate}
+                                className="rounded-md border shadow-sm w-full"
+                                numberOfMonths={1}
+                                disabled={disabledCalendarDays}
+                                />
+                            </div>
+                            <div className="p-4 sm:p-6 pt-0">
+                                <div className="p-4 border rounded-lg text-center bg-muted/30 min-h-[80px] flex items-center justify-center">
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Detailed daily logs for the selected date will appear here (future enhancement).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
         </Card>
       </div>
     </div>
