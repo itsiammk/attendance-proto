@@ -95,7 +95,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
           }
         },
         (error) => {
-          console.error("Geolocation error:", error);
+          console.error(`Geolocation error - Code: ${error.code}, Message: ${error.message}`);
           let message = "Could not get location. Ensure permissions are enabled.";
           if (error.code === error.PERMISSION_DENIED) {
             message = "GPS access denied. Please enable permissions or enter manually.";
@@ -264,5 +264,3 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
     </Dialog>
   );
 }
-
-    
