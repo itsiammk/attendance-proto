@@ -28,7 +28,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { getAddressFromCoordinates } from "@/lib/locationService";
-import { Loader2, MapPin, Save } from "lucide-react"; // Changed Edit3 to Save icon
+import { Loader2, MapPin, Save } from "lucide-react";
 
 const companySetupSchema = z.object({
   companyName: z.string().min(2, { message: "Company name must be at least 2 characters." }),
@@ -72,7 +72,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
       handleFetchGpsAddress();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationMethod, isOpen, form.getValues("address")]); // Added form.getValues("address") to dependencies to re-trigger if address becomes empty while GPS is selected
+  }, [locationMethod, isOpen, form.getValues("address")]); 
 
   const handleFetchGpsAddress = async () => {
     setIsFetchingLocation(true);
@@ -102,7 +102,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
           } else if (error.code === error.POSITION_UNAVAILABLE) {
             message = "Location information is unavailable. Please try again or enter manually.";
           }
-          form.setValue("address", message.replace(" Ensure permissions are enabled.", "")); // Keep message shorter for input field
+          form.setValue("address", message.replace(" Ensure permissions are enabled.", ""));
           toast({
             variant: "destructive",
             title: "GPS Error",
@@ -126,7 +126,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-xl max-h-[90vh] flex flex-col p-0">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col p-0">
         <DialogHeader className="p-6 pb-4 border-b sticky top-0 bg-background z-10">
           <DialogTitle className="text-xl sm:text-2xl font-headline">Setup Your Company</DialogTitle>
           <DialogDescription className="text-sm sm:text-base mt-1">
@@ -198,8 +198,9 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
                     if (value === "gps") {
                         handleFetchGpsAddress();
                     } else {
-                         // Optionally clear or keep address when switching to manual
-                        // form.setValue("address", "");
+                        // Optionally clear or update address when switching to manual
+                        // If address was from GPS and user wants to edit, they'd switch to manual.
+                        // If they switch from manual to GPS, new fetch will overwrite.
                     }
                 }}
                 className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4"
@@ -230,7 +231,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
                 placeholder={locationMethod === "gps" && isFetchingLocation ? "Fetching address via GPS..." : "123 Main St, Anytown, USA"}
                 className="min-h-[100px] text-sm"
                 disabled={locationMethod === "gps" && isFetchingLocation}
-                readOnly={locationMethod === "gps" && !isFetchingLocation && form.getValues("address") !== "" && !form.getValues("address").startsWith("Could not fetch") && !form.getValues("address").startsWith("GPS access denied") && !form.getValues("address").startsWith("GPS not supported")}
+                readOnly={locationMethod === "gps" && !isFetchingLocation && form.getValues("address") !== "" && !form.getValues("address").startsWith("Could not fetch") && !form.getValues("address").startsWith("GPS access denied") && !form.getValues("address").startsWith("GPS not supported") && !form.getValues("address").startsWith("Fetching your current location...")}
               />
                {locationMethod === "gps" && isFetchingLocation && (
                 <div className="flex items-center text-xs text-muted-foreground pt-1">
@@ -246,7 +247,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
         </ScrollArea>
         <DialogFooter className="p-6 pt-4 border-t sticky bottom-0 bg-background z-10">
           <Button 
-            type="button" // Changed to type="button" to prevent form submission if inside form tag, click handled by form.handleSubmit
+            type="button" 
             onClick={form.handleSubmit(onSubmit)} 
             disabled={form.formState.isSubmitting || isFetchingLocation}
             className="w-full sm:w-auto h-10 text-sm"
@@ -254,7 +255,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
             {form.formState.isSubmitting || isFetchingLocation ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-              <Save className="mr-2 h-4 w-4" /> // Changed icon
+              <Save className="mr-2 h-4 w-4" />
             )}
             Save &amp; Continue
           </Button>
