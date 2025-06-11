@@ -52,10 +52,10 @@ export function ManageLeavesModal() {
             Approve or reject employee leave requests.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
-          <div className="rounded-md border overflow-x-auto">
-            <div className="min-w-[700px] sm:min-w-[750px] lg:min-w-[800px]">
-              <Table>
+        <div className="flex-grow overflow-y-auto py-4 px-6 space-y-4">
+          <div className="rounded-md border overflow-hidden"> {/* Added overflow-hidden here */}
+            <div className="overflow-x-auto"> {/* This div handles horizontal scrolling */}
+              <Table> {/* Table relies on TH min-widths to expand */}
                 <TableHeader>
                   <TableRow>
                     <TableHead className="py-2.5 px-3 sm:px-4 min-w-[150px] sticky top-0 bg-background z-10">Employee</TableHead>
@@ -94,7 +94,7 @@ export function ManageLeavesModal() {
             </div>
           </div>
           
-          <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30 mt-4">
+          <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30">
             <h3 className="text-lg font-semibold">Approve/Reject Comment</h3>
             <form className="space-y-3">
               <div className="space-y-1.5">

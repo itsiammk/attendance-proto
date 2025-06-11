@@ -40,7 +40,7 @@ export function ManageEmployeesModal() {
           </DialogDescription>
         </DialogHeader>
         
-        <div className="space-y-4 py-4 px-6 flex-grow overflow-y-auto">
+        <div className="flex-grow overflow-y-auto py-4 px-6 space-y-4">
           <div className="space-y-3 p-4 rounded-lg border shadow-sm bg-muted/30">
             <h3 className="text-lg font-semibold">Add New Employee</h3>
             <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -70,10 +70,9 @@ export function ManageEmployeesModal() {
           
           <div className="pt-2">
             <h3 className="text-lg font-semibold mb-3">Current Employees</h3>
-            {/* Simplified approach: Use a div with overflow-x-auto for horizontal scrolling */}
-            <div className="rounded-md border overflow-x-auto">
-              <div className="min-w-[700px] sm:min-w-[750px] lg:min-w-[800px]">
-                <Table>
+            <div className="rounded-md border overflow-hidden"> {/* Added overflow-hidden here */}
+              <div className="overflow-x-auto"> {/* This div handles horizontal scrolling */}
+                <Table> {/* Table relies on TH min-widths to expand */}
                   <TableHeader>
                     <TableRow>
                       <TableHead className="py-2.5 px-3 sm:px-4 min-w-[180px] sticky top-0 bg-background z-10">Name</TableHead>
