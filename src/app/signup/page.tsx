@@ -1,6 +1,7 @@
 
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,13 +16,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CompanyLogo } from "@/components/icons";
 import { useRouter } from "next/navigation";
+import { CompanySetupModal, type CompanySetupFormValues } from "@/components/company-setup-modal";
 
 export default function SignupPage() {
   const router = useRouter();
+  const [showCompanySetupModal, setShowCompanySetupModal] = React.useState(false);
+
+  // Placeholder: In a real app, you'd store signup data (e.g., email)
+  // and potentially pass it to the company setup or use it later.
+  // const [signupData, setSignupData] = React.useState(null);
 
   const handleSignup = (event: React.FormEvent) => {
     event.preventDefault();
-    router.push("/employee/dashboard");
+    // In a real app, you would submit signup form data to your backend here.
+    // For now, we'll simulate success and open the company setup modal.
+    // const formData = new FormData(event.target as HTMLFormElement);
+    // const email = formData.get('email');
+    // setSignupData({ email }); // Example
+    
+    setShowCompanySetupModal(true);
+  };
+
+  const handleCompanySetupComplete = (data: CompanySetupFormValues) => {
+    // In a real app, you'd send 'data' to your backend here.
+    console.log("Company setup completed with data:", data);
+    setShowCompanySetupModal(false);
+    router.push("/admin/attendance/dashboard"); 
   };
 
   return (
@@ -40,12 +60,13 @@ export default function SignupPage() {
           <form onSubmit={handleSignup} className="space-y-4 sm:space-y-5">
             <div className="space-y-1.5">
               <Label htmlFor="fullName">Full Name</Label>
-              <Input id="fullName" placeholder="John Doe" required className="text-sm sm:text-base h-10"/>
+              <Input id="fullName" name="fullName" placeholder="John Doe" required className="text-sm sm:text-base h-10"/>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="email">Email Address</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="you@example.com"
                 required
@@ -54,11 +75,11 @@ export default function SignupPage() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" placeholder="••••••••" required className="text-sm sm:text-base h-10"/>
+              <Input id="password" name="password" type="password" placeholder="••••••••" required className="text-sm sm:text-base h-10"/>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input id="confirmPassword" type="password" placeholder="••••••••" required className="text-sm sm:text-base h-10"/>
+              <Input id="confirmPassword" name="confirmPassword" type="password" placeholder="••••••••" required className="text-sm sm:text-base h-10"/>
             </div>
             <Button type="submit" className="w-full font-semibold text-sm sm:text-base py-3 h-11 mt-2">
               Sign Up
@@ -74,6 +95,13 @@ export default function SignupPage() {
             </p>
         </CardFooter>
       </Card>
+
+      <CompanySetupModal
+        isOpen={showCompanySetupModal}
+        onOpenChange={setShowCompanySetupModal}
+        onSetupComplete={handleCompanySetupComplete}
+      />
     </div>
   );
 }
+
