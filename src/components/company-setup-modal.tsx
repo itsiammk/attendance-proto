@@ -68,11 +68,14 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
   const locationMethod = form.watch("locationMethod");
 
   React.useEffect(() => {
-    if (locationMethod === "gps" && isOpen) {
+    if (locationMethod === "gps" && isOpen && form.getValues("address") === "") {
       handleFetchGpsAddress();
     } else if (locationMethod === "manual") {
-      form.setValue("address", ""); // Clear address if switching to manual
+      // Don't clear address if user might have typed something before switching back and forth
+      // form.setValue("address", "");
     }
+  // Only run when locationMethod or isOpen changes, and ensure address is empty before auto-fetching
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationMethod, isOpen]);
 
   const handleFetchGpsAddress = async () => {
@@ -209,7 +212,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
                 placeholder={locationMethod === "gps" ? "Fetching address via GPS..." : "123 Main St, Anytown, USA"}
                 className="min-h-[80px]"
                 disabled={locationMethod === "gps" && isFetchingLocation}
-                readOnly={locationMethod === "gps" && !isFetchingLocation}
+                readOnly={locationMethod === "gps" && !isFetchingLocation && form.getValues("address") !== "Could not fetch address. Please enter manually or try again." && form.getValues("address") !== "GPS access denied. Please enter manually or enable permissions." && form.getValues("address") !== "GPS not supported. Please enter manually."}
               />
               {locationMethod === "gps" && !isFetchingLocation && (
                 <Button type="button" variant="outline" size="sm" onClick={handleFetchGpsAddress} className="text-xs h-7">
@@ -248,3 +251,4 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
   );
 }
 
+    
