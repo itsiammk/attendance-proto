@@ -37,7 +37,17 @@ const companySetupSchema = z.object({
   staffCount: z.coerce.number().min(1, { message: "Staff count must be at least 1." }),
   businessType: z.string().min(1, { message: "Please select a business type." }),
   locationMethod: z.enum(["gps", "manual"]),
-  address: z.string().min(5, { message: "Address must be at least 5 characters." }),
+  address: z.string().min(5, { message: "Address must be at least 5 characters." }).refine(value => {
+    // Allow specific placeholder/error messages without triggering min length for them
+    const nonRealAddresses = [
+      "Fetching your current location...",
+      "Could not fetch address. Please enter manually or try again.",
+      "GPS access denied. Please enable permissions or enter manually.",
+      "Location information is unavailable. Please try again or enter manually.",
+      "GPS not supported by your browser. Please enter manually."
+    ];
+    return nonRealAddresses.includes(value) || value.length >= 5;
+  }, { message: "Address must be at least 5 characters, or address fetching failed." }),
 });
 
 export type CompanySetupFormValues = z.infer<typeof companySetupSchema>;
@@ -68,15 +78,15 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
   const locationMethod = form.watch("locationMethod");
 
   React.useEffect(() => {
-    if (locationMethod === "gps" && isOpen && form.getValues("address") === "" && !isFetchingLocation) {
+    if (locationMethod === "gps" && isOpen && form.getValues("address") === "" && !form.formState.errors.address && !isFetchingLocation) {
       handleFetchGpsAddress();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationMethod, isOpen, form.getValues("address")]); 
+  }, [locationMethod, isOpen, form.getValues("address"), form.formState.errors.address]); 
 
   const handleFetchGpsAddress = async () => {
     setIsFetchingLocation(true);
-    form.setValue("address", "Fetching your current location...");
+    form.setValue("address", "Fetching your current location...", { shouldValidate: true });
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -85,24 +95,31 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
               position.coords.latitude,
               position.coords.longitude
             );
-            form.setValue("address", fetchedAddress);
+            form.setValue("address", fetchedAddress, { shouldValidate: true });
             toast({ title: "Location Found", description: "Address automatically populated." });
           } catch (error) {
-            form.setValue("address", "Could not fetch address. Please enter manually or try again.");
+            form.setValue("address", "Could not fetch address. Please enter manually or try again.", { shouldValidate: true });
             toast({ variant: "destructive", title: "Geocoding Error", description: "Could not convert coordinates to address." });
           } finally {
             setIsFetchingLocation(false);
           }
         },
         (error) => {
-          console.error(`Geolocation error - Code: ${error.code}, Message: ${error.message}`);
           let message = "Could not get location. Ensure permissions are enabled.";
           if (error.code === error.PERMISSION_DENIED) {
             message = "GPS access denied. Please enable permissions or enter manually.";
+            // No console.error here as it's a handled user action
           } else if (error.code === error.POSITION_UNAVAILABLE) {
             message = "Location information is unavailable. Please try again or enter manually.";
+            console.error(`Geolocation error - Code: ${error.code}, Message: ${error.message}`);
+          } else if (error.code === error.TIMEOUT) {
+            message = "Attempt to get location timed out. Please try again or enter manually.";
+            console.error(`Geolocation error - Code: ${error.code}, Message: ${error.message}`);
+          } else {
+             console.error(`Geolocation error - Code: ${error.code}, Message: ${error.message}`);
           }
-          form.setValue("address", message.replace(" Ensure permissions are enabled.", ""));
+          
+          form.setValue("address", message.replace(" Ensure permissions are enabled.", "").replace(" Please try again or enter manually.", ""), { shouldValidate: true });
           toast({
             variant: "destructive",
             title: "GPS Error",
@@ -113,13 +130,27 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     } else {
-      form.setValue("address", "GPS not supported by your browser. Please enter manually.");
-      toast({ variant: "destructive", title: "GPS Error", description: "Geolocation is not supported by your browser." });
+      const message = "GPS not supported by your browser. Please enter manually.";
+      form.setValue("address", message, { shouldValidate: true });
+      toast({ variant: "destructive", title: "GPS Error", description: message });
       setIsFetchingLocation(false);
     }
   };
 
   const onSubmit = (data: CompanySetupFormValues) => {
+    // Check if address is one of the fetching/error messages, if so, it's invalid for submission
+    const nonRealAddresses = [
+      "Fetching your current location...",
+      "Could not fetch address. Please enter manually or try again.",
+      "GPS access denied. Please enable permissions or enter manually.",
+      "Location information is unavailable. Please try again or enter manually.",
+      "GPS not supported by your browser. Please enter manually."
+    ];
+    if (nonRealAddresses.includes(data.address)) {
+      form.setError("address", { type: "manual", message: "Please provide a valid address or allow GPS access." });
+      toast({ variant: "destructive", title: "Invalid Address", description: "The address field contains an error/placeholder message. Please correct it." });
+      return;
+    }
     console.log("Company Setup Data:", data);
     onSetupComplete(data);
   };
@@ -171,7 +202,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
                 </div>
                 <div className="space-y-1.5">
                     <Label htmlFor="businessType">Business Type</Label>
-                    <Select onValueChange={(value) => form.setValue("businessType", value)} defaultValue={form.getValues("businessType")}>
+                    <Select onValueChange={(value) => form.setValue("businessType", value, { shouldValidate: true })} defaultValue={form.getValues("businessType")}>
                         <SelectTrigger id="businessType" className="w-full h-10">
                         <SelectValue placeholder="Select Business Type" />
                         </SelectTrigger>
@@ -194,13 +225,17 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
               <RadioGroup
                 value={locationMethod}
                 onValueChange={(value: "gps" | "manual") => {
-                    form.setValue("locationMethod", value);
+                    form.setValue("locationMethod", value, { shouldValidate: true });
                     if (value === "gps") {
                         handleFetchGpsAddress();
                     } else {
-                        // Optionally clear or update address when switching to manual
-                        // If address was from GPS and user wants to edit, they'd switch to manual.
-                        // If they switch from manual to GPS, new fetch will overwrite.
+                        if(form.getValues("address").startsWith("Fetching your current location...") || 
+                           form.getValues("address").startsWith("Could not fetch address") ||
+                           form.getValues("address").startsWith("GPS access denied") ||
+                           form.getValues("address").startsWith("Location information is unavailable") ||
+                           form.getValues("address").startsWith("GPS not supported")) {
+                            form.setValue("address", "", { shouldValidate: true }); // Clear GPS fetching messages
+                        }
                     }
                 }}
                 className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4"
@@ -219,7 +254,9 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <Label htmlFor="address">Address Details</Label>
-                {locationMethod === "gps" && !isFetchingLocation && (
+                {locationMethod === "gps" && !isFetchingLocation && 
+                 !form.getValues("address").startsWith("Fetching your current location...") && // Only show re-fetch if not currently fetching
+                 (form.getValues("address") === "" || form.formState.errors.address || form.getValues("address").startsWith("Could not fetch") || form.getValues("address").startsWith("GPS access denied")) && (
                     <Button type="button" variant="outline" size="sm" onClick={handleFetchGpsAddress} className="text-xs h-7 px-2">
                         <MapPin className="mr-1.5 h-3.5 w-3.5" /> Re-fetch
                     </Button>
@@ -231,7 +268,7 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
                 placeholder={locationMethod === "gps" && isFetchingLocation ? "Fetching address via GPS..." : "123 Main St, Anytown, USA"}
                 className="min-h-[100px] text-sm"
                 disabled={locationMethod === "gps" && isFetchingLocation}
-                readOnly={locationMethod === "gps" && !isFetchingLocation && form.getValues("address") !== "" && !form.getValues("address").startsWith("Could not fetch") && !form.getValues("address").startsWith("GPS access denied") && !form.getValues("address").startsWith("GPS not supported") && !form.getValues("address").startsWith("Fetching your current location...")}
+                readOnly={locationMethod === "gps" && !isFetchingLocation && form.getValues("address") !== "" && !form.getValues("address").startsWith("Could not fetch") && !form.getValues("address").startsWith("GPS access denied") && !form.getValues("address").startsWith("GPS not supported") && !form.getValues("address").startsWith("Fetching your current location...") && !form.getValues("address").startsWith("Location information is unavailable")}
               />
                {locationMethod === "gps" && isFetchingLocation && (
                 <div className="flex items-center text-xs text-muted-foreground pt-1">
@@ -264,3 +301,5 @@ export function CompanySetupModal({ isOpen, onOpenChange, onSetupComplete }: Com
     </Dialog>
   );
 }
+
+    
